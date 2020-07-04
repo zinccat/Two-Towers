@@ -110,43 +110,13 @@ class Action:
 
                 for TempWarrior2 in TempList2:
 
-                    if TempWarrior1.wType == 0 and -10 <= TempWarrior1.pos-TempWarrior2.pos <= 10:
+                    if abs(TempWarrior1.pos-TempWarrior2.pos)<=TempWarrior1.wRange:
 
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
+                        BattleSet.append(Battle(TempWarrior1,TempWarrior2))
 
+                    if abs(TempWarrior1.pos-TempWarrior2.pos)<=TempWarrior2.wRange:
 
-                    if TempWarrior1.wType == 1 and -8 <= TempWarrior1.pos-TempWarrior2.pos <= 8:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-
-                    if TempWarrior1.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2)
-
-
-                    if TempWarrior1.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-
-                    if TempWarrior2.wType == 0 and -10 <= TempWarrior1.pos-TempWarrior2.pos <= 10:
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
-
-                    if TempWarrior2.wType == 1 and -8 <= TempWarrior1.pos-TempWarrior2.pos <= 8:
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
-
-                    if TempWarrior2.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
-
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1)
-
-
-                    if TempWarrior2.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
-
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
+                        BattleSet.append(Battle(TempWarrior2,TempWarrior1))
 
 
 
