@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # Warrior类的内容写在这里
 
+from config import *
+
 # 父类型
 
 
@@ -11,7 +13,7 @@ class Warrior:
         if wteam == 1:
             self.pos = 0
         else:
-            self.pos = 
+            self.pos = mLen
         self.attacked = 0 #本回合是否攻击
 
 # type 0
