@@ -13,7 +13,7 @@ class Warrior:
         if wteam == 1:
             self.pos = 0
         else:
-            self.pos = mLen
+            self.pos = mLen #这里需要改机制, 判断在哪条路上, 可以考虑在这里加一个路的参数
         self.attacked = 0 #本回合是否攻击
 
 # type 0
