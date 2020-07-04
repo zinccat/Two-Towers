@@ -8,6 +8,7 @@ class Warrior:
     def __init__(self, wtype, wteam):
         self.wType = wtype
         self.wTeam = wteam
+        self.pos = 0
 
 # type 0
 # 主塔
@@ -36,6 +37,7 @@ class DefenseTower(Warrior):
         self.wASpeed = 10
         self.mCD = 0
         self.aCD = 0
+        self.pos = 10
 
 
 # type 2
