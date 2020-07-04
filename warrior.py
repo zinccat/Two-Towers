@@ -11,16 +11,11 @@ from config import *
 
 class Warrior:
 
-    def __init__(self, wtype, wteam, wroute=0):
+    def __init__(self, wtype, wteam):
 
         self.wType = wtype
-
         self.wTeam = wteam
-
-        self.wRoute = wroute
-
         if wteam == 1:
-
             self.pos = 0
 
         else:
@@ -37,9 +32,9 @@ class Warrior:
 
 class Base(Warrior):
 
-    def __init__(self, wteam, wroute):
+    def __init__(self, wteam):
 
-        super().__init__(0, wteam, wroute)
+        super().__init__(0, wteam)
 
         self.wAttack = 10
 
@@ -63,9 +58,9 @@ class Base(Warrior):
 
 class DefenseTower(Warrior):
 
-    def __init__(self, wteam, wroute):
+    def __init__(self, wteam):
 
-        super().__init__(1, wteam, wroute)
+        super().__init__(1, wteam)
 
         self.wAttack = 10
 
@@ -91,9 +86,9 @@ class DefenseTower(Warrior):
 
 class Knight(Warrior):
 
-    def __init__(self, wteam, wroute):
+    def __init__(self, wteam):
 
-        super().__init__(2, wteam, wroute)
+        super().__init__(2, wteam)
 
         self.wAttack = 10
 
@@ -117,9 +112,9 @@ class Knight(Warrior):
 
 class Archer(Warrior):
 
-    def __init__(self, wteam, wroute):
+    def __init__(self, wteam):
 
-        super().__init__(3, wteam, wroute)
+        super().__init__(3, wteam)
 
         self.wAttack = 10
 

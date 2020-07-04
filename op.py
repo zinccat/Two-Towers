@@ -36,10 +36,10 @@ def ReadCmd(CmdList, SideWarriorList, team):
         tempOp = ops.get()
         if turnID == tempOp.turnID:
             if tempOp.CmdType == 2:  # 骑士
-                tempObj = Knight(team, int(tempOp.CmdStr[0]))
+                tempObj = Knight(team)
                 SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
-            if tempOp.CmdType == 3:  # 骑士
-                tempObj = Knight(team, int(tempOp.CmdStr[0]))
+            if tempOp.CmdType == 3:  # 弓箭手
+                tempObj = Archer(team)
                 SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
         else:
             # 时机未到
