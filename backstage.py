@@ -122,7 +122,7 @@ class Action:
 
                     if TempWarrior1.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
 
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2)
+                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
 
 
                     if TempWarrior1.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
@@ -140,7 +140,7 @@ class Action:
 
                     if TempWarrior2.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
 
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1)
+                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
 
 
                     if TempWarrior2.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
