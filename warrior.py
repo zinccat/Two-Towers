@@ -8,7 +8,11 @@ class Warrior:
     def __init__(self, wtype, wteam):
         self.wType = wtype
         self.wTeam = wteam
-        self.pos = 0
+        if wteam == 1:
+            self.pos = 0
+        else:
+            self.pos = 
+        self.attacked = 0 #本回合是否攻击
 
 # type 0
 # 主塔
