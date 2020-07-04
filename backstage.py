@@ -34,6 +34,12 @@ class Command:
         self.CmdType = CmdType
         self.CmdStr = CmdStr
 
+        
+    #比较函数,确定执行命令的优先级
+    def __cmp__(self,other):
+        
+        return self.turnID<other.turnID
+ 
 
 # 建立一个由Command构成的列表，作为指令集
 
