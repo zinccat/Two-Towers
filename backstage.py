@@ -71,7 +71,8 @@ class Action:
 
     # 命令读取函数
     def ReadCmd(CmdList):
-
+        for op in CmdList
+        #这里我写
     # 士兵对战判断函数
     def BattleCheck(WarriorList1, WarriorList2):
 
