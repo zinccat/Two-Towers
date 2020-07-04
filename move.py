@@ -26,6 +26,7 @@ def WarriorMove(WarriorList):
             posDict[i.pos] -= 1
             i.pos += mov
 
+
 '''
 # WarriorMove测试代码
 l = []
