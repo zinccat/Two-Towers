@@ -2,7 +2,7 @@
 
 1. 写一个Warrior类: 属性值: 队伍 (wTeam), 种类 (wType), 生命值 (wLife), 攻击力(wAttack), 速度 (wSpeed), 攻击速度(wASpeed), mCD(距离下一次攻击的回合数), aCD(距离下一次攻击的回合数)
 
-2. 派生四个类: Knight, Archer, DefenceTower (没错, 防御塔也可以视为一个不会移动的对象), MainTower 属性值待定
+2. 派生四个类: Knight, Archer, DefenceTower (没错, 防御塔也可以视为一个不会移动的对象), Base 属性值待定
 
 3. 定轴: 朴素想法是y = x, y=0粘合x=a, y=a粘合x=0, a随地图大小d等比例变化, d可以先定一个值, 之后再调, 而后划分轴作为位置的刻度
 
