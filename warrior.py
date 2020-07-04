@@ -1,28 +1,67 @@
 # -*- coding: utf-8 -*-
 # Warrior类的内容写在这里
 
+# 父类型
+
 
 class Warrior:
-    def __init__(self, wtype, wside):
+    def __init__(self, wtype, wteam):
         self.wType = wtype
-        self.wSide = wside
+        self.wTeam = wteam
 
-#type 1
-class Knight(Warrior):
-    def __init__(self, wtype, wside):
-        super().__init__(wtype, wside)
+# type 0
+# 主塔
+
+
+class Base(Warrior):
+    def __init__(self, wtype, wteam):
+        super().__init__(wtype, wteam)
         self.wAttack = 10
         self.wLife = 10
         self.wSpeed = 10
+        self.wASpeed = 10
         self.mCD = 0
         self.aCD = 0
 
-#type 2
-class Archer(Warrior):
-    def __init__(self, wtype, wside):
-        super().__init__(wtype, wside)
+# type 1
+# 防御塔
+
+
+class DefenseTower(Warrior):
+    def __init__(self, wtype, wteam):
+        super().__init__(wtype, wteam)
         self.wAttack = 10
         self.wLife = 10
         self.wSpeed = 10
+        self.wASpeed = 10
+        self.mCD = 0
+        self.aCD = 0
+
+
+# type 2
+# 骑士
+
+
+class Knight(Warrior):
+    def __init__(self, wtype, wteam):
+        super().__init__(wtype, wteam)
+        self.wAttack = 10
+        self.wLife = 10
+        self.wSpeed = 10
+        self.wASpeed = 10
+        self.mCD = 0
+        self.aCD = 0
+
+# type 3
+# 弓箭手
+
+
+class Archer(Warrior):
+    def __init__(self, wtype, wteam):
+        super().__init__(wtype, wteam)
+        self.wAttack = 10
+        self.wLife = 10
+        self.wSpeed = 10
+        self.wASpeed = 10
         self.mCD = 0
         self.aCD = 0
