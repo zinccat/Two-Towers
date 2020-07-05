@@ -32,14 +32,17 @@ class Command:
 # SideWarriorList为某一方的总list
 # team为1 友方, 2 敌方
 def ReadCmd(CmdList, SideWarriorList, team):
+    genNum = 0 #本回合生成了几个warrior?
     while(not CmdList.empty()):
-        tempOp = ops.get()
+        tempOp = ops.get() #ops为命令队列
         if turnID == tempOp.turnID:
             if tempOp.CmdType == 2:  # 骑士
-                tempObj = Knight(team)
+                genNum += 1
+                tempObj = Knight(team, genNum)
                 SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
             if tempOp.CmdType == 3:  # 弓箭手
-                tempObj = Archer(team)
+                genNum += 1
+                tempObj = Archer(team, genNum)
                 SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
         else:
             # 时机未到

@@ -11,10 +11,11 @@ from config import *
 
 class Warrior:
 
-    def __init__(self, wtype, wteam):
+    def __init__(self, wtype, wteam, wgrid):
 
         self.wType = wtype
         self.wTeam = wteam
+        self.wGrid = wgrid #在三个格子中的哪个 0 1 2
         if wteam == 1:
             self.pos = 0
 
@@ -32,9 +33,9 @@ class Warrior:
 
 class Base(Warrior):
 
-    def __init__(self, wteam):
+    def __init__(self, wteam, wgrid):
 
-        super().__init__(0, wteam)
+        super().__init__(0, wteam, wgrid)
 
         self.wAttack = 10
 
@@ -58,9 +59,9 @@ class Base(Warrior):
 
 class DefenseTower(Warrior):
 
-    def __init__(self, wteam):
+    def __init__(self, wteam, wgrid = 2):
 
-        super().__init__(1, wteam)
+        super().__init__(1, wteam, wgrid)
 
         self.wAttack = 10
 
@@ -86,9 +87,9 @@ class DefenseTower(Warrior):
 
 class Knight(Warrior):
 
-    def __init__(self, wteam):
+    def __init__(self, wteam, wgrid):
 
-        super().__init__(2, wteam)
+        super().__init__(2, wteam, wgrid)
 
         self.wAttack = 10
 
@@ -112,9 +113,9 @@ class Knight(Warrior):
 
 class Archer(Warrior):
 
-    def __init__(self, wteam):
+    def __init__(self, wteam, wgrid):
 
-        super().__init__(3, wteam)
+        super().__init__(3, wteam, wgrid)
 
         self.wAttack = 10
 
