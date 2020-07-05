@@ -1,46 +1,54 @@
 import pgzrun
+import random
 
-# 好多数值都用的拼音...
 
-WIDTH=1200
-HEIGHT=700
+WIDTH = 1200
+HEIGHT = 700
 
-money0=Actor('金钱框')
-money0.topleft=25,200
-money2=Actor('钱币图标')
-money2.topleft=25,177
-money1=Actor('金钱块')
+# 图标对象
+money_0 = Actor('金钱框')
+money_0.topleft = 25, 200
+money_2 = Actor('钱币图标')
+money_2.topleft = 25, 177
+money_1 = Actor('金钱块')
 
-qianshu=0
-jiaqianjishi=0
+Money = 0       # 设置成interface.py的全局变量
+time_count = 0  # 记录帧数
+
 
 def draw():
     screen.clear()
-    screen.fill((128,128,128))
-    money0.draw()
-    money2.draw()
-    for i in range(qianshu):
-        money1.topleft=28+20*i,203
-        money1.draw()
-    screen.draw.text("Money:%d/10" % qianshu,(50,182))
+    screen.fill((128, 128, 128))
+    money_0.draw()
+    money_2.draw()
+    for i in range(Money):
+        money_1.topleft = 28+20*i, 203
+        money_1.draw()
+    screen.draw.text("Money:%d/10" % Money, (50, 182))
+
 
 def update():
-    global jiaqianjishi
-    if qianshu<10:
-        jiaqianjishi=jiaqianjishi+1
-        if jiaqianjishi==60:
-            qianshubh(1)
-            jiaqianjishi=0
+    global time_count
+    time_count += 1
+    if time_count == 60:
+        time_count = 0
+        if Money < 10:
+            Money_accumulate(1)
 
-#钱数变化的函数
-def qianshubh(qsbh):
-    global qianshu
-    qianshu=qianshu+qsbh
 
-# 这里还要再改应该
-# 随便设了个减掉钱数的指令，改的时候还要考虑如果钱不够就不能造兵
-def on_mouse_down():
-    if qianshu>=2:
-        qianshubh(-2)
+# 钱数变化的函数
+def Money_accumulate(x):
+    global Money
+    Money += x
+
+
+''' 以下整合到interface的on_mouse_down()里
+
+def on_mouse_down(pos):
+    global Money
+    Money -= random.randint(1,Money)
+'''
+
+# 记得加一句检测语句在interface的on_mouse_down()里，并且对global Money进行修改
 
 pgzrun.go()
