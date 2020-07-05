@@ -76,7 +76,8 @@ def update():
     result = game.BaseDeath()
     if result > 0:
         game.end(result)
-    game.WarriorDeath()
+    game.WarriorDeath(game.w1)
+    game.WarriorDeath(game.w2)
     draw()
 
 

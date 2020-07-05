@@ -85,7 +85,7 @@ class Action:
         turnID += 1
         for i in range(3):
             for w in SideWarriorList[i]:
-                w.attacked = 0  # 重置攻击状态
+                w.attacked = False  # 重置攻击状态
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
 
@@ -119,7 +119,8 @@ class Action:
         for i in range(3):
             for Warrior1 in w1[i]:
                 for Warrior2 in w2[i]:
-                    if abs(Warrior1.pos-Warrior2.pos) <= Warrior1.wRange:
+                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
+                        Warrior1.attacked = True
                         BattleList.append(Battle(Warrior1, Warrior2))
 
     # 战斗进行函数
@@ -181,7 +182,6 @@ class Action:
         # 若前方有足够位置就前进, 先排序避免堵车
 
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
-
                          reverse=(WarriorList[0].wTeam == 1))
 
         # 友方移动量为1
