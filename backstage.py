@@ -1,7 +1,5 @@
 import queue
-
 from config import *
-
 from warrior import *
 
 
@@ -125,91 +123,60 @@ class Action:
 
     # 战斗进行函数
     def BattleRun(self, BattleList):
-
         while BattleList:
-
             TempBattle = BattleList.pop(0)
-
             TempBattle.BattleGo()
 
     # 主塔阵亡函数
 
     def BaseDeath(self, WarriorList1, WarriorList2):
-
         sumAttack2 = 0
         for i in range(3):
             sumAttack2 += INF-WarriorList2[i][0].wLife
         if sumAttack2 >= BaseLife:
-
             # 向玩家1显示ta胜利
-
             # 士兵阵亡函数
             return 1
-
         sumAttack1 = 0
-
         for i in range(3):
-
             sumAttack1 += INF-WarriorList1[i][0].wLife
-
         if sumAttack1 >= BaseLife:
-
             # 向玩家2显示ta胜利
             return 2
 
     def WarriorDeath(self, WarriorList):
-
         for i in range(3):
-
             for j in range(len(WarriorList[i])):
-
                 if WarriorList[i][j].wLife <= 0:
-
                     WarriorList[i].pop(j)
 
     # 士兵移动函数
 
-    def WarriorMove(self, WarriorList):
-
+    def WarriorMove(self, WarriorList, posOccu, team):
         posDict = dict()
-
         # 第一轮扫描完成各位置上对象的计数
-
         for i in WarriorList:
-
             posDict[(i.pos, i.wGrid)] = True
+            posOccu[i.pos] = team
 
         # 若前方有足够位置就前进, 先排序避免堵车
-
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
                          reverse=(WarriorList[0].wTeam == 1))
-
         # 友方移动量为1
-
         mov = 1
-
         # 敌方移动量为-1
-
         if WarriorList[0].wTeam == 2:
-
             mov = -1
 
         for i in WarriorList:
-
             if i.mCD == 0 and not i.attacked:
-
                 for j in range(1, 4):
-
-                    if posDict[(i.pos + mov, j)]:
-
+                    if posDict[(i.pos + mov, j)] and posOccu.get(i.pos + mov, team) == team:
                         posDict[(i.pos, i.wGrid)] = False
-
                         i.pos += mov
-
                         posDict[(i.pos, j)] = True
-
+                        posOccu[i.pos] = team
                         i.wGrid = j
-
                         break
 
     def end(self, result):

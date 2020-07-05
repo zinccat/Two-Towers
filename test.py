@@ -1,7 +1,7 @@
 import pgzrun
 import random
 from print_Warrior import *
-from backstage import*
+from backstage import *
 
 # 显示页面大小
 WIDTH = 1200
@@ -63,12 +63,12 @@ def on_mouse_down(pos):  # 造兵方式
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
-        #此处添加发送命令语句
+        # 此处添加发送命令语句
 
 
 def update():
     game.update()
-    #此处添加接收命令语句
+    # 此处添加接收命令语句
     game.ReadCmd(game.ops1, game.w1, 1)
     game.ReadCmd(game.ops2, game.w2, 2)
     game.BattleCheck()
@@ -78,6 +78,10 @@ def update():
         game.end(result)
     game.WarriorDeath(game.w1)
     game.WarriorDeath(game.w2)
+    posOccu = dict()  # 记录某格是否被敌方占领
+    for i in range(3):
+        game.WarriorMove(game.w1[i], posOccu, 1)
+        game.WarriorMove(game.w2[i], posOccu, 2)
     draw()
 
 
