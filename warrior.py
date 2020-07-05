@@ -49,6 +49,12 @@ class Base(Warrior):
         else:
             self.mCD = BasemCD
 
+    def updateaCD(self):
+        if self.aCD > 0:
+            self.aCD -= 1
+        else:
+            self.aCD = BaseaCD
+
 
 # type 1
 
@@ -73,6 +79,17 @@ class DefenseTower(Warrior):
 
         self.pos = DefenseTowerPos
 
+    def updatemCD(self):
+        if self.mCD > 0:
+            self.mCD -= 1
+        else:
+            self.mCD = DefenseTowermCD
+
+    def updateaCD(self):
+        if self.aCD > 0:
+            self.aCD -= 1
+        else:
+            self.aCD = DefenseToweraCD
 
 # type 2
 
@@ -95,6 +112,18 @@ class Knight(Warrior):
 
         self.aCD = KnightaCD
 
+    def updatemCD(self):
+        if self.mCD > 0:
+            self.mCD -= 1
+        else:
+            self.mCD = KnightmCD
+
+    def updateaCD(self):
+        if self.aCD > 0:
+            self.aCD -= 1
+        else:
+            self.aCD = KnightaCD
+
 
 # type 3
 
@@ -116,3 +145,15 @@ class Archer(Warrior):
         self.mCD = ArchermCD
 
         self.aCD = ArcheraCD
+
+    def updatemCD(self):
+        if self.mCD > 0:
+            self.mCD -= 1
+        else:
+            self.mCD = ArchermCD
+
+    def updateaCD(self):
+        if self.aCD > 0:
+            self.aCD -= 1
+        else:
+            self.aCD = ArcheraCD

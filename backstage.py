@@ -8,9 +8,7 @@ from warrior import *
 def reset():
     turnID = 0
     for i in range(3):
-
         w1[i].clear()
-
         w2[i].clear()
 
 
@@ -19,12 +17,10 @@ turnID = 0
 
 # 包含Warrior的列表
 w1 = [[], [], []]  # 分别对应左中右路
-
 w2 = [[], [], []]
 
 
 ops1 = queue.PriorityQueue()
-
 ops2 = queue.PriorityQueue()
 
 
@@ -55,19 +51,12 @@ class Command:
 
 CmdSet = []
 
-
 class Battle:
-
     """战斗类"""
-
     def __init__(self, WarriorAttack, WarriorDenfence):
-
         self.WarriorAttack = WarriorAttack
-
         self.WarriorDenfence = WarriorDenfence
-
     def BattleGo(self):
-
         self.WarriorDenfence.wLife -= self.WarriorAttack.wAttack
 
 
@@ -83,10 +72,12 @@ class Action:
 
     # 回合初状态更新
     def update(self, SideWarriorList):
+        global turnID
+        turnID += 1
         for i in range(3):
             for w in SideWarriorList[i]:
                 w.attacked = 0  # 重置攻击状态
-                w.updatemCD() # 更新mCD
+                w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
 
     # 命令读取函数
@@ -114,92 +105,44 @@ class Action:
     # 士兵对战判断函数
 
     def BattleCheck(self, WarriorList1, WarriorList2):
-
         for i in range(3):
-
             TempList1 = WarriorList1[i]
-
             TempList2 = WarriorList2[i]
-
             for TempWarrior1 in TempList1:
-
                 for TempWarrior2 in TempList2:
-
-                    if TempWarrior1.wType == 0 and -10 <= TempWarrior1.pos-TempWarrior2.pos <= 10:
-
+                    if abs(TempWarrior1.pos-TempWarrior2.pos) <= TempWarrior1.wRange:
                         BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-                    if TempWarrior1.wType == 1 and -8 <= TempWarrior1.pos-TempWarrior2.pos <= 8:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-                    if TempWarrior1.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-                    if TempWarrior1.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
-
-                        BattleSet.append(Battle(TempWarrior1, TempWarrior2))
-
-                    if TempWarrior2.wType == 0 and -10 <= TempWarrior1.pos-TempWarrior2.pos <= 10:
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
-                    if TempWarrior2.wType == 1 and -8 <= TempWarrior1.pos-TempWarrior2.pos <= 8:
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
-                    if TempWarrior2.wType == 2 and -1 <= TempWarrior1.pos-TempWarrior2.pos <= 1:
-
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
-
-                    if TempWarrior2.wType == 3 and -5 <= TempWarrior1.pos-TempWarrior2.pos <= 5:
-
-                        BattleSet.append(Battle(TempWarrior2, TempWarrior1))
 
     # 战斗进行函数
 
     def BattleRun(self, BattleList):
-
         while BattleList:
-
             TempBattle = BattleList.pop(0)
-
             TempBattle.BattleGo()
 
     # 主塔阵亡函数
 
     def BaseDeath(self, WarriorList1, WarriorList2):
-
         sumAttack1 = 0
-
         for i in range(3):
-
             sumAttack1 += INF-WarriorList1[i][0].wLife
 
-        if sumAttack1 >= InitBaseLife:
-
+        if sumAttack1 >= BaseLife:
             # 向玩家2显示ta胜利
-
             sumAttack2 = 0
 
         for i in range(3):
-
             sumAttack2 += INF-WarriorList2[i][0].wLife
 
-        if sumAttack2 >= InitBaseLife:
-
+        if sumAttack2 >= BaseLife:
             # 向玩家1显示ta胜利
-
             # 士兵阵亡函数
             pass
 
     def WarriorDeath(self, WarriorList):
-
         for i in range(3):
-
             for j in range(len(WarriorList[i])):
-
                 if WarriorList[i][j].wLife <= 0:
-
                     WarriorList[i].pop(j)
 
     # 士兵移动函数

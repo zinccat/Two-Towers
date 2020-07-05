@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # 可以调节的参数写在这里
 
+# 无穷大
+INF = 1e7
+
 # 地图大小
 MapLen = None
 
