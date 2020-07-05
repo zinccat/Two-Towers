@@ -1,45 +1,34 @@
 from backstage import*
 
+# 定义三条路线坐标
+road = [[], [], []]
 
-# 读取三条线路信息
+for i in range (25):
+    road[0].append({1: (250, 560 - i * 20), 2: (270, 560 - i * 20), 3: (290, 560 - i * 20)})
+    road[2].append({1: (370 + 20 * i, 620), 2: (370 + 20 * i, 640), 3: (370 + 20 * i, 660)})
 
-road_1 = [[], [], []] # 己方的小兵 第三阶的dict代表（兵种，个数）
-road_2 = [[], [], []] # 地方的小兵
+for i in range (25, 50):
+    road[0].append({1: (20 * i -170, 20), 2: (20 * i -170, 40), 3: (20 * i -170, 60)})
+    road[2].append({1: (870, 1100 - 20 * i), 2: (890, 1100 - 20 * i), 3: (910, 1100 - 20 * i)})
+
+for i in range (12):
+    road[1].append({1: (330 + i * 20, 560 - i * 20), 2: (350 + i * 20, 580 - i * 20), 3: (370 + i * 20, 600 - i * 20)})
+    road[1].append({1: (350 + i * 20, 560 - i * 20), 2: (370 + i * 20, 580 - i * 20), 3: (390 + i * 20, 600 - i * 20)})
 
 
-'''
-tower_1 
-tower_2 
-'''
+road[1].append({1: (330 + 12 * 20, 560 - 12 * 20), 2: (350 + 12 * 20, 580 - 12 * 20), 3: (370 + 12 * 20, 600 - 12 * 20)})
 
-
-# 初始化路径信息
-def init_soldier():
-    for i in range(69):
-        road_1[0].append({'Knight': 0, 'Archer': 0})
-        road_1[2].append({'Knight': 0, 'Archer': 0})
-        road_2[0].append({'Knight': 0, 'Archer': 0})
-        road_2[2].append({'Knight': 0, 'Archer': 0})
-
-    for i in range(49):
-        road_1[1].append({'Knight': 0, 'Archer': 0})
-        road_2[1].append({'Knight': 0, 'Archer': 0})
-    print(road_1, "\n", road_2) 
+for i in range (12):
+    road[1].append({1: (570 + i * 20, 300 - i * 20), 2: (590 + i * 20, 320 - i * 20), 3: (610 + i * 20, 340 - i * 20)})
+    road[1].append({1: (590 + i * 20, 300 - i * 20), 2: (610 + i * 20, 320 - i * 20), 3: (630 + i * 20, 340 - i * 20)})
 
 
 
-def save_soldier():
-    for i in range(3):
-        for k in range(len(w1[i])):
-            if w1[i][k].wtype == 2:
-                road_1[i][w1[i][k].pos]['Knight'] += 1
-            if w1[i][k].wtype == 3:
-                road_1[i][w1[i][k].pos]['Archer'] += 1
-        for k in range(len(w2[i])):
-            if w2[i][k].wtype == 2:
-                road_2[i][w2[i][k].pos]['Knight'] += 1
-            if w1[i][k].wtype == 3:
-                road_2[i][w2[i][k].pos]['Archer'] += 1
         
 
+
+print(len(road[1]))
+
+
+    
 
