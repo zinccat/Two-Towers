@@ -1,8 +1,7 @@
 import pgzrun
 import random
-from op import*
-from print_Warrior import*
-# from backstage import*
+from print_Warrior import *
+from backstage import*
 
 
 turnID = 0 # 该命令所生效的回合
@@ -51,7 +50,7 @@ def draw():
     warrior_down.draw()  #(35, 350))
     archer_down.draw()  #(131, 350))
 
-
+    '''
     # 打印小兵
     for i in range(69):
         if road_1[0][i]['Knight'] != 0 or road_1[0][i]['Archer'] != 0:
@@ -84,7 +83,7 @@ def draw():
             for k in range (road_2[1][i]['Knight']):
 
             for k in range (road_2[1][i]['Archer']):        
-        
+    '''
     #打印小兵结束
 
     
