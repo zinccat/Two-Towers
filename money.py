@@ -6,7 +6,9 @@ WIDTH=1200
 HEIGHT=700
 
 money0=Actor('金钱框')
-money0.topleft=25,50
+money0.topleft=25,200
+money2=Actor('钱币图标')
+money2.topleft=25,177
 money1=Actor('金钱块')
 
 qianshu=0
@@ -16,10 +18,11 @@ def draw():
     screen.clear()
     screen.fill((128,128,128))
     money0.draw()
+    money2.draw()
     for i in range(qianshu):
-        money1.topleft=28+20*i,53
+        money1.topleft=28+20*i,203
         money1.draw()
-    screen.draw.text("Money:%d/10" % qianshu,(30,32))
+    screen.draw.text("Money:%d/10" % qianshu,(50,182))
 
 def update():
     global jiaqianjishi
