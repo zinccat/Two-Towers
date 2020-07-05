@@ -67,9 +67,11 @@ def chat(target, op):
     except:
         print('awsl')
 
+
 class getdata(threading.Thread):
-    def run(self, game):
+    def run(self):
         while True:
+            print(333)
             data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
             if data == '-1':
                 print('can not connect to target!')
@@ -77,9 +79,9 @@ class getdata(threading.Thread):
                 dataObj = json.loads(data)
                 print('{} ->{} : {} {} {}'.format(dataObj['froms'],
                                                         userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
-                print(333)
                 game.ops2.append(Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
+'''
 def main():
     try:
         tcpCliSock.connect(ADDR)
@@ -105,3 +107,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+'''

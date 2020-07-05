@@ -1,6 +1,7 @@
 import queue
 from config import *
 from warrior import *
+from gameClient import *
 
 class Command:
 
@@ -98,6 +99,20 @@ class Action:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
+
+    def ReceiveCmd(self):
+        print(233)
+        while True:
+            print(333)
+            data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
+            if data == '-1':
+                print('can not connect to target!')
+            elif data:
+                dataObj = json.loads(data)
+                print('{} ->{} : {} {} {}'.format(dataObj['froms'],
+                                                  userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                self.ops2.append(
+                    Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
     # 命令读取函数
 
