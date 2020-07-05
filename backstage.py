@@ -49,38 +49,38 @@ class Battle:
 
 
 class Action:
+    def __init__(self):
+        # 回合数记录
+        self.turnID = 0
 
-    # 回合数记录
-    turnID = 0
-
-    # 包含Warrior的列表
-    w1 = [[], [], []]  # 分别对应左中右路
-    w2 = [[], [], []]
-    # 建立一个战斗列表
-    BattleList = []
-    # 指令集
-    ops1 = queue.PriorityQueue()
-    ops2 = queue.PriorityQueue()
+        # 包含Warrior的列表
+        self.w1 = [[], [], []]  # 分别对应左中右路
+        self.w2 = [[], [], []]
+        # 建立一个战斗列表
+        self.BattleList = []
+        # 指令集
+        self.ops1 = queue.PriorityQueue()
+        self.ops2 = queue.PriorityQueue()
 
     """行动系统"""
 
     # 重置函数, 开启新一局游戏时调用
 
     def reset(self):
-        turnID = 0
-        BattleList.clear()
-        while not ops1.empty():
-            ops1.get()
-        while not ops2.empty():
-            ops2.get()
+        self.turnID = 0
+        self.BattleList.clear()
+        while not self.ops1.empty():
+            self.ops1.get()
+        while not self.ops2.empty():
+            self.ops2.get()
         for i in range(3):
-            w1[i].clear()
-            w2[i].clear()
+            self.w1[i].clear()
+            self.w2[i].clear()
 
     # 回合初状态更新
 
     def update(self, SideWarriorList):
-        turnID += 1
+        self.turnID += 1
         for i in range(3):
             for w in SideWarriorList[i]:
                 w.attacked = False  # 重置攻击状态
@@ -115,8 +115,8 @@ class Action:
 
     def BattleCheck(self):
         for i in range(3):
-            for Warrior1 in w1[i]:
-                for Warrior2 in w2[i]:
+            for Warrior1 in self.w1[i]:
+                for Warrior2 in self.w2[i]:
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
                         Warrior1.attacked = True
                         BattleList.append(Battle(Warrior1, Warrior2))
@@ -129,17 +129,17 @@ class Action:
 
     # 主塔阵亡函数
 
-    def BaseDeath(self, WarriorList1, WarriorList2):
+    def BaseDeath(self):
         sumAttack2 = 0
         for i in range(3):
-            sumAttack2 += INF-WarriorList2[i][0].wLife
+            sumAttack2 += INF-self.w2[i][0].wLife
         if sumAttack2 >= BaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数
             return 1
         sumAttack1 = 0
         for i in range(3):
-            sumAttack1 += INF-WarriorList1[i][0].wLife
+            sumAttack1 += INF-self.w1[i][0].wLife
         if sumAttack1 >= BaseLife:
             # 向玩家2显示ta胜利
             return 2
