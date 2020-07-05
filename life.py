@@ -1,6 +1,7 @@
 import pgzrun
 
 # 好多数值都用的拼音...
+# 账号/昵称的显示也在这里面
 
 WIDTH=1200
 HEIGHT=700
@@ -49,11 +50,5 @@ def draw():
 #钱数(血量)变化的函数
 def lifezhibh(j,lfbh):
     lifezhi[j]=lifezhi[j]+lfbh
-
-# 
-def on_mouse_down():
-    if lifezhi[3]>=2:
-        lifezhibh(3,-2)
-
 
 pgzrun.go()
