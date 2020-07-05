@@ -34,7 +34,7 @@ archer_up.y = 385
 def draw():
     screen.clear()
     screen.fill("white")
-    screen.blit('bk', (0, 0))
+    #screen.blit('bk', (0, 0))
     # 兵营部分
     screen.blit('arsenal', (20, 190))
     screen.blit('soldier', (21, 280))

@@ -8,19 +8,22 @@ INF = 1e7
 MapLen = None
 
 # 主轴长度
-mLen = 100
+mLen = 50
 
 # 侧轴长度
-aLen = 140
+aLen = 70
 
 # mCD参数 mCD = C / wSpeed
 C = 100
+
+# 防御塔据原点距离
+dLen = 10
 
 #下面为各种游戏角色的参数, 以后调参都在这里进行
 
 # 主塔 0
 BaseAttack = 10
-BaseLife = 100
+BaseLife = INF
 BaseRange = 10
 BasemCD = 0
 BaseaCD = 0

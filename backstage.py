@@ -45,7 +45,7 @@ class Battle:
 
     def BattleGo(self):
 
-        self.WarriorDenfence.wLife -= self.WarriorAttack.wAttack
+        self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
 
 class Action:
@@ -61,6 +61,18 @@ class Action:
         # 指令集
         self.ops1 = queue.PriorityQueue()
         self.ops2 = queue.PriorityQueue()
+        # 初始化己方主塔和防御塔
+        for i in range(3):
+            self.w1[i].append(Base(1, 0, 0))
+            self.w1[i].append(DefenseTower(1, 2, dLen))
+        # 初始化对方主塔和防御塔
+        for i in range(3):
+            if i == 1:
+                self.w2[i].append(Base(2, mLen, 0))
+                self.w2[i].append(DefenseTower(2, 2, mLen - dLen))
+            else:
+                self.w2[i].append(Base(2, aLen, 0))
+                self.w2[i].append(DefenseTower(2, 2, aLen - dLen))
 
     """行动系统"""
 
@@ -76,6 +88,7 @@ class Action:
         for i in range(3):
             self.w1[i].clear()
             self.w2[i].clear()
+        self.__init__()
 
     # 回合初状态更新
 
@@ -96,7 +109,7 @@ class Action:
         while(not CmdList.empty()):
             tempOp = CmdList.get()  # ops为命令队列
 
-            if turnID == tempOp.turnID:
+            if self.turnID == tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
                     tempObj = Knight(team, genNum)
@@ -119,7 +132,7 @@ class Action:
                 for Warrior2 in self.w2[i]:
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
                         Warrior1.attacked = True
-                        BattleList.append(Battle(Warrior1, Warrior2))
+                        self.BattleList.append(Battle(Warrior1, Warrior2))
 
     # 战斗进行函数
     def BattleRun(self, BattleList):
@@ -132,17 +145,24 @@ class Action:
     def BaseDeath(self):
         sumAttack2 = 0
         for i in range(3):
-            sumAttack2 += INF-self.w2[i][0].wLife
+            for j in range(len(self.w2[i])):
+                if self.w2[i][j].wType == 0:
+                    sumAttack2 += INF - self.w2[i][j].wLife
+                    break
         if sumAttack2 >= BaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数
             return 1
         sumAttack1 = 0
         for i in range(3):
-            sumAttack1 += INF-self.w1[i][0].wLife
+            for j in range(len(self.w1[i])):
+                if self.w1[i][j].wType == 0:
+                    sumAttack2 += INF - self.w1[i][j].wLife
+                    break
         if sumAttack1 >= BaseLife:
             # 向玩家2显示ta胜利
             return 2
+        return 0
 
     def WarriorDeath(self, WarriorList):
         for i in range(3):
@@ -171,7 +191,7 @@ class Action:
         for i in WarriorList:
             if i.mCD == 0 and not i.attacked:
                 for j in range(1, 4):
-                    if posDict[(i.pos + mov, j)] and posOccu.get(i.pos + mov, team) == team:
+                    if posDict.get((i.pos + mov, j), 0) and posOccu.get(i.pos + mov, team) == team:
                         posDict[(i.pos, i.wGrid)] = False
                         i.pos += mov
                         posDict[(i.pos, j)] = True
