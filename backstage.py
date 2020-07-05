@@ -2,7 +2,6 @@ import queue
 from config import *
 from warrior import *
 
-
 class Command:
 
     """命令类
@@ -104,6 +103,7 @@ class Action:
 
     # SideWarriorList为某一方的总list
     # team为1 友方, 2 敌方
+
     def ReadCmd(self, CmdList, SideWarriorList, team):
         genNum = 0  # 本回合生成了几个warrior?
         while(not CmdList.empty()):

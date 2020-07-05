@@ -5,6 +5,7 @@ import threading
 import sys
 import json
 import re
+from backstage import *
 
 #HOST = '65.49.209.247'
 HOST = 'localhost'
@@ -66,28 +67,8 @@ def chat(target, op):
     except:
         print('awsl')
 
-'''
-#多线程运行时所需代码
-class inputdata(threading.Thread):
-    def run(self):
-        target = input('Please choose your adversary: ')
-        if target == 'Q':
-            sys.exit(1)
-        turnID = input()
-        CmdType = input()
-        CmdStr = input()
-        op = Command(turnID, CmdType, CmdStr)
-        dataObj = {'froms': userAccount, 'to': target,
-                   'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
-        datastr = json.dumps(dataObj)
-        try:
-            tcpCliSock.send(datastr.encode('utf-8'))
-        except:
-            print('awsl')
-
-
 class getdata(threading.Thread):
-    def run(self):
+    def run(self, game):
         while True:
             data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
             if data == '-1':
@@ -95,17 +76,9 @@ class getdata(threading.Thread):
             elif data:
                 dataObj = json.loads(data)
                 print('{} ->{} : {} {} {}'.format(dataObj['froms'],
-                                              userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
-'''
-
-def getdata():
-    data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-    if data == '-1':
-        print('can not connect to target!')
-    elif data:
-        dataObj = json.loads(data)
-        print('{} ->{} : {} {} {}'.format(dataObj['froms'],
-                                                  userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                                                        userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                print(333)
+                game.ops2.append(Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
 def main():
     try:
@@ -115,13 +88,6 @@ def main():
             reg = register()
             if reg:
                 break
-        
-        #myinputd = inputdata()  # 选择对手并开启chat
-        #mygetdata = getdata()
-        #myinputd.start()
-        #mygetdata.start()
-        #myinputd.join()
-        #mygetdata.join()
         while True:
             target = input()
             turnID = input()
