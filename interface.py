@@ -1,6 +1,6 @@
 import pgzrun
 import random
-from print_Warrior import*
+from Roadpos_set import*
 from backstage import*
 
 
@@ -90,7 +90,7 @@ def on_mouse_down(pos):  # 造兵方式
     if warrior_up.collidepoint(pos):
         order_command.CmdType = 2
         order_command.CmdStr = [1]
-    if archer_up.collidepoint(pos):
+    elif archer_up.collidepoint(pos):
         order_command.CmdType = 3
         order_command.CmdStr = [1]
     elif warrior_mid.collidepoint(pos):
@@ -120,4 +120,3 @@ def update():
 
 
 pgzrun.go()
-
