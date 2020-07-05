@@ -11,18 +11,12 @@ from config import *
 
 class Warrior:
 
-    def __init__(self, wtype, wteam, wgrid):
+    def __init__(self, wtype, wteam, wgrid, wpos):
 
         self.wType = wtype
         self.wTeam = wteam
-        self.wGrid = wgrid #在三个格子中的哪个 0 1 2
-        if wteam == 1:
-            self.pos = 0
-
-        else:
-
-            self.pos = mLen  # 这里需要改机制, 判断在哪条路上, 可以考虑在这里加一个路的参数
-
+        self.wGrid = wgrid  # 在三个格子中的哪个 0 1 2
+        self.pos = wpos
         self.attacked = 0  # 本回合是否攻击
 
 
@@ -33,23 +27,27 @@ class Warrior:
 
 class Base(Warrior):
 
-    def __init__(self, wteam, wgrid):
+    def __init__(self, wteam, wgrid, wpos=0):
 
-        super().__init__(0, wteam, wgrid)
+        super().__init__(0, wteam, wgrid, wpos)
 
-        self.wAttack = 10
+        self.wAttack = BaseAttack
 
-        self.wLife = 10
+        self.wLife = BaseLife
 
-        self.wSpeed = 10
+        self.wRange = BaseRange
 
-        self.wRange = 10
+        self.mCD = BasemCD
 
-        self.wASpeed = 10
+        self.aCD = BaseaCD
 
-        self.mCD = 0
+        self.pos = BasePos
 
-        self.aCD = 0
+    def updatemCD(self):
+        if self.mCD > 0:
+            self.mCD -= 1
+        else:
+            self.mCD = BasemCD
 
 
 # type 1
@@ -59,25 +57,21 @@ class Base(Warrior):
 
 class DefenseTower(Warrior):
 
-    def __init__(self, wteam, wgrid = 2):
+    def __init__(self, wteam, wgrid=2, wpos=0):
 
-        super().__init__(1, wteam, wgrid)
+        super().__init__(1, wteam, wgrid, wpos)
 
-        self.wAttack = 10
+        self.wAttack = DefenseTowerAttack
 
-        self.wLife = 10
+        self.wLife = DefenseTowerLife
 
-        self.wSpeed = 10
+        self.wRange = DefenseTowerRange
 
-        self.wASpeed = 10
+        self.mCD = DefenseTowermCD
 
-        self.wRange = 8
+        self.aCD = DefenseToweraCD
 
-        self.mCD = 0
-
-        self.aCD = 0
-
-        self.pos = 10
+        self.pos = DefenseTowerPos
 
 
 # type 2
@@ -87,23 +81,19 @@ class DefenseTower(Warrior):
 
 class Knight(Warrior):
 
-    def __init__(self, wteam, wgrid):
+    def __init__(self, wteam, wgrid, wpos=0):
 
-        super().__init__(2, wteam, wgrid)
+        super().__init__(2, wteam, wgrid, wpos)
 
-        self.wAttack = 10
+        self.wAttack = KnightAttack
 
-        self.wLife = 10
+        self.wLife = KnightLife
 
-        self.wSpeed = 10
+        self.wRange = KnightRange
 
-        self.wASpeed = 10
+        self.mCD = KnightmCD
 
-        self.wRange = 1
-
-        self.mCD = 0
-
-        self.aCD = 0
+        self.aCD = KnightaCD
 
 
 # type 3
@@ -113,20 +103,16 @@ class Knight(Warrior):
 
 class Archer(Warrior):
 
-    def __init__(self, wteam, wgrid):
+    def __init__(self, wteam, wgrid, wpos=0):
 
-        super().__init__(3, wteam, wgrid)
+        super().__init__(3, wteam, wgrid, wpos)
 
-        self.wAttack = 10
+        self.wAttack = ArcherAttack
 
-        self.wLife = 10
+        self.wLife = ArcherLife
 
-        self.wSpeed = 10
+        self.wRange = ArcherRange
 
-        self.wASpeed = 10
+        self.mCD = ArchermCD
 
-        self.wRange = 5
-
-        self.mCD = 0
-
-        self.aCD = 0
+        self.aCD = ArcheraCD

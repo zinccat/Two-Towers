@@ -13,6 +13,7 @@ def reset():
 
         w2[i].clear()
 
+
 # 回合数记录
 turnID = 0
 
@@ -79,6 +80,14 @@ BattleSet = []
 class Action:
 
     """行动系统"""
+
+    # 回合初状态更新
+    def update(self, SideWarriorList):
+        for i in range(3):
+            for w in SideWarriorList[i]:
+                w.attacked = 0  # 重置攻击状态
+                w.updatemCD() # 更新mCD
+                w.updateaCD()  # 更新aCD
 
     # 命令读取函数
 
@@ -199,26 +208,24 @@ class Action:
         posDict = dict()
         # 第一轮扫描完成各位置上对象的计数
         for i in WarriorList:
-            if posDict.get(i.pos, 0) == 0:
-                posDict[i.pos] = 1
-            else:
-                posDict[i.pos] += 1
-        print(posDict)
+            posDict[(i.pos, i.wGrid)] = True
         # 若前方有足够位置就前进, 先排序避免堵车
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
-                        reverse=(WarriorList[0].wTeam == 1))
+                         reverse=(WarriorList[0].wTeam == 1))
         # 友方移动量为1
         mov = 1
         # 敌方移动量为-1
         if WarriorList[0].wTeam == 2:
             mov = -1
         for i in WarriorList:
-            print(i.pos)
-            if i.mCD == 0 and not i.attacked and posDict.get(i.pos + 1, 0) < 3:
-                posDict[i.pos] -= 1
-                i.pos += mov
-                posDict[i.pos] += 1
-                i.wGrid = posDict[i.pos]
+            if i.mCD == 0 and not i.attacked:
+                for j in range(1, 4):
+                    if posDict[(i.pos + mov, j)]:
+                        posDict[(i.pos, i.wGrid)] = False
+                        i.pos += mov
+                        posDict[(i.pos, j)] = True
+                        i.wGrid = j
+                        break
 
 
 '''
