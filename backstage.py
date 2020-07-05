@@ -106,29 +106,22 @@ class Action:
 
     def reset(self): 
         turnID = 0
+        while not ops1.empty():
+            ops1.get()
+        while not ops2.empty():
+            ops2.get()
         for i in range(3):
             w1[i].clear()
             w2[i].clear()
 
-
-
-
-
-
     # 回合初状态更新
 
     def update(self, SideWarriorList):
-
         turnID += 1
-
         for i in range(3):
-
             for w in SideWarriorList[i]:
-
                 w.attacked = 0  # 重置攻击状态
-
                 w.updatemCD()  # 更新mCD
-
                 w.updateaCD()  # 更新aCD
 
 

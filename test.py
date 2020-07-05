@@ -42,7 +42,7 @@ def draw():
 
 
 def on_mouse_down(pos):  # 造兵方式
-    order_command = Command(0, 0, 0)
+    order_command = Command(game.turnID + 10, 0, 0)
     if warrior_up.collidepoint(pos):
         order_command.CmdType = 2
         order_command.CmdStr = [1]
@@ -66,7 +66,8 @@ def on_mouse_down(pos):  # 造兵方式
 
 
 def update():
-    game.turnID += 1
+    game.update()
+    game.ReadCmd()
     draw()
 
 
