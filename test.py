@@ -63,11 +63,20 @@ def on_mouse_down(pos):  # 造兵方式
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
+        #此处添加发送命令语句
 
 
 def update():
     game.update()
-    game.ReadCmd()
+    #此处添加接收命令语句
+    game.ReadCmd(game.ops1, game.w1, 1)
+    game.ReadCmd(game.ops2, game.w2, 2)
+    game.BattleCheck()
+    game.BattleRun(game.BattleList)
+    result = game.BaseDeath()
+    if result > 0:
+        game.end(result)
+    game.WarriorDeath()
     draw()
 
 
