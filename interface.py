@@ -21,12 +21,17 @@ RED = 200, 0, 0
 
 
 # 创建造兵按钮 #长宽70
-warrior_up = Actor('purchase', (70, 385))
-archer_up = Actor('purchase copy', (166, 385))
-warrior_mid = Actor('purchase copy 2', (70, 510))
-archer_mid = Actor('purchase copy 3', (166, 510))
-warrior_down = Actor('purchase copy 4', (70, 635))
-archer_down = Actor('purchase copy 5', (166, 635))
+# 创建造兵按钮 #长宽70
+warrior_up = Actor('小兵', (70, 385))
+archer_up = Actor('弓箭手', (166, 385))
+warrior_mid = Actor('小兵', (70, 510))
+archer_mid = Actor('弓箭手', (166, 510))
+warrior_down = Actor('小兵', (70, 635))
+archer_down = Actor('弓箭手', (166, 635))
+warrior_up.x = 70
+warrior_up.y = 385
+archer_up.x = 166
+archer_up.y = 385
 warrior_up.x = 70
 warrior_up.y = 385
 archer_up.x = 166
