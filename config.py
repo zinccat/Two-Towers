@@ -28,6 +28,7 @@ BaseRange = 10
 BasemCD = 0
 BaseaCD = 0
 BasePos = 0
+TrueBaseLife = 20
 
 # 防御塔 1
 TurretAttack = 10
