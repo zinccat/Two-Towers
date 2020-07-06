@@ -8,10 +8,10 @@ INF = 1e7
 MapLen = None
 
 # 主轴长度
-mLen = 50
+mLen = 49
 
 # 侧轴长度
-aLen = 70
+aLen = 50
 
 # mCD参数 mCD = C / wSpeed
 C = 100
@@ -28,7 +28,7 @@ BaseRange = 10
 BasemCD = 0
 BaseaCD = 5
 BasePos = 0
-TrueBaseLife = 20
+TrueBaseLife = 500
 
 # 防御塔 1
 TurretAttack = 10
