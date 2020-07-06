@@ -182,7 +182,7 @@ class Action:
                         self.ops2.append(
                             Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
                 except:
-                    print(1)
+                    pass
 
     # 命令读取函数
 

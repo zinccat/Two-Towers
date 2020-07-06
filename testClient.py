@@ -3,6 +3,7 @@ import random
 # from print_Warrior import *
 from backstage import *
 from Roadpos_set import*
+import threading
 
 # 显示页面大小
 WIDTH = 1200
@@ -115,9 +116,11 @@ target = input('想打谁?')
 game = Action()
 game.reset()
 receiveCmd = game.getdata()
-g = threading.Thread(target=pgzrun.go())
 tcpCliSock.settimeout(0.1)
-g.start()
 receiveCmd.start()
+
+g = threading.Thread(target=pgzrun.go())
+
+g.start()
 receiveCmd.join()
 g.join()
