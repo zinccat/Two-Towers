@@ -4,6 +4,7 @@ import random
 from backstage import *
 from Roadpos_set import*
 import threading
+import time
 
 # 显示页面大小
 WIDTH = 1200
@@ -33,6 +34,7 @@ archer_up.y = 385
 Warrior_image_1 = Actor('小兵色块')
 Warrior_image_2 = Actor('小兵色块')
 image = ['小兵色块', '小兵色块']
+
 
 def draw():
     screen.clear()
@@ -80,7 +82,6 @@ def on_mouse_down(pos):  # 造兵方式
 def update():
     game.update(game.w1)
     game.update(game.w2)
-    # 此处添加接收命令语句
     game.ReadCmd(game.ops1, game.w1, 1)
     game.ReadCmd(game.ops2, game.w2, 2)
     game.BattleCheck()
@@ -96,31 +97,23 @@ def update():
         game.WarriorMove(game.w2[i], posOccu, 2)
     draw()
 
-class pz(threading.Thread):
-        def run(self):
-            pgzrun.go()
 
-# 连接到服务器并注册
-try:
-    tcpCliSock.connect(ADDR)
-    print('Connected with server')
-    while True:
-        reg = register()
-        if reg:
-            break
-except:
-    print('error')
-    sys.exit(0)
-target = input('想打谁?')
+def startGame():
+    connect()
+    print('游戏加载中...')
+    global game
+    game = Action()
+    time.sleep(3)
+    game.reset()
+    print('游戏开始了!')
+    # 同时开启游戏和接受命令的线程
+    receiveCmd = game.getdata()
+    tcpCliSock.settimeout(0.1)
+    receiveCmd.start()
+    g = threading.Thread(target=pgzrun.go())
+    g.start()
+    receiveCmd.join()
+    g.join()
 
-game = Action()
-game.reset()
-receiveCmd = game.getdata()
-tcpCliSock.settimeout(0.1)
-receiveCmd.start()
 
-g = threading.Thread(target=pgzrun.go())
-
-g.start()
-receiveCmd.join()
-g.join()
+startGame()

@@ -1,7 +1,6 @@
 import queue
 from config import *
 from warrior import *
-from gameClient import *
 from socket import *
 import threading
 import sys
@@ -15,7 +14,25 @@ BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
 userAccount = None
+target = ''
+game = ''
 
+# 连接到服务器并注册
+
+
+def connect():
+    try:
+        tcpCliSock.connect(ADDR)
+        print('Connected with server')
+        while True:
+            reg = register()
+            if reg:
+                break
+    except:
+        print('error')
+        sys.exit(0)
+    target = input('想打谁?')
+    # 这里还需添加是否与对手连接成功
 
 class Command:
 
