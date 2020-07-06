@@ -83,12 +83,13 @@ def draw():
         for i in range(50):
             screen.blit("purchase", (road[2][i][k][0], road[2][i][k][1]))
 
+    
     # 兵种部分
     for r in range(3):
         for w in game.w1[r]:
-            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wroute]))
+            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wgrid]))
         for w in game.w2[r]:
-            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wroute]))
+            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wgrid]))
 
 
 def on_mouse_down(pos):  # 造兵方式
