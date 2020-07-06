@@ -254,9 +254,6 @@ class Action:
             for Warrior1 in self.w1[i]:
                 for Warrior2 in self.w2[i]:
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
-                        print('m')
-                        print(Warrior1.pos)
-                        print(Warrior2.pos)
                         Warrior1.attacked = True
                         self.BattleList.append(Battle(Warrior1, Warrior2))
 
@@ -275,7 +272,6 @@ class Action:
                 if self.w2[i][j].wType == 0:
                     sumAttack2 += INF - self.w2[i][j].wLife
                     break
-        print(sumAttack2)
         if sumAttack2 >= TrueBaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数

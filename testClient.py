@@ -128,7 +128,6 @@ def update():
     # 战士死亡结算
     game.WarriorDeath(game.w1)
     game.WarriorDeath(game.w2)
-    time.sleep(5)
     # 战士移动
     posOccu = dict()  # 记录某格是否被敌方占领
     for i in range(3):
