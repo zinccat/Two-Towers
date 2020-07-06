@@ -26,7 +26,7 @@ BaseAttack = 10
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
-BaseaCD = 0
+BaseaCD = 5
 BasePos = 0
 TrueBaseLife = 20
 
@@ -35,7 +35,7 @@ TurretAttack = 10
 TurretLife = 100
 TurretRange = 10
 TurretmCD = 0
-TurretaCD = 0
+TurretaCD = 5
 TurretPos = 10
 
 # 骑士 2

@@ -27,7 +27,7 @@ class Warrior:
 
 class Base(Warrior):
 
-    def __init__(self, wteam, wgrid, wpos=0):
+    def __init__(self, wteam, wgrid, wpos=BasePos):
 
         super().__init__(0, wteam, wgrid, wpos)
 
@@ -41,7 +41,7 @@ class Base(Warrior):
 
         self.aCD = BaseaCD
 
-        self.pos = BasePos
+        self.pos = wpos
 
     def updatemCD(self):
         if self.mCD > 0:
@@ -63,7 +63,7 @@ class Base(Warrior):
 
 class Turret(Warrior):
 
-    def __init__(self, wteam, wgrid=2, wpos=0):
+    def __init__(self, wteam, wgrid=2, wpos=TurretPos):
 
         super().__init__(1, wteam, wgrid, wpos)
 
@@ -77,7 +77,7 @@ class Turret(Warrior):
 
         self.aCD = TurretaCD
 
-        self.pos = TurretPos
+        self.pos = wpos
 
     def updatemCD(self):
         if self.mCD > 0:

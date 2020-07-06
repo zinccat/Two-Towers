@@ -110,9 +110,7 @@ class Command:
     def __init__(self, turnID, CmdType, CmdStr):
 
         self.turnID = turnID
-
         self.CmdType = CmdType
-
         self.CmdStr = CmdStr
 
     # 比较函数,确定执行命令的优先级
@@ -159,10 +157,10 @@ class Action:
         # 初始化对方主塔和防御塔
         for i in range(3):
             if i == 1:
-                self.w2[i].append(Base(2, mLen, 0))
-                self.w2[i].append(Turret(2, 2, mLen - dLen))
+                self.w2[i].append(Base(2, 0, mLen))
+                self.w2[i].append(Turret(2,  2, mLen - dLen))
             else:
-                self.w2[i].append(Base(2, aLen, 0))
+                self.w2[i].append(Base(2, 0, aLen))
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
 
     # 打钱!
@@ -256,6 +254,9 @@ class Action:
             for Warrior1 in self.w1[i]:
                 for Warrior2 in self.w2[i]:
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
+                        print('m')
+                        print(Warrior1.pos)
+                        print(Warrior2.pos)
                         Warrior1.attacked = True
                         self.BattleList.append(Battle(Warrior1, Warrior2))
 
@@ -274,6 +275,7 @@ class Action:
                 if self.w2[i][j].wType == 0:
                     sumAttack2 += INF - self.w2[i][j].wLife
                     break
+        print(sumAttack2)
         if sumAttack2 >= TrueBaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数
