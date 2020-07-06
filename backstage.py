@@ -140,7 +140,7 @@ class Action:
 
         # 回合数记录
         self.turnID = 0
-
+        self.money = 0
         # 包含Warrior的列表
         self.w1 = [[], [], []]  # 分别对应左中右路
         self.w2 = [[], [], []]
@@ -168,6 +168,7 @@ class Action:
 
     def reset(self):
         self.turnID = 0
+        self.money = 0
         self.BattleList.clear()
         while not self.ops1.empty():
             self.ops1.get()
@@ -182,6 +183,9 @@ class Action:
 
     def update(self, SideWarriorList):
         self.turnID += 1
+        # 金钱更新
+        if Money < 10:
+            Money_accumulate(1)
         for i in range(3):
             for w in SideWarriorList[i]:
                 w.attacked = False  # 重置攻击状态
