@@ -13,16 +13,6 @@ money_2 = Actor('钱币图标')
 money_2.topleft = 975, 77
 money_1 = Actor('金钱块')
 
-Money = 0       # 金钱数
-time_count = 0  # 记录帧数
-
-
-# 钱数变化函数
-def Money_accumulate(x):
-    global Money
-    Money += x
-
-
 # 显示页面大小
 WIDTH = 1200
 HEIGHT = 700
@@ -53,10 +43,11 @@ def draw():
     # 金钱部分
     money_0.draw()
     money_2.draw()
-    for i in range(Money):
+    for i in range(game.money):
         money_1.topleft = 978+20*i, 103
         money_1.draw()
-    screen.draw.text("Money:%d/10" % Money, (1000, 82), color='black')
+    screen.draw.text("Money:%d/10" %
+                     game.money, (1000, 82), color='black')
 
     # 兵营部分
     screen.blit('arsenal', (20 + 960, 190))
@@ -90,29 +81,28 @@ def draw():
 def on_mouse_down(pos):  # 造兵方式
     global target
     order_command = Command(game.turnID + 10, 0, 0)
-    global Money
-    if warrior_up.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    if warrior_up.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [1]
-    elif archer_up.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_up.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [1]
-    elif warrior_mid.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    elif warrior_mid.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [2]
-    elif archer_mid.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_mid.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [2]
-    elif warrior_down.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    elif warrior_down.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [3]
-    elif archer_down.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_down.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
@@ -159,12 +149,12 @@ def startGame():
     game.reset()
     print('游戏开始了!')
     # 同时开启游戏和接受命令的线程
-    receiveCmd = game.getdata()
+    getCmd = game.getCmd()
     tcpCliSock.settimeout(0.1)
-    receiveCmd.start()
+    getCmd.start()
     g = threading.Thread(target=pgzrun.go())
     g.start()
-    receiveCmd.join()
+    getCmd.join()
     g.join()
 
 

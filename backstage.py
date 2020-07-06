@@ -140,6 +140,8 @@ class Action:
 
         # 回合数记录
         self.turnID = 0
+        # 用于计算金钱补给
+        self.timeCount = 0
         self.money = 0
         # 包含Warrior的列表
         self.w1 = [[], [], []]  # 分别对应左中右路
@@ -161,6 +163,11 @@ class Action:
             else:
                 self.w2[i].append(Base(2, aLen, 0))
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
+
+    # 打钱!
+
+    def MoneyAccumulate(self, x):
+        self.money += x
 
     """行动系统"""
 
@@ -184,15 +191,20 @@ class Action:
     def update(self, SideWarriorList):
         self.turnID += 1
         # 金钱更新
-        if Money < 10:
-            Money_accumulate(1)
+        if self.money < 10:
+            self.timeCount += 1
+            if self.timeCount == 60:
+                self.MoneyAccumulate(1)
+                self.timeCount = 0
+        # 武士状态刷新
         for i in range(3):
             for w in SideWarriorList[i]:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
 
-    class getdata(threading.Thread):
+    # 收取命令
+    class getCmd(threading.Thread):
         def run(self):
             while True:
                 try:
