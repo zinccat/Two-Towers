@@ -1,8 +1,7 @@
 import pgzrun
 import random
-# from print_Warrior import *
 from backstage import *
-from Roadpos_set import*
+from Roadpos_set import *
 import threading
 import time
 
@@ -79,7 +78,6 @@ def draw():
 
 
 def on_mouse_down(pos):  # 造兵方式
-    global target
     order_command = Command(game.turnID + 10, 0, 0)
     if warrior_up.collidepoint(pos) and game.money >= 2:
         game.money -= 2
@@ -148,6 +146,7 @@ def startGame():
     time.sleep(3)
     game.reset()
     print('游戏开始了!')
+    print(target)
     # 同时开启游戏和接受命令的线程
     getCmd = game.getCmd()
     tcpCliSock.settimeout(0.1)

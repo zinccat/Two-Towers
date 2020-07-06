@@ -33,7 +33,8 @@ def connect():
     except:
         print('error')
         sys.exit(0)
-    target = input('想打谁?')
+    global target
+    target = input('想打谁? ')
     # 这里还需添加是否与对手连接成功
 
 
