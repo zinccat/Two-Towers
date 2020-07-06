@@ -197,12 +197,12 @@ class Action:
             if self.turnID == tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
-                    tempObj = Knight(team, genNum, 0 if team == 1 else 50)
+                    tempObj = Knight(team, genNum,0 if team == 1 else (50 if self.CmdStr==2 else 70))
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
 
                 if tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
-                    tempObj = Archer(team, genNum, 0 if team == 1 else 50)
+                    tempObj = Archer(team, genNum,0 if team == 1 else (50 if self.CmdStr==2 else 70))
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
             else:
                 # 时机未到
