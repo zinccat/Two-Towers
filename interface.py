@@ -43,9 +43,10 @@ archer_down = Actor('弓箭手', (166 + 960, 635))
 
 # 创建小兵对象
 
-Warrior_image_1 = Actor('小兵色块')
-Warrior_image_2 = Actor('小兵色块')
-image = ['小兵色块', '小兵色块']
+Knight_image = Actor('小兵色块')
+Archer_image = Actor('弓箭手色块')
+
+worrior_image = ['基地', '防御塔', '小兵色块', '弓箭手色块']
 
 
 def draw():
@@ -85,9 +86,9 @@ def draw():
     # 兵种部分
     for r in range(3):
         for w in game.w1[r]:
-            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
+            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wroute]))
         for w in game.w2[r]:
-            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
+            screen.blit(worrior_image[w.wtype], (road[r][w.pos][w.wroute]))
 
 
 def on_mouse_down(pos):  # 造兵方式
