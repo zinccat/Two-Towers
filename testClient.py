@@ -1,8 +1,8 @@
 import pgzrun
 import random
-from print_Warrior import *
+# from print_Warrior import *
 from backstage import *
-from gameClient import *
+from Roadpos_set import*
 
 # 显示页面大小
 WIDTH = 1200
@@ -26,16 +26,18 @@ warrior_up.x = 70
 warrior_up.y = 385
 archer_up.x = 166
 archer_up.y = 385
-warrior_up.x = 70
-warrior_up.y = 385
-archer_up.x = 166
-archer_up.y = 385
 
+# 创建小兵对象
+
+Warrior_image_1 = Actor('小兵色块')
+Warrior_image_2 = Actor('小兵色块')
+image = ['小兵色块', '小兵色块']
 
 def draw():
     screen.clear()
     screen.fill("white")
-    #screen.blit('bk', (0, 0))
+    # screen.blit('bk', (0, 0))
+
     # 兵营部分
     screen.blit('arsenal', (20, 190))
     screen.blit('soldier', (21, 280))
@@ -93,7 +95,11 @@ def update():
         game.WarriorMove(game.w2[i], posOccu, 2)
     draw()
 
+class pz(threading.Thread):
+        def run(self):
+            pgzrun.go()
 
+# 连接到服务器并注册
 try:
     tcpCliSock.connect(ADDR)
     print('Connected with server')
@@ -108,10 +114,11 @@ target = input('想打谁?')
 
 game = Action()
 game.reset()
-g = threading.Thread(target=pgzrun.go())
-receiveCmd = threading.Thread(target=game.ReceiveCmd())
-receiveCmd.start()
+receiveCmd = game.getdata()
+g=pz()
+#g = threading.Thread(target=pgzrun.go())
+tcpCliSock.settimeout(0.1)
 g.start()
-# pgzrun.go()
-# g.join()
-# receiveCmd.join(())
+receiveCmd.start()
+receiveCmd.join()
+g.join()

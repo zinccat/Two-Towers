@@ -2,6 +2,72 @@ import queue
 from config import *
 from warrior import *
 from gameClient import *
+from socket import *
+import threading
+import sys
+import json
+import re
+
+#HOST = '65.49.209.247'
+HOST = 'localhost'
+PORT = 8023
+BUFSIZE = 1024  # 缓冲区大小  1K
+ADDR = (HOST, PORT)
+tcpCliSock = socket(AF_INET, SOCK_STREAM)
+userAccount = None
+
+
+class Command:
+
+    """命令类
+    包含四个参数:
+    turnID:该命令所生效的回合
+    # 已删除 直接归类到己方和敌方列表即可 playerID:发出该命令的玩家,可以取1 or 2
+    CmdType:指令的类型,用于指导CmdStr的读取方式
+    CmdStr:指令的内容，是一个列表
+    """
+
+    def __init__(self, turnID, CmdType, CmdStr):
+
+        self.turnID = turnID
+        self.CmdType = CmdType
+        self.CmdStr = CmdStr
+
+    # 比较函数,确定执行命令的优先级
+    def __cmp__(self, other):
+
+        return self.turnID < other.turnID
+
+
+def register():
+    account = input('Please input your account: ')
+    global userAccount
+    userAccount = account
+    regInfo = [account, 'register']
+    datastr = json.dumps(regInfo)
+    tcpCliSock.send(datastr.encode('utf-8'))
+    data = tcpCliSock.recv(BUFSIZE)
+    data = data.decode('utf-8')
+    if data == '0':
+        print('Success to register!')
+        return True
+    else:
+        print('Failed for exceptions!')
+        return False
+
+# 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
+
+
+def chat(target, op):
+    #turnID, CmdType, CmdStr, optype
+    dataObj = {'froms': userAccount, 'to': target,
+               'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
+    datastr = json.dumps(dataObj)
+    try:
+        tcpCliSock.send(datastr.encode('utf-8'))
+    except:
+        print('awsl')
+
 
 class Command:
 
@@ -50,6 +116,7 @@ class Battle:
 
 class Action:
     def __init__(self):
+
         # 回合数记录
         self.turnID = 0
 
@@ -100,19 +167,22 @@ class Action:
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
 
-    def ReceiveCmd(self):
-        print(233)
-        while True:
-            print(333)
-            data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-            if data == '-1':
-                print('can not connect to target!')
-            elif data:
-                dataObj = json.loads(data)
-                print('{} ->{} : {} {} {}'.format(dataObj['froms'],
-                                                  userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
-                self.ops2.append(
-                    Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+    class getdata(threading.Thread):
+        def run(self):
+            while True:
+                try:
+                    data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
+                    if data == '-1':
+                        print('can not connect to target!')
+                        break
+                    elif data:
+                        dataObj = json.loads(data)
+                        print('{} ->{} : {} {} {}'.format(
+                            dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                        self.ops2.append(
+                            Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                except:
+                    print(1)
 
     # 命令读取函数
 
@@ -127,12 +197,12 @@ class Action:
             if self.turnID == tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
-                    tempObj = Knight(team, genNum,0 if team == 1 else 50)
+                    tempObj = Knight(team, genNum, 0 if team == 1 else 50)
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
 
                 if tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
-                    tempObj = Archer(team, genNum,0 if team == 1 else 50)
+                    tempObj = Archer(team, genNum, 0 if team == 1 else 50)
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
             else:
                 # 时机未到
