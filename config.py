@@ -30,12 +30,12 @@ BaseaCD = 0
 BasePos = 0
 
 # 防御塔 1
-DefenseTowerAttack = 10
-DefenseTowerLife = 100
-DefenseTowerRange = 10
-DefenseTowermCD = 0
-DefenseToweraCD = 0
-DefenseTowerPos = 10
+TurretAttack = 10
+TurretLife = 100
+TurretRange = 10
+TurretmCD = 0
+TurretaCD = 0
+TurretPos = 10
 
 # 骑士 2
 KnightAttack = 10

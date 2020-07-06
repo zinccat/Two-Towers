@@ -75,31 +75,41 @@ def on_mouse_down(pos):  # 造兵方式
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
-        chat(target, order_command)
+        sendOp(target, order_command)
         # 此处添加发送命令语句
 
 
 def update():
+    # 初始化回合
     game.update(game.w1)
     game.update(game.w2)
+    # 读取命令
     game.ReadCmd(game.ops1, game.w1, 1)
     game.ReadCmd(game.ops2, game.w2, 2)
+    # 检查可行的战斗
     game.BattleCheck()
+    # 完成战斗
     game.BattleRun(game.BattleList)
+    # 主塔死亡结算
     result = game.BaseDeath()
+    #若一方主塔死亡, 启动游戏终结机制
     if result > 0:
         game.end(result)
+    # 战士死亡结算
     game.WarriorDeath(game.w1)
     game.WarriorDeath(game.w2)
+    # 战士移动
     posOccu = dict()  # 记录某格是否被敌方占领
     for i in range(3):
         game.WarriorMove(game.w1[i], posOccu, 1)
         game.WarriorMove(game.w2[i], posOccu, 2)
+    # 更新画面
     draw()
 
 
 def startGame():
-    connect()
+    # 开始游戏的流程仍需处理
+    connect()  # 连接到服务器
     print('游戏加载中...')
     global game
     game = Action()

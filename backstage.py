@@ -7,6 +7,8 @@ import sys
 import json
 import re
 
+# 此处定义了游戏所用到的全局变量
+
 #HOST = '65.49.209.247'
 HOST = 'localhost'
 PORT = 8023
@@ -34,12 +36,12 @@ def connect():
     target = input('想打谁?')
     # 这里还需添加是否与对手连接成功
 
+
 class Command:
 
     """命令类
     包含四个参数:
     turnID:该命令所生效的回合
-    # 已删除 直接归类到己方和敌方列表即可 playerID:发出该命令的玩家,可以取1 or 2
     CmdType:指令的类型,用于指导CmdStr的读取方式
     CmdStr:指令的内容，是一个列表
     """
@@ -50,10 +52,12 @@ class Command:
         self.CmdType = CmdType
         self.CmdStr = CmdStr
 
-    # 比较函数,确定执行命令的优先级
+    # 比较函数,确定执行命令的优先级, 目前仅考虑回合先后
     def __cmp__(self, other):
 
         return self.turnID < other.turnID
+
+# 将本机注册到服务器
 
 
 def register():
@@ -75,7 +79,7 @@ def register():
 # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
 
 
-def chat(target, op):
+def sendOp(target, op):
     #turnID, CmdType, CmdStr, optype
     dataObj = {'froms': userAccount, 'to': target,
                'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
@@ -148,15 +152,15 @@ class Action:
         # 初始化己方主塔和防御塔
         for i in range(3):
             self.w1[i].append(Base(1, 0, 0))
-            self.w1[i].append(DefenseTower(1, 2, dLen))
+            self.w1[i].append(Turret(1, 2, dLen))
         # 初始化对方主塔和防御塔
         for i in range(3):
             if i == 1:
                 self.w2[i].append(Base(2, mLen, 0))
-                self.w2[i].append(DefenseTower(2, 2, mLen - dLen))
+                self.w2[i].append(Turret(2, 2, mLen - dLen))
             else:
                 self.w2[i].append(Base(2, aLen, 0))
-                self.w2[i].append(DefenseTower(2, 2, aLen - dLen))
+                self.w2[i].append(Turret(2, 2, aLen - dLen))
 
     """行动系统"""
 
@@ -214,12 +218,14 @@ class Action:
             if self.turnID == tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
-                    tempObj = Knight(team, genNum,0 if team == 1 else (50 if self.CmdStr==2 else 70))
+                    tempObj = Knight(team, genNum, 0 if team == 1 else (
+                        50 if self.CmdStr == 2 else 70))
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
 
                 if tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
-                    tempObj = Archer(team, genNum,0 if team == 1 else (50 if self.CmdStr==2 else 70))
+                    tempObj = Archer(team, genNum, 0 if team == 1 else (
+                        50 if self.CmdStr == 2 else 70))
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
             else:
                 # 时机未到

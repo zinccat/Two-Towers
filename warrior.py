@@ -61,35 +61,35 @@ class Base(Warrior):
 # 防御塔
 
 
-class DefenseTower(Warrior):
+class Turret(Warrior):
 
     def __init__(self, wteam, wgrid=2, wpos=0):
 
         super().__init__(1, wteam, wgrid, wpos)
 
-        self.wAttack = DefenseTowerAttack
+        self.wAttack = TurretAttack
 
-        self.wLife = DefenseTowerLife
+        self.wLife = TurretLife
 
-        self.wRange = DefenseTowerRange
+        self.wRange = TurretRange
 
-        self.mCD = DefenseTowermCD
+        self.mCD = TurretmCD
 
-        self.aCD = DefenseToweraCD
+        self.aCD = TurretaCD
 
-        self.pos = DefenseTowerPos
+        self.pos = TurretPos
 
     def updatemCD(self):
         if self.mCD > 0:
             self.mCD -= 1
         else:
-            self.mCD = DefenseTowermCD
+            self.mCD = TurretmCD
 
     def updateaCD(self):
         if self.aCD > 0:
             self.aCD -= 1
         else:
-            self.aCD = DefenseToweraCD
+            self.aCD = TurretaCD
 
 # type 2
 
