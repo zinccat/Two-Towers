@@ -133,11 +133,11 @@ def update():
 
     # 金钱更新
     global time_count
-    time_count += 1
-    if time_count == 60:
-        time_count = 0
-        if Money < 10:
+    if Money < 10:
+        time_count += 1
+        if time_count == 60:
             Money_accumulate(1)
+            time_count = 0
 
     # 回合数更新
     global game
