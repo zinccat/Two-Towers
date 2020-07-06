@@ -54,6 +54,7 @@ def draw():
     warrior_down.draw()  # (35, 350))
     archer_down.draw()  # (131, 350))
     # 路线部分
+    '''
     for k in range(1, 4):
         for i in range(50):
             screen.blit("purchase", (road[0][i][k][0], road[0][i][k][1]))
@@ -63,7 +64,7 @@ def draw():
     for k in range(1, 4):
         for i in range(50):
             screen.blit("purchase", (road[2][i][k][0], road[2][i][k][1]))
-
+    '''
     # 兵种部分
     for r in range(3):
         for w in w1[r]:
