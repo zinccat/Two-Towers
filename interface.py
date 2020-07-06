@@ -4,18 +4,32 @@ from Roadpos_set import*
 from backstage import*
 
 
-# 该命令所生效的回合
-turnID = 0
+game = Action()
+
+# 命令所生效的回合
+game.turnID = 0
+
+# 金钱图标对象
+money_0 = Actor('金钱框')
+money_0.topleft = 25, 100
+money_2 = Actor('钱币图标')
+money_2.topleft = 25, 77
+money_1 = Actor('金钱块')
+
+Money = 0       # 金钱数
+time_count = 0  # 记录帧数
+
+
+# 钱数变化函数
+def Money_accumulate(x):
+    global Money
+    Money += x
 
 
 # 显示页面大小
 WIDTH = 1200
 HEIGHT = 700
 
-BOX = Rect((0, 250), (1200, 250))
-# Rect(left, top, width, height) -> Rect
-# Rect((left, top), (width, height)) -> Rect
-RED = 200, 0, 0
 
 
 # 创建造兵按钮 #长宽70
@@ -44,6 +58,14 @@ def draw():
     screen.fill("white")
     screen.blit('bk', (0, 0))
 
+    #金钱部分
+    money_0.draw()
+    money_2.draw()
+    for i in range(Money):
+        money_1.topleft = 28+20*i, 103
+        money_1.draw()
+    screen.draw.text("Money:%d/10" % Money, (50, 82))
+    
     # 兵营部分
     screen.blit('arsenal', (20, 190))
     screen.blit('soldier', (21, 280))
@@ -53,8 +75,8 @@ def draw():
     archer_mid.draw()  # (131, 350))
     warrior_down.draw()  # (35, 350))
     archer_down.draw()  # (131, 350))
+
     # 路线部分
-    '''
     for k in range(1, 4):
         for i in range(50):
             screen.blit("purchase", (road[0][i][k][0], road[0][i][k][1]))
@@ -64,25 +86,13 @@ def draw():
     for k in range(1, 4):
         for i in range(50):
             screen.blit("purchase", (road[2][i][k][0], road[2][i][k][1]))
-    '''
+
     # 兵种部分
     for r in range(3):
-        for w in w1[r]:
-            screen.blit(image[w.wType - 2], (road[r][w.pos][w.wGrid]))
-        for w in w2[r]:
-            screen.blit(image[w.wType - 2], (road[r][w.pos][w.wGrid]))
-
-    '''
-    for k in range (1, 4):
-        for i in range (50):
-            screen.blit("小兵色块",(road[0][i][k][0] + 5, road[0][i][k][1] + 5))
-    for k in range (1, 4):
-        for i in range (49):
-            screen.blit("弓箭手色块",(road[1][i][k][0] + 5, road[1][i][k][1] + 5))
-    for k in range (1, 4):
-        for i in range (50):
-            screen.blit("小兵色块",(road[2][i][k][0] + 5, road[2][i][k][1] + 5))
-    '''
+        for w in game.w1[r]:
+            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
+        for w in game.w2[r]:
+            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
 
 
 def on_mouse_down(pos):  # 造兵方式
@@ -115,8 +125,20 @@ def info():
 
 
 def update():
-    global turnID
-    turnID += 1
+    
+    # 金钱更新
+    global time_count
+    time_count += 1
+    if time_count == 60:
+        time_count = 0
+        if Money < 10:
+            Money_accumulate(1)
+
+    # 回合数更新
+    global game
+    game.turnID += 1
+
+    # 绘图
     draw()
 
 
