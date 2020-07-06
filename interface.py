@@ -68,9 +68,9 @@ def draw():
     # 兵种部分
     for r in range(3):
         for w in w1[r]:
-            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
+            screen.blit(image[w.wType - 2], (road[r][w.pos][w.wRoute]))
         for w in w2[r]:
-            screen.blit(image[w.wtype - 2], (road[r][w.pos][w.wroute]))
+            screen.blit(image[w.wType - 2], (road[r][w.pos][w.wRoute]))
 
     '''
     for k in range (1, 4):
