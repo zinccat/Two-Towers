@@ -274,7 +274,7 @@ class Action:
                 if self.w2[i][j].wType == 0:
                     sumAttack2 += INF - self.w2[i][j].wLife
                     break
-        if sumAttack2 >= BaseLife:
+        if sumAttack2 >= TrueBaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数
             return 1
@@ -284,7 +284,7 @@ class Action:
                 if self.w1[i][j].wType == 0:
                     sumAttack2 += INF - self.w1[i][j].wLife
                     break
-        if sumAttack1 >= BaseLife:
+        if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
         return 0
