@@ -15,9 +15,7 @@ import json
 import re
 
 
-
 # 此处定义了游戏所用到的全局变量
-
 
 
 #HOST = '65.49.209.247'
@@ -39,11 +37,7 @@ target = ['']
 game = ''
 
 
-
 # 连接到服务器并注册
-
-
-
 
 
 def connect():
@@ -75,12 +69,7 @@ def connect():
     # 这里还需添加是否与对手连接成功
 
 
-
-
-
 class Command:
-
-
 
     """命令类
 
@@ -94,11 +83,7 @@ class Command:
 
     """
 
-
-
     def __init__(self, turnID, CmdType, CmdStr):
-
-
 
         self.turnID = turnID
 
@@ -106,22 +91,14 @@ class Command:
 
         self.CmdStr = CmdStr
 
-
-
     # 比较函数,确定执行命令的优先级, 目前仅考虑回合先后
 
     def __cmp__(self, other):
 
-
-
         return self.turnID < other.turnID
 
 
-
 # 将本机注册到服务器
-
-
-
 
 
 def register():
@@ -155,11 +132,7 @@ def register():
         return False
 
 
-
 # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
-
-
-
 
 
 def sendOp(target, op):
@@ -181,12 +154,7 @@ def sendOp(target, op):
         print('awsl')
 
 
-
-
-
 class Command:
-
-
 
     """命令类
 
@@ -214,11 +182,7 @@ class Command:
 
     """
 
-
-
     def __init__(self, turnID, CmdType, CmdStr):
-
-
 
         self.turnID = turnID
 
@@ -226,55 +190,31 @@ class Command:
 
         self.CmdStr = CmdStr
 
-
-
     # 比较函数,确定执行命令的优先级
 
-
-
     def __cmp__(self, other):
-
-
 
         return self.turnID < other.turnID
 
 
-
-
-
 class Battle:
-
-
 
     """战斗类"""
 
-
-
     def __init__(self, WarriorAttack, WarriorDefence):
-
-
 
         self.WarriorAttack = WarriorAttack
 
         self.WarriorDefence = WarriorDefence
 
-
-
     def BattleGo(self):
 
-
-
         self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
-
-
-
 
 
 class Action:
 
     def __init__(self):
-
-
 
         # 回合数记录
 
@@ -326,25 +266,15 @@ class Action:
 
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
 
-
-
     # 打钱!
-
-
 
     def MoneyAccumulate(self, x):
 
         self.money += x
 
-
-
     """行动系统"""
 
-
-
     # 重置函数, 开启新一局游戏时调用
-
-
 
     def reset(self):
 
@@ -370,11 +300,7 @@ class Action:
 
         self.__init__()
 
-
-
     # 回合初状态更新
-
-
 
     def update(self, SideWarriorList):
 
@@ -383,28 +309,23 @@ class Action:
         # 金钱更新
 
         if self.money < 10:
-
             self.timeCount += 1
-
             if self.timeCount == 60:
-
                 self.MoneyAccumulate(1)
-
                 self.timeCount = 0
 
         # 武士状态刷新
 
         for i in range(3):
-
-            for w in SideWarriorList[i]:
-
+            for w in self.w1[i]:
                 w.attacked = False  # 重置攻击状态
-
                 w.updatemCD()  # 更新mCD
-
                 w.updateaCD()  # 更新aCD
-
-
+        for i in range(3):
+            for w in self.w2[i]:
+                w.attacked = False  # 重置攻击状态
+                w.updatemCD()  # 更新mCD
+                w.updateaCD()  # 更新aCD
 
     # 收取命令
 
@@ -440,17 +361,11 @@ class Action:
 
                     pass
 
-
-
     # 命令读取函数
-
-
 
     # SideWarriorList为某一方的总list
 
     # team为1 友方, 2 敌方
-
-
 
     def ReadCmd(self, CmdList, SideWarriorList, team):
 
@@ -459,8 +374,6 @@ class Action:
         while(not CmdList.empty()):
 
             tempOp = CmdList.get()  # ops为命令队列
-
-
 
             if self.turnID == tempOp.turnID:
 
@@ -473,8 +386,6 @@ class Action:
                         50 if self.CmdStr == 2 else 70))
 
                     SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
-
 
                 if tempOp.CmdType == 3:  # 弓箭手
 
@@ -494,11 +405,7 @@ class Action:
 
                 break
 
-
-
     # 士兵对战判断函数
-
-
 
     def BattleCheck(self):
 
@@ -514,8 +421,6 @@ class Action:
 
                         self.BattleList.append(Battle(Warrior1, Warrior2))
 
-
-
     # 战斗进行函数
 
     def BattleRun(self, BattleList):
@@ -526,11 +431,7 @@ class Action:
 
             TempBattle.BattleGo()
 
-
-
     # 主塔阵亡函数
-
-
 
     def BaseDeath(self):
 
@@ -574,8 +475,6 @@ class Action:
 
         return 0
 
-
-
     def WarriorDeath(self, WarriorList):
 
         for i in range(3):
@@ -586,11 +485,7 @@ class Action:
 
                     WarriorList[i].pop(j)
 
-
-
     # 士兵移动函数
-
-
 
     def WarriorMove(self, WarriorList, posOccu, team):
 
@@ -603,8 +498,6 @@ class Action:
             posDict[(i.pos, i.wGrid)] = True
 
             posOccu[i.pos] = team
-
-
 
         # 若前方有足够位置就前进, 先排序避免堵车
 
@@ -621,8 +514,6 @@ class Action:
         if WarriorList[0].wTeam == 2:
 
             mov = -1
-
-
 
         for i in WarriorList:
 
@@ -644,8 +535,6 @@ class Action:
 
                         break
 
-
-
     def end(self, result):
 
         if result == 1:
@@ -655,9 +544,6 @@ class Action:
         elif result == 2:
 
             print(2222222222222)
-
-
-
 
 
 '''
@@ -693,9 +579,6 @@ print(w1)
 
 
 '''
-
-
-
 
 
 '''

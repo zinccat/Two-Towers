@@ -224,9 +224,7 @@ def update():
 
     # 初始化回合
 
-    game.update(game.w1)
-
-    game.update(game.w2)
+    game.update()
 
     # 读取命令
 
