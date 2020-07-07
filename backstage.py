@@ -422,9 +422,6 @@ class Action:
                     genNum += 1
 
                     tempObj = Knight(2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-                    print(tempObj.wTeam)
-                    print(tempObj.wGrid)
-                    print(tempObj.pos)
                     self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
                 if tempOp.CmdType == 3:  # 弓箭手
 
@@ -453,10 +450,12 @@ class Action:
                 for Warrior2 in self.w2[i]:
 
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
-
                         Warrior1.attacked = True
-
                         self.BattleList.append(Battle(Warrior1, Warrior2))
+                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
+                        Warrior2.attacked = True
+                        self.BattleList.append(Battle(Warrior2, Warrior1))
+        
 
     # 战斗进行函数
 
