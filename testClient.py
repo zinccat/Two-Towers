@@ -155,7 +155,6 @@ def draw():
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
     # 血量部分
-
     for j in range(8):
 
         if j > 3:
@@ -204,8 +203,9 @@ def draw():
 
         life_frame.draw()
 
+
         life_icon.draw()
-        for i in range(int(life_display[j])):
+        for i in range(life_display[j]):
 
             if j % 4 == 0:
 
@@ -225,7 +225,7 @@ def draw():
         else:
 
             screen.draw.text(
-                "Life:%d/100" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+                "Life:%d/100" % life_display[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
 
     player_icon.topleft = 27, 380
 
