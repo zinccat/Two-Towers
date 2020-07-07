@@ -122,15 +122,11 @@ def draw():
     for r in range(3):
 
         for w in game.w1[r]:
-
             if w.wType != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
         for w in game.w2[r]:
-
             if w.wType != 0:
-                if w.wType > 1:
-                    print(22222)
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
@@ -159,23 +155,15 @@ def draw():
             screen.draw.text("Base", (170+dfx, 422+70*j+dfy), color='black')
 
         else:
-
             DenfenseTower_icon.topleft = 218+dfx, 417+j*70+dfy
-
             DenfenseTower_icon.draw()
-
             if (j-1) % 4 == 0:
-
                 screen.draw.text(
                     "Turret(top)", (138+dfx, 422+70*j+dfy), color='black')
-
             elif (j-2) % 4 == 0:
-
                 screen.draw.text(
                     "Turret(mid)", (138+dfx, 422+70*j+dfy), color='black')
-
             else:
-
                 screen.draw.text(
                     "Turret(bot)", (138+dfx, 422+70*j+dfy), color='black')
 
@@ -281,11 +269,9 @@ def on_mouse_down(pos):  # 造兵方式
 def update():
     # 初始化回合
     game.update()
-    
-    # 读取命令
-    game.ReadCmd(game.ops1, game.w1, 1)
-    game.ReadCmd(game.ops2, game.w2, 2)
 
+    # 读取命令
+    game.ReadCmd()
     # 检查可行的战斗
     game.BattleCheck()
 
@@ -344,8 +330,9 @@ def startGame():
     # 同时开启游戏和接受命令的线程
 
     getCmd = game.getCmd()
+    print(id(game.ops2))
 
-    tcpCliSock.settimeout(0.1)
+    tcpCliSock.settimeout(0.5)
 
     getCmd.start()
 

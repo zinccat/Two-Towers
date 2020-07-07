@@ -141,7 +141,6 @@ def sendOp(target, op):
     #turnID, CmdType, CmdStr, optype
 
     dataObj = {'froms': userAccount, 'to': target,
-
                'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
 
     datastr = json.dumps(dataObj)
@@ -259,17 +258,11 @@ class Action:
         # 初始化对方主塔和防御塔
 
         for i in range(3):
-
             if i == 1:
-
                 self.w2[i].append(Base(2, 0, mLen))
-
                 self.w2[i].append(Turret(2,  2, mLen - dLen))
-
             else:
-
                 self.w2[i].append(Base(2, 0, aLen))
-
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
 
     # 打钱!
@@ -342,29 +335,23 @@ class Action:
     class getCmd(threading.Thread):
 
         def run(self):
-
+            
             while True:
 
                 try:
-
                     data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-                    print(data)
                     if data == '-1':
-
                         print('can not connect to target!')
-
                         break
-
-                    elif data:
-
+                    else:
                         dataObj = json.loads(data)
 
                         print('{} ->{} : {} {} {}'.format(
-
                             dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                        t = Command(
+                            dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
+                        self.ops2.put(t)
 
-                        self.ops2.append(
-                            Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
                 except:
 
@@ -376,42 +363,41 @@ class Action:
 
     # team为1 友方, 2 敌方
 
-    def ReadCmd(self, CmdList, SideWarriorList, team):
+    def ReadCmd(self):
 
         genNum = 0  # 本回合生成了几个warrior?
 
-        while(not CmdList.empty()):
-
-            tempOp = CmdList.get()  # ops为命令队列
-
+        while(not self.ops1.empty()):
+            tempOp = self.ops1.get()  # ops为命令队列
             if self.turnID == tempOp.turnID:
-
                 if tempOp.CmdType == 2:  # 骑士
-
                     genNum += 1
-
-                    tempObj = Knight(team, genNum, 0 if team == 1 else (
-
-                        50 if self.CmdStr == 2 else 70))
-
-                    SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
+                    tempObj = Knight(1, genNum, 0)
+                    self.w1[int(tempOp.CmdStr[0]-1)].append(tempObj)
                 if tempOp.CmdType == 3:  # 弓箭手
-
                     genNum += 1
-
-                    tempObj = Archer(team, genNum, 0 if team == 1 else (
-
-                        50 if self.CmdStr == 2 else 70))
-
-                    SideWarriorList[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
+                    tempObj = Archer(1, genNum, 0)
+                    self.w1[int(tempOp.CmdStr[0]-1)].append(tempObj)
             else:
-
                 # 时机未到
+                self.ops1.put(tempOp)
+                break
+        genNum = 0  # 本回合生成了几个warrior?
 
-                CmdList.put(tempOp)
-
+        while(not self.ops2.empty()):
+            tempOp = self.ops2.get()  # ops为命令队列
+            if self.turnID == tempOp.turnID:
+                if tempOp.CmdType == 2:  # 骑士
+                    genNum += 1
+                    tempObj = Knight(2, genNum, mLen if self.CmdStr == 2 else dLen)
+                    self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
+                if tempOp.CmdType == 3:  # 弓箭手
+                    genNum += 1
+                    tempObj = Archer(2, genNum, mLen if self.CmdStr == 2 else dLen)
+                    self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
+            else:
+                # 时机未到
+                self.ops2.put(tempOp)
                 break
 
     # 士兵对战判断函数
