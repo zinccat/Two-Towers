@@ -42,7 +42,7 @@ TurretPos = 10
 KnightAttack = 10
 KnightLife = 100
 KnightRange = 10
-KnightmCD = 5
+KnightmCD = 30
 KnightaCD = 0
 
 # 弓箭手 3

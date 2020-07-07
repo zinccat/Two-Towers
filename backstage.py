@@ -447,10 +447,9 @@ class Action:
         sumAttack2 = 0
 
         for i in range(3):
-            for j in range(len(self.w2[i])):
-                if self.w2[i][j].wType == 0:
-
-                    sumAttack2 += INF - self.w2[i][j].wLife
+            for w in self.w2[i]:
+                if w.wType == 0:
+                    sumAttack2 += INF - w.wLife
 
                     break
         self.life[4] = TrueBaseLife - sumAttack2
@@ -465,21 +464,24 @@ class Action:
         sumAttack1 = 0
 
         for i in range(3):
-            for j in range(len(self.w1[i])):
-                if self.w1[i][j].wType == 0:
-                    sumAttack2 += INF - self.w1[i][j].wLife
-                    break
+            for w in self.w1[i]:
+                if w.wType == 0:
+                    sumAttack2 += INF - w.wLife
         self.life[0] = TrueBaseLife - sumAttack1
         if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
         return 0
 
-    def WarriorDeath(self, WarriorList):
+    def WarriorDeath(self):
         for i in range(3):
-            for j in range(len(WarriorList[i])):
-                if WarriorList[i][j].wLife <= 0:
-                    WarriorList[i].pop(j)
+            for w in self.w1[i]:
+                if w.wLife <= 0:
+                    self.w1[i].remove(w)
+        for i in range(3):
+            for w in self.w2[i]:
+                if w.wLife <= 0:
+                    self.w2[i].remove(w)
 
     # 士兵移动函数
 

@@ -117,23 +117,20 @@ def draw():
 
     archer_down.draw()
 
-
-    '''
     # 兵种部分
 
     for r in range(3):
 
         for w in game.w1[r]:
 
-            if w.wGrid != 0:
+            if w.wType != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
         for w in game.w2[r]:
 
-            if w.wGrid != 0:
+            if w.wType != 0:
 
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
-    '''
     # 血量部分
     for j in range(8):
 
@@ -309,9 +306,7 @@ def update():
 
     # 战士死亡结算
 
-    game.WarriorDeath(game.w1)
-
-    game.WarriorDeath(game.w2)
+    game.WarriorDeath()
 
     # 战士移动
 
