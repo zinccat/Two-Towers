@@ -1,5 +1,3 @@
-from backstage import*
-
 # 定义三条路线坐标
 
 road = [[], [], []]

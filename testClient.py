@@ -8,7 +8,7 @@ from Roadpos_set import *
 
 import threading
 
-import time
+from time import sleep
 
 
 # 账号/昵称
@@ -117,6 +117,8 @@ def draw():
 
     archer_down.draw()
 
+
+    '''
     # 兵种部分
 
     for r in range(3):
@@ -124,7 +126,6 @@ def draw():
         for w in game.w1[r]:
 
             if w.wGrid != 0:
-
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
         for w in game.w2[r]:
@@ -132,7 +133,7 @@ def draw():
             if w.wGrid != 0:
 
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
-
+    '''
     # 血量部分
     for j in range(8):
 
@@ -281,9 +282,7 @@ def on_mouse_down(pos):  # 造兵方式
 
 def update():
     # 初始化回合
-
     game.update()
-
     # 读取命令
 
     game.ReadCmd(game.ops1, game.w1, 1)
@@ -340,7 +339,7 @@ def startGame():
 
     game = Action()
 
-    time.sleep(3)
+    sleep(3)
 
     game.reset()
 

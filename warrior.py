@@ -43,16 +43,16 @@ class Base(Warrior):
 
         self.pos = wpos
 
-    def updatemCD(self):
+    def updatemCD(self, moved):
         if self.mCD > 0:
             self.mCD -= 1
-        else:
+        if moved:
             self.mCD = BasemCD
 
-    def updateaCD(self):
+    def updateaCD(self, attacked):
         if self.aCD > 0:
             self.aCD -= 1
-        else:
+        if attacked:
             self.aCD = BaseaCD
 
 
@@ -79,16 +79,16 @@ class Turret(Warrior):
 
         self.pos = wpos
 
-    def updatemCD(self):
+    def updatemCD(self, moved):
         if self.mCD > 0:
             self.mCD -= 1
-        else:
+        if moved:
             self.mCD = TurretmCD
 
-    def updateaCD(self):
+    def updateaCD(self, attacked):
         if self.aCD > 0:
             self.aCD -= 1
-        else:
+        if attacked:
             self.aCD = TurretaCD
 
 # type 2
@@ -112,16 +112,16 @@ class Knight(Warrior):
 
         self.aCD = KnightaCD
 
-    def updatemCD(self):
+    def updatemCD(self, moved):
         if self.mCD > 0:
             self.mCD -= 1
-        else:
+        if moved:
             self.mCD = KnightmCD
 
-    def updateaCD(self):
+    def updateaCD(self, attacked):
         if self.aCD > 0:
             self.aCD -= 1
-        else:
+        if attacked:
             self.aCD = KnightaCD
 
 
@@ -146,14 +146,14 @@ class Archer(Warrior):
 
         self.aCD = ArcheraCD
 
-    def updatemCD(self):
+    def updatemCD(self, moved):
         if self.mCD > 0:
             self.mCD -= 1
-        else:
+        if moved:
             self.mCD = ArchermCD
 
-    def updateaCD(self):
+    def updateaCD(self, attacked):
         if self.aCD > 0:
             self.aCD -= 1
-        else:
+        if attacked:
             self.aCD = ArcheraCD

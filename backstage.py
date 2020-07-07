@@ -208,8 +208,10 @@ class Battle:
         self.WarriorDefence = WarriorDefence
 
     def BattleGo(self):
-
-        self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
+        if self.WarriorDefence.wLife > 0:
+            # 只有在对方没死的时候才会攻击并更新aCD
+            self.WarriorAttack.updateaCD(1)
+            self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
 
 class Action:
@@ -322,15 +324,15 @@ class Action:
         for i in range(3):
             for w in self.w1[i]:
                 w.attacked = False  # 重置攻击状态
-                w.updatemCD()  # 更新mCD
-                w.updateaCD()  # 更新aCD
+                w.updatemCD(0)  # 更新mCD
+                w.updateaCD(0)  # 更新aCD
                 if w.wType == 1:  # Turret
                     self.life[i + 1] = w.wLife
         for i in range(3):
             for w in self.w2[i]:
                 w.attacked = False  # 重置攻击状态
-                w.updatemCD()  # 更新mCD
-                w.updateaCD()  # 更新aCD
+                w.updatemCD(0)  # 更新mCD
+                w.updateaCD(0)  # 更新aCD
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
 
@@ -502,12 +504,9 @@ class Action:
             mov = -1
 
         for i in WarriorList:
-
-            if i.mCD == 0 and not i.attacked:
-
+            if i.mCD == 0 and not i.attacked and i.wType > 1: # 塔不能跑!
                 for j in range(1, 4):
-
-                    if posDict.get((i.pos + mov, j), 0) and posOccu.get(i.pos + mov, team) == team:
+                    if posDict.get((i.pos + mov, j), 0) == False and posOccu.get(i.pos + mov, team) == team:
 
                         posDict[(i.pos, i.wGrid)] = False
 
@@ -518,7 +517,7 @@ class Action:
                         posOccu[i.pos] = team
 
                         i.wGrid = j
-
+                        i.updatemCD(1)
                         break
 
     def end(self, result):
