@@ -205,8 +205,7 @@ def draw():
         life_frame.draw()
 
         life_icon.draw()
-
-        for i in range(life_display[j]):
+        for i in range(int(life_display[j])):
 
             if j % 4 == 0:
 
@@ -303,7 +302,6 @@ def on_mouse_down(pos):  # 造兵方式
 
 
 def update():
-
     # 初始化回合
 
     update_life()
@@ -351,7 +349,6 @@ def update():
         game.WarriorMove(game.w2[i], posOccu, 2)
 
     # 更新画面
-
     draw()
 
 

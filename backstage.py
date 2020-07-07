@@ -438,8 +438,6 @@ class Action:
         sumAttack2 = 0
 
         for i in range(3):
-            print(i)
-            print(self.w2[i])
             for j in range(len(self.w2[i])):
                 if self.w2[i][j].wType == 0:
 
