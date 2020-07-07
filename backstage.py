@@ -93,7 +93,7 @@ class Command:
 
     # 比较函数,确定执行命令的优先级, 目前仅考虑回合先后
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
 
         return self.turnID < other.turnID
 
@@ -192,7 +192,7 @@ class Command:
 
     # 比较函数,确定执行命令的优先级
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
 
         return self.turnID < other.turnID
 
