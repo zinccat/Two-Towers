@@ -33,27 +33,6 @@ DenfenseTower_icon = Actor('防御塔图标')
 Base_icon = Actor('主塔图标')
 
 
-# 更新血量数值
-
-life_display = [0, 0, 0, 0, 0, 0, 0, 0]
-
-def update_life():
-
-    life_display[0] = TrueBaseLife
-
-    life_display[4] = TrueBaseLife
-
-    for i in range(3):
-
-        life_display[0] -= int(INF - game.w1[i][0].wLife)
-
-        life_display[4] -= int(INF - game.w2[i][0].wLife)
-
-        life_display[i + 1] = game.w1[i][1].wLife
-
-        life_display[i + 5] = game.w2[i][1].wLife
-
-
 # 金钱图标对象
 
 money_0 = Actor('金钱框')
@@ -192,7 +171,7 @@ def draw():
                     "Turret(top)", (138+dfx, 422+70*j+dfy), color='black')
 
             elif (j-2) % 4 == 0:
-                
+
                 screen.draw.text(
                     "Turret(mid)", (138+dfx, 422+70*j+dfy), color='black')
 
@@ -203,9 +182,8 @@ def draw():
 
         life_frame.draw()
 
-
         life_icon.draw()
-        for i in range(life_display[j]):
+        for i in range(game.life[j]):
 
             if j % 4 == 0:
 
@@ -220,12 +198,12 @@ def draw():
         if j % 4 == 0:
 
             screen.draw.text(
-                "Life:%d/500" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+                "Life:%d/500" % game.life[j], (43+dfx, 422+70*j+dfy), color='black')
 
         else:
 
             screen.draw.text(
-                "Life:%d/100" % life_display[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
+                "Life:%d/100" % game.life[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
 
     player_icon.topleft = 27, 380
 
@@ -304,8 +282,6 @@ def on_mouse_down(pos):  # 造兵方式
 def update():
     # 初始化回合
 
-    update_life()
-
     game.update()
 
     # 读取命令
@@ -369,7 +345,7 @@ def startGame():
     game.reset()
 
     print('游戏开始了!')
-    
+
     # 同时开启游戏和接受命令的线程
 
     getCmd = game.getCmd()

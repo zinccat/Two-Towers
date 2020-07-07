@@ -232,6 +232,9 @@ class Action:
 
         self.w2 = [[], [], []]
 
+        # 更新血量数值
+        self.life = [0, 0, 0, 0, 0, 0, 0, 0]
+
         # 建立一个战斗列表
 
         self.BattleList = []
@@ -321,11 +324,15 @@ class Action:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
+                if w.wType == 1:  # Turret
+                    self.life[i + 1] = w.wLife
         for i in range(3):
             for w in self.w2[i]:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD()  # 更新mCD
                 w.updateaCD()  # 更新aCD
+                if w.wType == 1:  # Turret
+                    self.life[i + 5] = w.wLife
 
     # 收取命令
 
@@ -444,7 +451,7 @@ class Action:
                     sumAttack2 += INF - self.w2[i][j].wLife
 
                     break
-
+        self.life[4] = TrueBaseLife - sumAttack2
         if sumAttack2 >= TrueBaseLife:
 
             # 向玩家1显示ta胜利
@@ -456,51 +463,32 @@ class Action:
         sumAttack1 = 0
 
         for i in range(3):
-
             for j in range(len(self.w1[i])):
-
                 if self.w1[i][j].wType == 0:
-
                     sumAttack2 += INF - self.w1[i][j].wLife
-
                     break
-
+        self.life[0] = TrueBaseLife - sumAttack1
         if sumAttack1 >= TrueBaseLife:
-
             # 向玩家2显示ta胜利
-
             return 2
-
         return 0
 
     def WarriorDeath(self, WarriorList):
-
         for i in range(3):
-
             for j in range(len(WarriorList[i])):
-
                 if WarriorList[i][j].wLife <= 0:
-
                     WarriorList[i].pop(j)
 
     # 士兵移动函数
 
     def WarriorMove(self, WarriorList, posOccu, team):
-
         posDict = dict()
-
         # 第一轮扫描完成各位置上对象的计数
-
         for i in WarriorList:
-
             posDict[(i.pos, i.wGrid)] = True
-
             posOccu[i.pos] = team
-
         # 若前方有足够位置就前进, 先排序避免堵车
-
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
-
                          reverse=(WarriorList[0].wTeam == 1))
 
         # 友方移动量为1
