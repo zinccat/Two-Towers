@@ -501,7 +501,7 @@ class Action:
 
                 if w.wType == 0:
 
-                    sumAttack2 += INF - w.wLife
+                    sumAttack1 += INF - w.wLife
 
         self.life[0] = max(0, TrueBaseLife - sumAttack1)
 

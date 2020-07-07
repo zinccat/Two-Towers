@@ -26,28 +26,28 @@ BaseAttack = 50
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
-BaseaCD = 5
+BaseaCD = 20
 BasePos = 0
 TrueBaseLife = 500
 
 # 防御塔 1
 TurretAttack = 30
 TurretLife = 100
-TurretRange = 20
+TurretRange = 10
 TurretmCD = 0
-TurretaCD = 5
+TurretaCD = 20
 TurretPos = 10
 
 # 骑士 2
 KnightAttack = 10
 KnightLife = 100
-KnightRange = 10
+KnightRange = 3
 KnightmCD = 30
-KnightaCD = 10
+KnightaCD = 30
 
 # 弓箭手 3
 ArcherAttack = 10
 ArcherLife = 100
 ArcherRange = 10
 ArchermCD = 20
-ArcheraCD = 10
+ArcheraCD = 30
