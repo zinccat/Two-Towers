@@ -218,7 +218,7 @@ def draw():
 
 def on_mouse_down(pos):  # 造兵方式
 
-    order_command = Command(game.turnID + 10, 0, [0])
+    order_command = Command(game.turnID + 60, 0, [0])
 
     if warrior_up.collidepoint(pos) and game.money >= 2:
 
@@ -280,18 +280,15 @@ def on_mouse_down(pos):  # 造兵方式
 def update():
     # 初始化回合
     game.update()
+    
     # 读取命令
-
     game.ReadCmd(game.ops1, game.w1, 1)
-
     game.ReadCmd(game.ops2, game.w2, 2)
 
     # 检查可行的战斗
-
     game.BattleCheck()
 
     # 完成战斗
-
     game.BattleRun(game.BattleList)
 
     # 主塔死亡结算
@@ -315,11 +312,14 @@ def update():
     for i in range(3):
 
         game.WarriorMove(game.w1[i], posOccu, 1)
-
         game.WarriorMove(game.w2[i], posOccu, 2)
 
     # 更新画面
     draw()
+    if result > 0:
+        sleep(10)
+        print('游戏结束')
+        sys.exit(0)
 
 
 def startGame():

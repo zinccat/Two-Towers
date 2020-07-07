@@ -13,6 +13,7 @@ import sys
 import json
 
 import re
+from time import sleep
 
 
 # 此处定义了游戏所用到的全局变量
@@ -347,7 +348,7 @@ class Action:
                 try:
 
                     data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-
+                    print(data)
                     if data == '-1':
 
                         print('can not connect to target!')
@@ -363,7 +364,6 @@ class Action:
                             dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
                         self.ops2.append(
-
                             Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
                 except:
@@ -450,15 +450,11 @@ class Action:
             for w in self.w2[i]:
                 if w.wType == 0:
                     sumAttack2 += INF - w.wLife
-
                     break
-        self.life[4] = TrueBaseLife - sumAttack2
+        self.life[4] = max(0, TrueBaseLife - sumAttack2)
         if sumAttack2 >= TrueBaseLife:
-
             # 向玩家1显示ta胜利
-
             # 士兵阵亡函数
-
             return 1
 
         sumAttack1 = 0
@@ -467,7 +463,7 @@ class Action:
             for w in self.w1[i]:
                 if w.wType == 0:
                     sumAttack2 += INF - w.wLife
-        self.life[0] = TrueBaseLife - sumAttack1
+        self.life[0] = max(0, TrueBaseLife - sumAttack1)
         if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
@@ -477,10 +473,16 @@ class Action:
         for i in range(3):
             for w in self.w1[i]:
                 if w.wLife <= 0:
+                    if w.wType == 1:
+                        print('防御塔被攻陷!')
+                        self.life[i + 1] = 0
                     self.w1[i].remove(w)
         for i in range(3):
             for w in self.w2[i]:
                 if w.wLife <= 0:
+                    if w.wType == 1:
+                        print('防御塔被攻陷!')
+                        self.life[i + 5] = 0
                     self.w2[i].remove(w)
 
     # 士兵移动函数
@@ -526,11 +528,11 @@ class Action:
 
         if result == 1:
 
-            print(1111111111111)
+            print('你赢了!')
 
         elif result == 2:
 
-            print(2222222222222)
+            print('你挂了!')
 
 
 '''
