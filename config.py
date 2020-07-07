@@ -8,10 +8,10 @@ INF = 10000000
 MapLen = None
 
 # 主轴长度
-mLen = 49
+mLen = 48
 
 # 侧轴长度
-aLen = 50
+aLen = 49
 
 # mCD参数 mCD = C / wSpeed
 C = 100
