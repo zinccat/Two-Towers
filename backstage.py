@@ -302,7 +302,7 @@ class Action:
 
     # 回合初状态更新
 
-    def update(self, SideWarriorList):
+    def update(self):
 
         self.turnID += 1
 
