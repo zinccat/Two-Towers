@@ -129,7 +129,8 @@ def draw():
         for w in game.w2[r]:
 
             if w.wType != 0:
-
+                if w.wType > 1:
+                    print(22222)
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
