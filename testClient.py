@@ -11,154 +11,148 @@ import threading
 import time
 
 
+# 账号/昵称
+wanjia1 = str("xxx")
+wanjia2 = str("yyy")
+
+
+# 血量图标对象
+player_icon = Actor('人图标')
+life_frame = Actor('血框')
+life_block = Actor('血块')
+life_icon = Actor('生命值图标')
+DenfenseTower_icon = Actor('防御塔图标')
+Base_icon = Actor('主塔图标')
+
+
+life_display = [0, 0, 0, 0, 0, 0, 0, 0]
+# 更新血量数值
+
+
+def update_life():
+    life_display[0] = TrueBaseLife
+    life_display[4] = TrueBaseLife
+    for i in range(3):
+        life_display[0] -= int(INF - game.w1[i][0].wLife)
+        life_display[4] -= int(INF - game.w2[i][0].wLife)
+        life_display[i + 1] = game.w1[i][1].wLife
+        life_display[i + 5] = game.w2[i][1].wLife
+
 
 # 金钱图标对象
-
 money_0 = Actor('金钱框')
-
 money_0.topleft = 975, 100
-
 money_2 = Actor('钱币图标')
-
 money_2.topleft = 975, 77
-
 money_1 = Actor('金钱块')
 
-
-
 # 显示页面大小
-
 WIDTH = 1200
-
 HEIGHT = 700
-
-
-
 
 
 # 创建造兵按钮 #长宽70
 
-
-
 warrior_up = Actor('小兵', (70 + 960, 385))
-
 archer_up = Actor('弓箭手', (166 + 960, 385))
-
 warrior_mid = Actor('小兵', (70 + 960, 510))
-
 archer_mid = Actor('弓箭手', (166 + 960, 510))
-
 warrior_down = Actor('小兵', (70 + 960, 635))
-
 archer_down = Actor('弓箭手', (166 + 960, 635))
 
 
-
 # 创建小兵对象
-
-
-
 Knight_image = Actor('小兵色块')
-
 Archer_image = Actor('弓箭手色块')
-
-
-
-worrior_image = ['基地', '防御塔', '小兵色块', '弓箭手色块']
-
-
-
+worrior_image = [0, '防御塔色块', '小兵色块', '弓箭手色块']
 
 
 def draw():
-
     screen.clear()
-
     screen.fill("white")
-
-    # screen.blit('bk', (0, 0))
-
-
+    screen.blit('bk', (250, 0))
 
     # 金钱部分
-
     money_0.draw()
-
     money_2.draw()
-
     for i in range(game.money):
-
         money_1.topleft = 978+20*i, 103
-
         money_1.draw()
-
-    screen.draw.text("Money:%d/10" %
-
-                     game.money, (1000, 82), color='black')
-
-
+    screen.draw.text("Money:%d/10" % game.money, (1000, 82), color='black')
 
     # 兵营部分
-
     screen.blit('arsenal', (20 + 960, 190))
-
     screen.blit('soldier', (21 + 960, 280))
-
-    warrior_up.draw()  # (35, 350))
-
-    archer_up.draw()   # (131, 350))
-
-    warrior_mid.draw()  # (35, 350))
-
-    archer_mid.draw()  # (131, 350))
-
-    warrior_down.draw()  # (35, 350))
-
-    archer_down.draw()  # (131, 350))
-
-    '''
-
-    # 路线部分
-
-    for k in range(1, 4):
-
-        for i in range(50):
-
-            screen.blit("purchase", (road[0][i][k][0], road[0][i][k][1]))
-
-    for k in range(1, 4):
-
-        for i in range(49):
-
-            screen.blit("purchase", (road[1][i][k][0], road[1][i][k][1]))
-
-    for k in range(1, 4):
-
-        for i in range(50):
-
-            screen.blit("purchase", (road[2][i][k][0], road[2][i][k][1]))
+    warrior_up.draw()
+    archer_up.draw()
+    warrior_mid.draw()
+    archer_mid.draw()
+    warrior_down.draw()
+    archer_down.draw()
 
     # 兵种部分
-
     for r in range(3):
-
         for w in game.w1[r]:
-
-            screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wroute]))
-
+            if w != game.w1[r][0]:
+                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
+            if w != game.w2[r][0]:
+                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
-            screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wroute]))
+    # 血量部分
 
-    '''
-
+    for j in range(8):
+        if j > 3:
+            dfx = 0
+            dfy = -640
+        else:
+            dfx = 0
+            dfy = 0
+        life_frame.topleft = 25+dfx, 440+j*70+dfy
+        life_icon.topleft = 24+dfx, 421+j*70+dfy
+        if j % 4 == 0:
+            Base_icon.topleft = 211+dfx, 416+j*70+dfy
+            Base_icon.draw()
+            screen.draw.text("Base", (170+dfx, 422+70*j+dfy), color='black')
+        else:
+            DenfenseTower_icon.topleft = 218+dfx, 417+j*70+dfy
+            DenfenseTower_icon.draw()
+            if (j-1) % 4 == 0:
+                screen.draw.text(
+                    "Turret(top)", (138+dfx, 422+70*j+dfy), color='black')
+            elif (j-2) % 4 == 0:
+                screen.draw.text(
+                    "Turret(mid)", (138+dfx, 422+70*j+dfy), color='black')
+            else:
+                screen.draw.text(
+                    "Turret(bot)", (138+dfx, 422+70*j+dfy), color='black')
+        life_frame.draw()
+        life_icon.draw()
+        for i in range(life_display[j]):
+            if j % 4 == 0:
+                life_block.topleft = 27+2*i//5+dfx, 443+70*j+dfy
+            else:
+                life_block.topleft = 27+2*i+dfx, 443+70*j+dfy
+            life_block.draw()
+        if j % 4 == 0:
+            screen.draw.text(
+                "Life:%d/500" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+        else:
+            screen.draw.text(
+                "Life:%d/100" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+    player_icon.topleft = 27, 380
+    player_icon.draw()
+    player_icon.topleft = 27, 20
+    player_icon.draw()
+    screen.draw.text("player: %s" % wanjia1, (52, 382), color='black')
+    screen.draw.text("player: %s" % wanjia2, (52, 22), color='black')
 
 
 
 
 def on_mouse_down(pos):  # 造兵方式
 
-    order_command = Command(game.turnID + 10, 0, 0)
+    order_command = Command(game.turnID + 10, 0, [0])
 
     if warrior_up.collidepoint(pos) and game.money >= 2:
 
@@ -223,7 +217,7 @@ def on_mouse_down(pos):  # 造兵方式
 def update():
 
     # 初始化回合
-
+    update_life()
     game.update()
 
     # 读取命令
@@ -291,9 +285,14 @@ def startGame():
     game.reset()
 
     print('游戏开始了!')
+    '''
+    for i in range(50):
+        game.w1[0].append(Knight(1, i % 3 + 1, i))
 
-    print(target[0])
 
+    for i in range(49):
+        game.w2[random.randint(0, 2)].append(Archer(1, random.randint(1, 3), i))
+    '''
     # 同时开启游戏和接受命令的线程
 
     getCmd = game.getCmd()
