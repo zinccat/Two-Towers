@@ -12,8 +12,8 @@ import time
 
 
 # 账号/昵称
-wanjia1 = str("xxx")
-wanjia2 = str("yyy")
+id_1 = str(userAccount)
+id_2 = str(target[0])
 
 
 # 血量图标对象
@@ -24,9 +24,9 @@ life_icon = Actor('生命值图标')
 DenfenseTower_icon = Actor('防御塔图标')
 Base_icon = Actor('主塔图标')
 
+# 更新血量数值
 
 life_display = [0, 0, 0, 0, 0, 0, 0, 0]
-# 更新血量数值
 
 
 def update_life():
@@ -93,10 +93,10 @@ def draw():
     # 兵种部分
     for r in range(3):
         for w in game.w1[r]:
-            if w != game.w1[r][0]:
+            if w.wGrid != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
-            if w != game.w2[r][0]:
+            if w.wGrid != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
 
     # 血量部分
@@ -144,10 +144,8 @@ def draw():
     player_icon.draw()
     player_icon.topleft = 27, 20
     player_icon.draw()
-    screen.draw.text("player: %s" % wanjia1, (52, 382), color='black')
-    screen.draw.text("player: %s" % wanjia2, (52, 22), color='black')
-
-
+    screen.draw.text("player: %s" % id_1, (52, 382), color='black')
+    screen.draw.text("player: %s" % id_2, (52, 22), color='black')
 
 
 def on_mouse_down(pos):  # 造兵方式
@@ -211,9 +209,6 @@ def on_mouse_down(pos):  # 造兵方式
         # 此处添加发送命令语句
 
 
-
-
-
 def update():
 
     # 初始化回合
@@ -265,9 +260,6 @@ def update():
     draw()
 
 
-
-
-
 def startGame():
 
     # 开始游戏的流程仍需处理
@@ -288,8 +280,6 @@ def startGame():
     '''
     for i in range(50):
         game.w1[0].append(Knight(1, i % 3 + 1, i))
-
-
     for i in range(49):
         game.w2[random.randint(0, 2)].append(Archer(1, random.randint(1, 3), i))
     '''
@@ -310,7 +300,5 @@ def startGame():
     g.join()
 
 
-
-
-
 startGame()
+
