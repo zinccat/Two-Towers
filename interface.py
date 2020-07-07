@@ -185,6 +185,7 @@ def on_mouse_down(pos):  # 造兵方式
         order_command.CmdType = 3
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
+        print(order_command.turnID)
         game.ops1.put(order_command)
         sendOp(target[0], order_command)
 
