@@ -5,16 +5,11 @@ from backstage import*
 
 game = Action()
 
-for i in range (50):
+for i in range(50):
     game.w1[0].append(Knight(1, i % 3 + 1, i))
 
-for i in range (49):
+for i in range(49):
     game.w2[random.randint(0, 2)].append(Archer(1, random.randint(1, 3), i))
-
-game.turnID = 0
-
-
-
 
 
 # 账号/昵称
@@ -33,10 +28,12 @@ Base_icon = Actor('主塔图标')
 
 life_display = [0, 0, 0, 0, 0, 0, 0, 0]
 # 更新血量数值
+
+
 def update_life():
     life_display[0] = TrueBaseLife
     life_display[4] = TrueBaseLife
-    for i in range (3):
+    for i in range(3):
         life_display[0] -= int(INF - game.w1[i][0].wLife)
         life_display[4] -= int(INF - game.w2[i][0].wLife)
         life_display[i + 1] = game.w1[i][1].wLife
@@ -52,11 +49,6 @@ money_1 = Actor('金钱块')
 
 Money = 0
 timeCount = 0
-
-# 钱数变化函数
-def Money_Accumulate(x):
-    global Money
-    Money += x
 
 
 # 显示页面大小
@@ -88,16 +80,16 @@ def draw():
     # 金钱部分
     money_0.draw()
     money_2.draw()
-    for i in range(Money):
+    for i in range(game.money):
         money_1.topleft = 978+20*i, 103
         money_1.draw()
-    screen.draw.text("Money:%d/10" % Money, (1000, 82), color='black')
+    screen.draw.text("Money:%d/10" % game.money, (1000, 82), color='black')
 
     # 兵营部分
     screen.blit('arsenal', (20 + 960, 190))
     screen.blit('soldier', (21 + 960, 280))
     warrior_up.draw()
-    archer_up.draw() 
+    archer_up.draw()
     warrior_mid.draw()
     archer_mid.draw()
     warrior_down.draw()
@@ -105,7 +97,7 @@ def draw():
 
     # 兵种部分
     for r in range(3):
-        for w in game.w1[r]: 
+        for w in game.w1[r]:
             if w != game.w1[r][0]:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
@@ -131,62 +123,65 @@ def draw():
             DenfenseTower_icon.topleft = 218+dfx, 417+j*70+dfy
             DenfenseTower_icon.draw()
             if (j-1) % 4 == 0:
-                screen.draw.text("Turret(top)", (138+dfx, 422+70*j+dfy), color='black')
+                screen.draw.text(
+                    "Turret(top)", (138+dfx, 422+70*j+dfy), color='black')
             elif (j-2) % 4 == 0:
-                screen.draw.text("Turret(mid)", (138+dfx, 422+70*j+dfy), color='black')
+                screen.draw.text(
+                    "Turret(mid)", (138+dfx, 422+70*j+dfy), color='black')
             else:
-                screen.draw.text("Turret(bot)", (138+dfx, 422+70*j+dfy), color='black')
+                screen.draw.text(
+                    "Turret(bot)", (138+dfx, 422+70*j+dfy), color='black')
         life_frame.draw()
         life_icon.draw()
         for i in range(life_display[j]):
-            if j%4==0:
+            if j % 4 == 0:
                 life_block.topleft = 27+2*i//5+dfx, 443+70*j+dfy
             else:
                 life_block.topleft = 27+2*i+dfx, 443+70*j+dfy
             life_block.draw()
-        if j%4==0:
-            screen.draw.text("Life:%d/500" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+        if j % 4 == 0:
+            screen.draw.text(
+                "Life:%d/500" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
         else:
-            screen.draw.text("Life:%d/100" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
+            screen.draw.text(
+                "Life:%d/100" % life_display[j], (43+dfx, 422+70*j+dfy), color='black')
     player_icon.topleft = 27, 380
     player_icon.draw()
     player_icon.topleft = 27, 20
     player_icon.draw()
-    screen.draw.text("player: %s" % wanjia1, (52, 382), color = 'black')
-    screen.draw.text("player: %s" % wanjia2, (52, 22), color = 'black')
-
+    screen.draw.text("player: %s" % wanjia1, (52, 382), color='black')
+    screen.draw.text("player: %s" % wanjia2, (52, 22), color='black')
 
 
 def on_mouse_down(pos):  # 造兵方式
     order_command = Command(game.turnID, 0, [0])
-    global Money
-    if warrior_up.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    if warrior_up.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [1]
-    elif archer_up.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_up.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [1]
-    elif warrior_mid.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    elif warrior_mid.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [2]
-    elif archer_mid.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_mid.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [2]
-    elif warrior_down.collidepoint(pos) and Money >= 2:
-        Money -= 2
+    elif warrior_down.collidepoint(pos) and game.money >= 2:
+        game.money -= 2
         order_command.CmdType = 2
         order_command.CmdStr = [3]
-    elif archer_down.collidepoint(pos) and Money >= 3:
-        Money -= 3
+    elif archer_down.collidepoint(pos) and game.money >= 3:
+        game.money -= 3
         order_command.CmdType = 3
         order_command.CmdStr = [3]
     if order_command.CmdType > 0:
-        print(order_command.turnID)
         game.ops1.put(order_command)
+
         sendOp(target[0], order_command)
 
 
@@ -195,14 +190,13 @@ def update():
     update_life()
 
     global timeCount
-    if Money < 10:
-            timeCount += 1
-            if timeCount == 60:
-                Money_Accumulate(1)
-                timeCount = 0
+    if game.money < 10:
+        game.timeCount += 1
+        if game.timeCount == 60:
+            game.MoneyAccumulate(1)
+            game.timeCount = 0
 
     # 回合数更新
-    global game
     game.turnID += 1
 
     # 绘图
@@ -212,6 +206,5 @@ def update():
 pgzrun.go()
 
 
+# 需要修改 1. update函数中money （已修改） 2.玩家ID  3.各种字体颜色 4.地图侧方路径
 
-
-# 需要修改 1. update函数中money  2.玩家ID  3.各种字体颜色 4.地图侧方路径 
