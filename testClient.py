@@ -329,10 +329,9 @@ def startGame():
 
     # 同时开启游戏和接受命令的线程
 
-    getCmd = game.getCmd()
-    print(id(game.ops2))
+    getCmd = game.getCmd(game)
 
-    tcpCliSock.settimeout(0.5)
+    tcpCliSock.settimeout(0.02)
 
     getCmd.start()
 

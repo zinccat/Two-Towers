@@ -337,11 +337,9 @@ class Action:
 
     class getCmd(threading.Thread):
 
-        def __init__(self):
-
-            super().__init__(group=None, target=None, name=None, args=(), kwargs={}, daemon=None)
-
-            self.ops2 = None
+        def __init__(self, game):
+            threading.Thread.__init__(self)
+            self.ops2 = game.ops2
 
         # 为了处理ops2不存在的问题
 
@@ -360,21 +358,15 @@ class Action:
                         break
 
                     else:
-
                         dataObj = json.loads(data)
-
                         print('{} ->{} : {} {} {}'.format(
 
                             dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
 
-                        t = Command(
-
-                            dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
-
+                        t = Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)
-
+                        print(123)
                 except:
-
                     pass
 
     # 命令读取函数
@@ -429,20 +421,19 @@ class Action:
 
                     genNum += 1
 
-                    tempObj = Knight(
-                        2, genNum, mLen if self.CmdStr == 2 else dLen)
-
+                    tempObj = Knight(2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
+                    print(tempObj.wTeam)
+                    print(tempObj.wGrid)
+                    print(tempObj.pos)
                     self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
                 if tempOp.CmdType == 3:  # 弓箭手
 
                     genNum += 1
 
                     tempObj = Archer(
-                        2, genNum, mLen if self.CmdStr == 2 else dLen)
+                        2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
 
                     self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
             else:
 
                 # 时机未到
