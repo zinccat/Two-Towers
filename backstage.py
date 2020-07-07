@@ -177,19 +177,14 @@ class Battle:
     """战斗类"""
 
     def __init__(self, WarriorAttack, WarriorDefence):
-
         self.WarriorAttack = WarriorAttack
-
         self.WarriorDefence = WarriorDefence
 
     def BattleGo(self):
-
-        if self.WarriorDefence.wLife > 0:
-
+        if not self.WarriorAttack.attacked and self.WarriorDefence.wLife > 0:
             # 只有在对方没死的时候才会攻击并更新aCD
-
+            self.WarriorAttack.attacked = True
             self.WarriorAttack.updateaCD(1)
-
             self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
 
@@ -238,17 +233,12 @@ class Action:
         # 初始化对方主塔和防御塔
 
         for i in range(3):
-
             if i == 1:
-
                 self.w2[i].append(Base(2, 0, mLen))
-
                 self.w2[i].append(Turret(2,  2, mLen - dLen))
 
             else:
-
                 self.w2[i].append(Base(2, 0, aLen))
-
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
 
     # 打钱!
@@ -274,13 +264,10 @@ class Action:
             self.ops1.get()
 
         while not self.ops2.empty():
-
             self.ops2.get()
 
         for i in range(3):
-
             self.w1[i].clear()
-
             self.w2[i].clear()
 
         self.__init__()
@@ -288,49 +275,34 @@ class Action:
     # 回合初状态更新
 
     def update(self):
-
         self.turnID += 1
 
         # 金钱更新
 
         if self.money < 10:
-
             self.timeCount += 1
-
             if self.timeCount == 60:
-
                 self.MoneyAccumulate(1)
-
                 self.timeCount = 0
+        else:
+            self.timeCount = 0
 
         # 武士状态刷新
 
         for i in range(3):
-
             for w in self.w1[i]:
-
                 w.attacked = False  # 重置攻击状态
-
                 w.updatemCD(0)  # 更新mCD
-
                 w.updateaCD(0)  # 更新aCD
-
                 if w.wType == 1:  # Turret
-
                     self.life[i + 1] = w.wLife
 
         for i in range(3):
-
             for w in self.w2[i]:
-
                 w.attacked = False  # 重置攻击状态
-
                 w.updatemCD(0)  # 更新mCD
-
                 w.updateaCD(0)  # 更新aCD
-
                 if w.wType == 1:  # Turret
-
                     self.life[i + 5] = w.wLife
 
     # 收取命令
@@ -344,28 +316,17 @@ class Action:
         # 为了处理ops2不存在的问题
 
         def run(self):
-
             while True:
-
                 try:
-
                     data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-
                     if data == '-1':
-
                         print('can not connect to target!')
-
                         break
-
                     else:
                         dataObj = json.loads(data)
-                        print('{} ->{} : {} {} {}'.format(
-
-                            dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
-
+                        print('{} ->{} : {} {} {}'.format(dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
                         t = Command(dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)
-                        print(123)
                 except:
                     pass
 
@@ -442,18 +403,12 @@ class Action:
     # 士兵对战判断函数
 
     def BattleCheck(self):
-
         for i in range(3):
-
             for Warrior1 in self.w1[i]:
-
                 for Warrior2 in self.w2[i]:
-
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
-                        Warrior1.attacked = True
                         self.BattleList.append(Battle(Warrior1, Warrior2))
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
-                        Warrior2.attacked = True
                         self.BattleList.append(Battle(Warrior2, Warrior1))
         
 
