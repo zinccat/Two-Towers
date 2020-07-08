@@ -1,14 +1,14 @@
 import pgzrun
 import easygui as gui
 import random
-
+from pgzero.actor import Actor
+from pgzero.rect import Rect, ZRect
+from pgzero.screen import Screen
 from backstage import *
-
 from Roadpos_set import *
-
 import threading
-
 from time import sleep, time
+screen: Screen  # 类型标注
 
 ide = []
 # 血量图标对象
@@ -190,7 +190,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command) # 发送指令给对方
 
-def update(dt):
+def update():
     # 初始化回合
     game.update()
     if (game.turnID % 30 == 0):
@@ -226,7 +226,6 @@ def update(dt):
 
     # 更新画面
     draw()
-    sleep(max(0, 0.1 - dt))
     if result > 0:
         sleep(10)
         print('游戏结束')

@@ -15,7 +15,28 @@ gui.msgbox('你好!欢迎来玩我们的小游戏')
 t = gui.enterbox(msg = '请在下方输入用户名并点击确认', title = '注册')
 print(t)
 '''
+
+
+
+
 import time
-while int(time.time()) % 60 != 0:
-    print()
-    time.sleep(1)
+import pgzrun
+import pygame
+def draw():
+    screen.clear()
+    screen.fill("white")
+
+
+def update(dt):
+    global flag
+    global t
+    if flag < 100:
+        print(dt)
+        flag += 1
+        print(pygame.time.get_ticks())
+
+    draw()
+
+flag = 0
+t = time.time()
+pgzrun.go()
