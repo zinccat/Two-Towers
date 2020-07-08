@@ -12,7 +12,7 @@ from time import sleep, time
 # 此处定义了游戏所用到的全局变量
 HOST = '65.49.209.247'
 # HOST = 'localhost'
-PORT = 8023
+PORT = 8029
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
@@ -326,17 +326,17 @@ class Action:
 
         while(not self.ops2.empty()):
             tempOp = self.ops2.get()  # ops为命令队列
-            if self.turnID == tempOp.turnID:
+            if self.turnID >= tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
                     tempObj = Knight(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-                    self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
+                    self.w2[4 - int(tempOp.CmdStr[0])].append(tempObj)
                 if tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
                     tempObj = Archer(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-                    self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
+                    self.w2[4 - int(tempOp.CmdStr[0])].append(tempObj)
             else:
                 # 时机未到
                 self.ops2.put(tempOp)

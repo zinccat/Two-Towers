@@ -16,4 +16,5 @@ t = gui.enterbox(msg = '请在下方输入用户名并点击确认', title = '�
 print(t)
 '''
 import time
-print(int(time.time()))
+while int(time.time()) % 60 != 0:
+    time.sleep(1)

@@ -247,8 +247,8 @@ def startGame():
 
     game = Action()
 
-    while int(time.time()) % 60 != 0:
-        time.sleep(1)
+    while int(time()) % 60 != 0:
+        sleep(1)
 
     game.reset()
 
@@ -258,7 +258,7 @@ def startGame():
 
     getCmd = game.getCmd(game)
 
-    tcpCliSock.settimeout(0.02)
+    tcpCliSock.settimeout(0.1)
 
     getCmd.start()
 
