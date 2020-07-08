@@ -331,12 +331,12 @@ class Action:
                     genNum += 1
                     tempObj = Knight(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-                    self.w2[4 - int(tempOp.CmdStr[0])].append(tempObj)
+                    self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
                 if tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
                     tempObj = Archer(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-                    self.w2[4 - int(tempOp.CmdStr[0])].append(tempObj)
+                    self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
             else:
                 # 时机未到
                 self.ops2.put(tempOp)
