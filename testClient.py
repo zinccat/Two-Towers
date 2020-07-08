@@ -193,7 +193,8 @@ def on_mouse_down(pos):  # 造兵方式
 def update(dt):
     # 初始化回合
     game.update()
-
+    if (game.turnID % 30 == 0):
+        print(game.turnID)
     # 读取命令
     game.ReadCmd()
     # 检查可行的战斗
@@ -225,7 +226,7 @@ def update(dt):
 
     # 更新画面
     draw()
-    sleep(max(0, 0.05-dt))
+    sleep(max(0, 0.1 - dt))
     if result > 0:
         sleep(10)
         print('游戏结束')
@@ -258,7 +259,7 @@ def startGame():
 
     getCmd = game.getCmd(game)
 
-    tcpCliSock.settimeout(0.1)
+    tcpCliSock.settimeout(0.05)
 
     getCmd.start()
 
