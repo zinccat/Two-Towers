@@ -18,6 +18,7 @@ class Warrior:
         self.wGrid = wgrid  # 在三个格子中的哪个 1 2 3
         self.pos = wpos
         self.attacked = 0  # 本回合是否攻击
+        self.couldMove = 1
 
 
 # type 0

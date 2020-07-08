@@ -36,7 +36,6 @@ def connect():
         sys.exit(0)
     global target
     target[0] = input('想打谁? ')
-
     # 这里还需添加是否与对手连接成功
 
 
@@ -125,7 +124,6 @@ class Command:
         self.CmdStr = CmdStr
 
     # 比较函数,确定执行命令的优先级
-
     def __lt__(self, other):
 
         return self.turnID < other.turnID
@@ -244,6 +242,7 @@ class Action:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD(0)  # 更新mCD
                 w.updateaCD(0)  # 更新aCD
+                w.couldMove = True
                 if w.wType == 1:  # Turret
                     self.life[i + 1] = w.wLife
 
@@ -252,6 +251,7 @@ class Action:
                 w.attacked = False  # 重置攻击状态
                 w.updatemCD(0)  # 更新mCD
                 w.updateaCD(0)  # 更新aCD
+                w.couldMove = True
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
 
@@ -348,10 +348,14 @@ class Action:
         for i in range(3):
             for Warrior1 in self.w1[i]:
                 for Warrior2 in self.w2[i]:
-                    if Warrior1.aCD == 0 and abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
-                        self.BattleList.append(Battle(Warrior1, Warrior2))
-                    if Warrior2.aCD == 0 and abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
-                        self.BattleList.append(Battle(Warrior2, Warrior1))
+                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
+                        Warrior1.couldMove = False
+                        if Warrior1.aCD == 0:
+                            self.BattleList.append(Battle(Warrior1, Warrior2))
+                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
+                        Warrior2.couldMove = False
+                        if Warrior2.aCD == 0:
+                            self.BattleList.append(Battle(Warrior2, Warrior1))
 
     # 战斗进行函数
 
@@ -424,7 +428,7 @@ class Action:
             mov = -1
 
         for i in WarriorList:
-            if i.mCD == 0 and not i.attacked and i.wType > 1:  # 塔不能跑!
+            if i.mCD == 0 and i.couldMove and i.wType > 1:  # 塔不能跑!
                 for j in range(1, 4):
                     if posDict.get((i.pos + mov, j), 0) == False and posOccu.get(i.pos + mov, team) == team:
                         posDict[(i.pos, i.wGrid)] = False
