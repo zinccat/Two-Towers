@@ -17,4 +17,5 @@ print(t)
 '''
 import time
 while int(time.time()) % 60 != 0:
+    print()
     time.sleep(1)

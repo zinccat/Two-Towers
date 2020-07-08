@@ -190,10 +190,11 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command) # 发送指令给对方
 
-
 def update():
     # 初始化回合
     game.update()
+    if game.turnID % 30 == 0:
+        print(game.turnID)
 
     # 读取命令
     game.ReadCmd()

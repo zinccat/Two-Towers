@@ -11,7 +11,7 @@ from time import sleep, time
 
 # 此处定义了游戏所用到的全局变量
 HOST = '65.49.209.247'
-# HOST = 'localhost'
+#HOST = 'localhost'
 PORT = 8029
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
