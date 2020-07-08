@@ -325,32 +325,21 @@ class Action:
         genNum = 0  # 本回合生成了几个warrior?
 
         while(not self.ops2.empty()):
-
             tempOp = self.ops2.get()  # ops为命令队列
-
             if self.turnID == tempOp.turnID:
-
                 if tempOp.CmdType == 2:  # 骑士
-
                     genNum += 1
-
                     tempObj = Knight(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
                     self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
                 if tempOp.CmdType == 3:  # 弓箭手
-
                     genNum += 1
-
                     tempObj = Archer(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
-
                     self.w2[int(tempOp.CmdStr[0]-1)].append(tempObj)
             else:
-
                 # 时机未到
-
                 self.ops2.put(tempOp)
-
                 break
 
     # 士兵对战判断函数
@@ -367,9 +356,9 @@ class Action:
     # 战斗进行函数
 
     def BattleRun(self, BattleList):
-        while BattleList:
-            TempBattle = BattleList.pop(0)
-            TempBattle.BattleGo()
+        for b in BattleList:
+            b.BattleGo()
+        BattleList.clear()
 
     # 主塔阵亡函数
 
@@ -399,20 +388,18 @@ class Action:
     def WarriorDeath(self):
         for i in range(3):
             for w in self.w1[i]:
-                if w.wLife < 1:
+                if w.wLife <= 0:
                     if w.wType == 1:
                         print('己方防御塔被攻陷!')
                         self.life[i + 1] = 0
-                    print(w.wType)
                     self.w1[i].remove(w)
 
         for i in range(3):
             for w in self.w2[i]:
-                if w.wLife < 1:
+                if w.wLife <= 0:
                     if w.wType == 1:
                         print('敌方防御塔被攻陷!')
                         self.life[i + 5] = 0
-                    print(w.wType)
                     self.w2[i].remove(w)
 
     # 士兵移动函数
@@ -454,7 +441,6 @@ class Action:
         elif result == 2:
             print('你挂了!')
 
-
 '''
 # 命令测试
 w1 = [[], [], []]
@@ -464,7 +450,6 @@ ops.put(Command(1, 2, [2]))
 ReadCmd(ops, w1, 1)
 print(w1)
 '''
-
 
 '''
 # WarriorMove测试代码

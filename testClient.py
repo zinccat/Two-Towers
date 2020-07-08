@@ -81,56 +81,39 @@ def draw():
     # 兵营部分
 
     screen.blit('arsenal', (20 + 960, 190))
-
     screen.blit('soldier', (21 + 960, 280))
-
     warrior_up.draw()
-
     archer_up.draw()
-
     warrior_mid.draw()
-
     archer_mid.draw()
-
     warrior_down.draw()
-
     archer_down.draw()
 
     # 兵种部分
 
     for r in range(3):
-
         for w in game.w1[r]:
             if w.wType != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
-
         for w in game.w2[r]:
             if w.wType != 0:
                 screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
-
         if j > 3:
-
             dfx = 0
-
             dfy = -640
-
         else:
             dfx = 0
-
             dfy = 0
 
         life_frame.topleft = 25+dfx, 440+j*70+dfy
-
         life_icon.topleft = 24+dfx, 421+j*70+dfy
 
         if j % 4 == 0:
 
             Base_icon.topleft = 211+dfx, 416+j*70+dfy
-
             Base_icon.draw()
-
             screen.draw.text("Base", (170+dfx, 422+70*j+dfy), color='black')
 
         else:
@@ -147,102 +130,65 @@ def draw():
                     "Turret(bot)", (138+dfx, 422+70*j+dfy), color='black')
 
         life_frame.draw()
-
         life_icon.draw()
         for i in range(game.life[j]):
-
             if j % 4 == 0:
-
                 life_block.topleft = 27+2*i//5+dfx, 443+70*j+dfy
-
             else:
-
                 life_block.topleft = 27+2*i+dfx, 443+70*j+dfy
-
             life_block.draw()
-
         if j % 4 == 0:
-
             screen.draw.text(
                 "Life:%d/500" % game.life[j], (43+dfx, 422+70*j+dfy), color='black')
 
         else:
-
             screen.draw.text(
                 "Life:%d/100" % game.life[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
 
     player_icon.topleft = 27, 380
-
     player_icon.draw()
-
     player_icon.topleft = 27, 20
-
     player_icon.draw()
-
     screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
-
     screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
 
 
 def on_mouse_down(pos):  # 造兵方式
 
     order_command = Command(game.turnID + 60, 0, [0])
-
     if warrior_up.collidepoint(pos) and game.money >= 2:
-
         game.money -= 2
-
         order_command.CmdType = 2
-
         order_command.CmdStr = [1]
 
     elif archer_up.collidepoint(pos) and game.money >= 3:
-
         game.money -= 3
-
         order_command.CmdType = 3
-
         order_command.CmdStr = [1]
 
     elif warrior_mid.collidepoint(pos) and game.money >= 2:
-
         game.money -= 2
-
         order_command.CmdType = 2
-
         order_command.CmdStr = [2]
 
     elif archer_mid.collidepoint(pos) and game.money >= 3:
-
         game.money -= 3
-
         order_command.CmdType = 3
-
         order_command.CmdStr = [2]
 
     elif warrior_down.collidepoint(pos) and game.money >= 2:
-
         game.money -= 2
-
         order_command.CmdType = 2
-
         order_command.CmdStr = [3]
 
     elif archer_down.collidepoint(pos) and game.money >= 3:
-
         game.money -= 3
-
         order_command.CmdType = 3
-
         order_command.CmdStr = [3]
 
     if order_command.CmdType > 0:
-
         game.ops1.put(order_command)
-
-        sendOp(target[0], order_command)
-
-        # 此处添加发送命令语句
+        sendOp(target[0], order_command) # 发送指令给对方
 
 
 def update():
