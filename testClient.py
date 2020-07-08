@@ -49,45 +49,31 @@ HEIGHT = 700
 # 创建造兵按钮 #长宽70
 
 warrior_up = Actor('小兵', (70 + 960, 385))
-
 archer_up = Actor('弓箭手', (166 + 960, 385))
-
 warrior_mid = Actor('小兵', (70 + 960, 510))
-
 archer_mid = Actor('弓箭手', (166 + 960, 510))
-
 warrior_down = Actor('小兵', (70 + 960, 635))
-
 archer_down = Actor('弓箭手', (166 + 960, 635))
 
 
 # 创建小兵图片对象
 
 Knight_image = Actor('小兵色块')
-
 Archer_image = Actor('弓箭手色块')
-
 worrior_image = [0, '防御塔色块', '小兵色块', '弓箭手色块']
 
 
 def draw():
-
     screen.clear()
-
     screen.fill("white")
-
     screen.blit('bk', (250, 0))
 
     # 金钱部分
-
     money_0.draw()
-
     money_2.draw()
 
     for i in range(game.money):
-
         money_1.topleft = 978+20*i, 103
-
         money_1.draw()
 
     screen.draw.text("Money:%d/10" % game.money, (1000, 82), color='black')

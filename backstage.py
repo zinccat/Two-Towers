@@ -143,8 +143,6 @@ class Battle:
         if (self.WarriorAttack.attacked == False) and self.WarriorDefence.wLife > 0:
             # 只有在对方没死的时候才会攻击并更新aCD
             self.WarriorAttack.attacked = True
-            print(self.WarriorAttack.wType)
-            print(time())
             self.WarriorAttack.updateaCD(1)
             self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
@@ -401,18 +399,20 @@ class Action:
     def WarriorDeath(self):
         for i in range(3):
             for w in self.w1[i]:
-                if w.wLife <= 0:
+                if w.wLife < 1:
                     if w.wType == 1:
-                        print('防御塔被攻陷!')
+                        print('己方防御塔被攻陷!')
                         self.life[i + 1] = 0
+                    print(w.wType)
                     self.w1[i].remove(w)
 
         for i in range(3):
             for w in self.w2[i]:
-                if w.wLife <= 0:
+                if w.wLife < 1:
                     if w.wType == 1:
-                        print('防御塔被攻陷!')
+                        print('敌方防御塔被攻陷!')
                         self.life[i + 5] = 0
+                    print(w.wType)
                     self.w2[i].remove(w)
 
     # 士兵移动函数

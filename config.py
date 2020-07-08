@@ -32,10 +32,10 @@ TrueBaseLife = 500
 
 # 防御塔 1
 TurretAttack = 5
-TurretLife = 200
+TurretLife = 100
 TurretRange = 10
 TurretmCD = 0
-TurretaCD = 60
+TurretaCD = 25
 TurretPos = 10
 
 # 骑士 2
