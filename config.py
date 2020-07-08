@@ -24,7 +24,7 @@ dLen = 10
 # 主塔 0
 BaseAttack = 30
 BaseLife = INF
-BaseRange = 10
+BaseRange = 5
 BasemCD = 0
 BaseaCD = 40
 BasePos = 0

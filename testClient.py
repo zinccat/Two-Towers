@@ -219,12 +219,10 @@ def update():
 
     # 战士移动
 
-    posOccu = dict()  # 记录某格是否被敌方占领
-
     for i in range(3):
 
-        game.WarriorMove(game.w1[i], posOccu, 1)
-        game.WarriorMove(game.w2[i], posOccu, 2)
+        game.WarriorMove(game.w1[i], 1)
+        game.WarriorMove(game.w2[i], 2)
 
     # 更新画面
     draw()

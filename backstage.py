@@ -408,12 +408,11 @@ class Action:
 
     # 士兵移动函数
 
-    def WarriorMove(self, WarriorList, posOccu, team):
+    def WarriorMove(self, WarriorList, team):
         posDict = dict()
         # 第一轮扫描完成各位置上对象的计数
         for i in WarriorList:
-            posDict[(i.pos, i.wGrid)] = True
-            posOccu[i.pos] = team
+            posDict[(i.pos, i.wGrid)] = team
 
         # 若前方有足够位置就前进, 先排序避免堵车
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
@@ -430,11 +429,13 @@ class Action:
         for i in WarriorList:
             if i.mCD == 0 and i.couldMove and i.wType > 1:  # 塔不能跑!
                 for j in range(1, 4):
-                    if posDict.get((i.pos + mov, j), 0) == False and posOccu.get(i.pos + mov, team) == team:
+                    # 前方格子被对方占领时停止移动
+                    if posDict.get((i.pos + mov, 0), 0) == 3 - team:
+                        break
+                    if posDict.get((i.pos + mov, j), 0) == False:
                         posDict[(i.pos, i.wGrid)] = False
                         i.pos += mov
                         posDict[(i.pos, j)] = True
-                        posOccu[i.pos] = team
                         i.wGrid = j
                         i.updatemCD(1)
                         break
