@@ -6,7 +6,7 @@ import threading
 import sys
 import json
 import re
-from time import sleep
+from time import sleep, time
 
 
 # 此处定义了游戏所用到的全局变量
@@ -16,9 +16,9 @@ PORT = 8023
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
-userAccount = None
-target = ['']
-game = ''
+userAccount = [None]
+target = [None]
+game = None
 
 # 连接到服务器并注册
 
@@ -70,31 +70,17 @@ class Command:
 def register():
 
     account = input('Please input your account: ')
-
-    global userAccount
-
-    userAccount = account
-
+    userAccount[0] = account
     regInfo = [account, 'register']
-
     datastr = json.dumps(regInfo)
-
     tcpCliSock.send(datastr.encode('utf-8'))
-
     data = tcpCliSock.recv(BUFSIZE)
-
     data = data.decode('utf-8')
-
     if data == '0':
-
         print('Success to register!')
-
         return True
-
     else:
-
         print('Failed for exceptions!')
-
         return False
 
 
@@ -154,9 +140,11 @@ class Battle:
         self.WarriorDefence = WarriorDefence
 
     def BattleGo(self):
-        if not self.WarriorAttack.attacked and self.WarriorDefence.wLife > 0:
+        if (self.WarriorAttack.attacked == False) and self.WarriorDefence.wLife > 0:
             # 只有在对方没死的时候才会攻击并更新aCD
             self.WarriorAttack.attacked = True
+            print(self.WarriorAttack.wType)
+            print(time())
             self.WarriorAttack.updateaCD(1)
             self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
@@ -373,9 +361,9 @@ class Action:
         for i in range(3):
             for Warrior1 in self.w1[i]:
                 for Warrior2 in self.w2[i]:
-                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
+                    if Warrior1.aCD == 0 and abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
                         self.BattleList.append(Battle(Warrior1, Warrior2))
-                    if abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
+                    if Warrior2.aCD == 0 and abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
                         self.BattleList.append(Battle(Warrior2, Warrior1))
 
     # 战斗进行函数

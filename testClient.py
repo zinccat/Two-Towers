@@ -309,7 +309,7 @@ def startGame():
     connect()  # 连接到服务器
     
     # 账号/昵称
-    ide.append(str(userAccount))
+    ide.append(str(userAccount[0]))
     ide.append(str(target[0]))
     print('游戏加载中...')
 
