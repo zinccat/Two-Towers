@@ -1,5 +1,5 @@
 import pgzrun
-
+import easygui as gui
 import random
 
 from backstage import *
@@ -8,7 +8,7 @@ from Roadpos_set import *
 
 import threading
 
-from time import sleep
+from time import sleep, time
 
 ide = []
 # 血量图标对象
@@ -247,7 +247,8 @@ def startGame():
 
     game = Action()
 
-    sleep(3)
+    while int(time.time()) % 60 != 0:
+        time.sleep(1)
 
     game.reset()
 
@@ -268,6 +269,5 @@ def startGame():
     getCmd.join()
 
     g.join()
-
 
 startGame()

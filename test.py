@@ -9,12 +9,11 @@ game.ops2.put(c2)
 print(game.ops2.get().turnID)
 print(2==[2][0])
 '''
-class A:
-    def __init__(self, n):
-        self.n = n
-    # def __str__(self):
-    #     return str(self.n)
-    def __int__(self):
-        return 2
-
-print(A(3))
+'''
+import easygui as gui
+gui.msgbox('你好!欢迎来玩我们的小游戏')
+t = gui.enterbox(msg = '请在下方输入用户名并点击确认', title = '注册')
+print(t)
+'''
+import time
+print(int(time.time()))
