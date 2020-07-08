@@ -10,14 +10,7 @@ import threading
 
 from time import sleep
 
-
-# 账号/昵称
-
-id_1 = str(userAccount)
-
-id_2 = str(target[0])
-
-
+ide = []
 # 血量图标对象
 
 player_icon = Actor('人图标')
@@ -200,9 +193,9 @@ def draw():
 
     player_icon.draw()
 
-    screen.draw.text("player: %s" % id_1, (52, 382), color='black')
+    screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
 
-    screen.draw.text("player: %s" % id_2, (52, 22), color='black')
+    screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
 
 
 def on_mouse_down(pos):  # 造兵方式
@@ -314,7 +307,10 @@ def startGame():
     # 开始游戏的流程仍需处理
 
     connect()  # 连接到服务器
-
+    
+    # 账号/昵称
+    ide.append(str(userAccount))
+    ide.append(str(target[0]))
     print('游戏加载中...')
 
     global game

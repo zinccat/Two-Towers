@@ -121,29 +121,17 @@ class MyServer(socketserver.BaseRequestHandler):
                 sendok = False
 
                 for obj in connLst:
-
                     if dataobj['to'] == obj.account:
-
                         try:
-
                             print('success')
-
                             obj.conObj.sendall(data)
-
                             sendok = True
-
                         except:
-
                             pass
-
                 if sendok == False:
-
                     print('no target valid!')
-
             else:
-
                 conn.sendall('-1'.encode('utf-8'))
-
                 continue
 
 

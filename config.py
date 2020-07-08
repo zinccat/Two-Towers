@@ -22,32 +22,32 @@ dLen = 10
 #下面为各种游戏角色的参数, 以后调参都在这里进行
 
 # 主塔 0
-BaseAttack = 50
+BaseAttack = 30
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
-BaseaCD = 20
+BaseaCD = 40
 BasePos = 0
 TrueBaseLife = 500
 
 # 防御塔 1
-TurretAttack = 30
-TurretLife = 100
+TurretAttack = 5
+TurretLife = 200
 TurretRange = 10
 TurretmCD = 0
-TurretaCD = 20
+TurretaCD = 60
 TurretPos = 10
 
 # 骑士 2
-KnightAttack = 10
+KnightAttack = 8
 KnightLife = 100
-KnightRange = 3
+KnightRange = 1
 KnightmCD = 30
-KnightaCD = 30
+KnightaCD = 60
 
 # 弓箭手 3
-ArcherAttack = 10
-ArcherLife = 100
-ArcherRange = 10
+ArcherAttack = 5
+ArcherLife = 30
+ArcherRange = 8
 ArchermCD = 20
-ArcheraCD = 30
+ArcheraCD = 40
