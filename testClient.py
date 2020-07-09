@@ -234,7 +234,7 @@ def update():
 
     # 更新画面
     draw()
-    sleep(max(0, 0.05 + t - time()))
+    sleep(max(0, 0.1 + t - time()))
     t = time()
     if result > 0:
         sleep(10)
@@ -255,7 +255,7 @@ def startGame():
 
     global game
     game = Action()
-    while int(time()) % 10 != 0:
+    while int(time()) % 60 != 0:
         sleep(1)
     game.reset()
     print('游戏开始了!')

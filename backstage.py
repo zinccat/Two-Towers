@@ -219,7 +219,7 @@ class Action:
 
         # 金钱更新
         if self.money < 10:
-            self.timeCount += 3
+            self.timeCount += 6
             if self.timeCount >= 60:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0
