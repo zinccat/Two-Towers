@@ -271,7 +271,7 @@ class Action:
                         print('can not connect to target!')
                         break
                     elif data == '0':  # 同步指令
-                        flag[0] = 10  # 每10回合同步一次
+                        flag[0] = 20  # 每20回合同步一次
                     else:
                         dataObj = json.loads(data)
                         print('{} ->{} : {} {} {}'.format(

@@ -26,7 +26,7 @@ BaseAttack = 30
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
-BaseaCD = 20
+BaseaCD = 40
 BasePos = 0
 TrueBaseLife = 500
 

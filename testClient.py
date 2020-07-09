@@ -156,7 +156,7 @@ def on_mouse_down(pos):  # 造兵方式
     else:
         clicktime = time()
 
-    order_command = Command(game.turnID + 10, 0, [0])
+    order_command = Command(game.turnID + 30, 0, [0])
     if warrior_up.collidepoint(pos) and game.money >= 2:
         game.money -= 2
         order_command.CmdType = 2
@@ -193,7 +193,7 @@ def on_mouse_down(pos):  # 造兵方式
 
 def waiting():
     while flag[0] <= 0:
-        sleep(0.1)
+        sleep(0.05)
 
 def update():
     # 初始化回合
@@ -253,10 +253,6 @@ def startGame():
 
     global game
     game = Action()
-    '''
-    while int(time()) % 60 != 0:
-        sleep(1)
-    '''
     game.reset()
     getCmd = game.getCmd(game)
     tcpCliSock.settimeout(0.05)
