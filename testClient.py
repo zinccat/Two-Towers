@@ -193,14 +193,17 @@ def on_mouse_down(pos):  # 造兵方式
 
 # 用于计时
 t = 0
-
+t1 = 0
 
 def update():
     global t
+    global t1
     # 初始化回合
     game.update()
     if (game.turnID % 30 == 0):
         print(game.turnID)
+        print(time() - t1)
+        t1=time()
     # 读取命令
     game.ReadCmd()
     # 检查可行的战斗
@@ -252,7 +255,7 @@ def startGame():
 
     global game
     game = Action()
-    while int(time()) % 60 != 0:
+    while int(time()) % 10 != 0:
         sleep(1)
     game.reset()
     print('游戏开始了!')
