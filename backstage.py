@@ -67,7 +67,6 @@ class Command:
 
 
 def register():
-
     account = input('Please input your account: ')
     userAccount[0] = account
     regInfo = [account, 'register']
@@ -87,21 +86,13 @@ def register():
 
 
 def sendOp(target, op):
-
     #turnID, CmdType, CmdStr, optype
-
     dataObj = {'froms': userAccount, 'to': target,
-
                'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
-
     datastr = json.dumps(dataObj)
-
     try:
-
         tcpCliSock.send(datastr.encode('utf-8'))
-
     except:
-
         print('awsl')
 
 
@@ -228,7 +219,7 @@ class Action:
 
         # 金钱更新
         if self.money < 10:
-            self.timeCount += 1
+            self.timeCount += 3
             if self.timeCount >= 60:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0

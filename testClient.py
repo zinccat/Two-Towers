@@ -188,9 +188,15 @@ def on_mouse_down(pos):  # 造兵方式
 
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
-        sendOp(target[0], order_command) # 发送指令给对方
+        sendOp(target[0], order_command)  # 发送指令给对方
+
+
+# 用于计时
+t = 0
+
 
 def update():
+    global t
     # 初始化回合
     game.update()
     if (game.turnID % 30 == 0):
@@ -210,7 +216,6 @@ def update():
     #若一方主塔死亡, 启动游戏终结机制
 
     if result > 0:
-
         game.end(result)
 
     # 战士死亡结算
@@ -226,6 +231,8 @@ def update():
 
     # 更新画面
     draw()
+    sleep(max(0, 0.05 + t - time()))
+    t = time()
     if result > 0:
         sleep(10)
         print('游戏结束')
@@ -237,37 +244,29 @@ def startGame():
     # 开始游戏的流程仍需处理
 
     connect()  # 连接到服务器
-    
+
     # 账号/昵称
     ide.append(str(userAccount[0]))
     ide.append(str(target[0]))
     print('游戏加载中...')
 
     global game
-
     game = Action()
-
     while int(time()) % 60 != 0:
         sleep(1)
-
     game.reset()
-
     print('游戏开始了!')
 
     # 同时开启游戏和接受命令的线程
 
     getCmd = game.getCmd(game)
-
     tcpCliSock.settimeout(0.05)
-
+    t = time()
     getCmd.start()
-
     g = threading.Thread(target=pgzrun.go())
-
     g.start()
-
     getCmd.join()
-
     g.join()
+
 
 startGame()
