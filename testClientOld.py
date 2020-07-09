@@ -1,5 +1,5 @@
 import pgzrun
-# import easygui as gui
+import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
@@ -10,32 +10,39 @@ import threading
 from time import sleep, time
 screen: Screen  # 类型标注
 
-clicktime = 0
-click_count = 0
 ide = []
-
 # 血量图标对象
 
 player_icon = Actor('人图标')
+
 life_frame = Actor('血框')
+
 life_block = Actor('血块')
+
 life_icon = Actor('生命值图标')
+
 DenfenseTower_icon = Actor('防御塔图标')
+
 Base_icon = Actor('主塔图标')
 
 
 # 金钱图标对象
 
 money_0 = Actor('金钱框')
+
 money_0.topleft = 975, 100
+
 money_2 = Actor('钱币图标')
+
 money_2.topleft = 975, 77
+
 money_1 = Actor('金钱块')
 
 
 # 显示页面大小
 
 WIDTH = 1200
+
 HEIGHT = 700
 
 
@@ -147,14 +154,6 @@ def draw():
 
 
 def on_mouse_down(pos):  # 造兵方式
-    global clicktime
-    if clicktime == 0:
-        clicktime = time()
-    elif clicktime != 0 and time() - clicktime < 1:
-        print("You Click Too Quickly")
-        return
-    else:
-        clicktime = time()
 
     order_command = Command(game.turnID + 10, 0, [0])
     if warrior_up.collidepoint(pos) and game.money >= 2:
