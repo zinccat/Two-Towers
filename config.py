@@ -35,19 +35,19 @@ TurretAttack = 5
 TurretLife = 100
 TurretRange = 10
 TurretmCD = 0
-TurretaCD = 5
+TurretaCD = 30
 TurretPos = 10
 
 # 骑士 2
 KnightAttack = 8
 KnightLife = 80
 KnightRange = 1
-KnightmCD = 5
-KnightaCD = 10
+KnightmCD = 40
+KnightaCD = 50
 
 # 弓箭手 3
 ArcherAttack = 5
 ArcherLife = 30
 ArcherRange = 8
-ArchermCD = 3
-ArcheraCD = 6
+ArchermCD = 30
+ArcheraCD = 30

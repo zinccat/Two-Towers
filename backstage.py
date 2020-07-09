@@ -8,9 +8,12 @@ import json
 import re
 from time import sleep, time
 
+# 用于同步
+flag = [-1]
 
 # 此处定义了游戏所用到的全局变量
-HOST = '65.49.209.247'
+#HOST = '65.49.209.247'
+HOST = '62.234.107.120'
 #HOST = 'localhost'
 PORT = 8029
 BUFSIZE = 1024  # 缓冲区大小  1K
@@ -85,10 +88,13 @@ def register():
 # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
 
 
-def sendOp(target, op):
-    #turnID, CmdType, CmdStr, optype
-    dataObj = {'froms': userAccount, 'to': target,
-               'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
+def sendOp(target, op, mode):
+    if mode == 1: #指令
+        #turnID, CmdType, CmdStr, optype
+        dataObj = {'froms': userAccount[0], 'to': target,
+                'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
+    elif mode == 0:  #同步
+        dataObj = {'froms': userAccount[0], 'to': target, 'CmdType': '-1'}
     datastr = json.dumps(dataObj)
     try:
         tcpCliSock.send(datastr.encode('utf-8'))
@@ -219,7 +225,7 @@ class Action:
 
         # 金钱更新
         if self.money < 10:
-            self.timeCount += 6
+            self.timeCount += 1
             if self.timeCount >= 60:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0
@@ -253,6 +259,7 @@ class Action:
         def __init__(self, game):
             threading.Thread.__init__(self)
             self.ops2 = game.ops2
+            self.lock = threading.RLock()
 
         # 为了处理ops2不存在的问题
 
@@ -263,12 +270,14 @@ class Action:
                     if data == '-1':
                         print('can not connect to target!')
                         break
+                    elif data == '0':  # 同步指令
+                        flag[0] = 10  # 每10回合同步一次
                     else:
                         dataObj = json.loads(data)
                         print('{} ->{} : {} {} {}'.format(
-                            dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                                dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
                         t = Command(
-                            dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
+                                dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)
                 except:
                     pass

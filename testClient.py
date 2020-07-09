@@ -150,7 +150,7 @@ def on_mouse_down(pos):  # 造兵方式
     global clicktime
     if clicktime == 0:
         clicktime = time()
-    elif clicktime != 0 and time() - clicktime < 1:
+    elif clicktime != 0 and time() - clicktime < 0.3:
         print("You Click Too Quickly")
         return
     else:
@@ -189,22 +189,21 @@ def on_mouse_down(pos):  # 造兵方式
 
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
-        sendOp(target[0], order_command)  # 发送指令给对方
+        sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-
-# 用于计时
-t = 0
-t1 = 0
+def waiting():
+    while flag[0] <= 0:
+        sleep(0.1)
 
 def update():
-    global t
-    global t1
     # 初始化回合
     game.update()
-    if (game.turnID % 30 == 0):
-        print(game.turnID)
-        print(time() - t1)
-        t1=time()
+    #if (game.turnID % 10 == 0):
+    #    print(game.turnID)
+    threading.Thread(target=waiting()).start()
+    flag[0] -= 1
+    if flag[0] == 0:
+        sendOp(target[0], '', 0)
     # 读取命令
     game.ReadCmd()
     # 检查可行的战斗
@@ -235,8 +234,6 @@ def update():
 
     # 更新画面
     draw()
-    sleep(max(0, 0.1 + t - time()))
-    t = time()
     if result > 0:
         sleep(10)
         print('游戏结束')
@@ -256,17 +253,19 @@ def startGame():
 
     global game
     game = Action()
+    '''
     while int(time()) % 60 != 0:
         sleep(1)
+    '''
     game.reset()
-    print('游戏开始了!')
-
-    # 同时开启游戏和接受命令的线程
-
     getCmd = game.getCmd(game)
     tcpCliSock.settimeout(0.05)
     t = time()
     getCmd.start()
+    sendOp(target[0], '', 0)
+    threading.Thread(target=waiting()).start()
+    print('游戏开始了!')
+    # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())
     g.start()
     getCmd.join()
