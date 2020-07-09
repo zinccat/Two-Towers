@@ -22,6 +22,7 @@ print(t)
 import time
 import pgzrun
 import pygame
+'''
 def draw():
     screen.clear()
     screen.fill("white")
@@ -38,5 +39,7 @@ def update(dt):
     draw()
 
 flag = 0
+'''
 t = time.time()
-pgzrun.go()
+time.sleep(3)
+print(time.time()-t)
