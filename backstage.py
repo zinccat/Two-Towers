@@ -43,7 +43,9 @@ def connect():
                 for i in range(len(fieldNames)):
                     option = fieldNames[i].strip()
                     if fieldValues[i].strip() == "" and option[0] == "*":
-                        errmsg += ("[%s]为必填项！   " % fieldNames[i])
+                        errmsg += ("[%s]为必填项! " % fieldNames[i])
+                if fieldValues[0] == fieldValues[1]:
+                    errmsg += '不允许 我 打 我 自 己!'
                 if errmsg == "":
                     break
                 fieldValues = gui.multenterbox(
@@ -62,7 +64,6 @@ def connect():
                 print('失败, 请再试一次')
                 continue
     except:
-        print('网络罢工了, 请稍后再试')
         sys.exit(0)
 
 
