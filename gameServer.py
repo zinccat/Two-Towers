@@ -6,7 +6,7 @@ import subprocess
 
 
 connLst = []
-tick = dict()
+tick = dict()  # 用于维护时间刻的同步
 
 # 代号 地址和端口 连接对象
 
@@ -14,43 +14,25 @@ tick = dict()
 
 
 class Connector(object):  # 存放连接
-
     def __init__(self, account, addrPort, conObj):
-
         self.account = account
-
         self.addrPort = addrPort
-
         self.conObj = conObj
 
 
 class MyServer(socketserver.BaseRequestHandler):
     def handle(self):
-
-        # 测试
-
         print("got connection from", self.client_address)
-
         userIn = False
-
         global connLst
-
         while not userIn:
-
             conn = self.request
-
             data = conn.recv(1024)
-
             if not data:
-
                 continue
-
             dataobj = json.loads(data.decode('utf-8'))
-
             # 如果连接客户端发送过来的信息格式是一个列表且注册标识为False时进行用户注册
-
             ret = '0'
-
             if type(dataobj) == list and not userIn:
                 account = dataobj[0]
                 try:

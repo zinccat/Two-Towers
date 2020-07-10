@@ -240,6 +240,7 @@ def update():
             sys.exit(0)
         '''
         title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
+        tcpCliSock.close()
         sys.exit(0)
 
 
