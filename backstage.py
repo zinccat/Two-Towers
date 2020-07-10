@@ -34,7 +34,7 @@ syncTimeCount = [0]
 
 def waiting():
     while flag[0] <= 0:
-        sleep(0.1)
+        sleep(0.05)
         if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 15:
             title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
                                title='游戏结束啦', ok_button="再见")
