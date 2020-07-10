@@ -5,7 +5,6 @@ import threading
 import sys
 import json
 from time import sleep, time
-import easygui as gui
 import queue
 
 # 用于同步
@@ -40,29 +39,18 @@ def connect():
     try:
         tcpCliSock.connect(ADDR)
         print('Connected with server')
-        while True:  # 注册
+        while True:
             msg = "请输入双方id并点击开始游戏"
-            title = "Welcome"
-            fieldNames = ["*你是谁", "*想打谁"]
-            fieldValues = []
-            fieldValues = gui.multenterbox(msg, title, fieldNames)
             while True:
-                if fieldValues == None:
+                account[0] = input('你是谁? ')
+                target[0] = input('想打谁? ')
+                if account[0] == '' or target[0] == '':
+                    print('id不能为空!')
+                elif account[0] == target[0]:
+                    print('不允许 我 打 我 自 己!')
+                else:
                     break
-                errmsg = ""
-                for i in range(len(fieldNames)):
-                    option = fieldNames[i].strip()
-                    if fieldValues[i].strip() == "" and option[0] == "*":
-                        errmsg += ("[%s]为必填项! " % fieldNames[i])
-                if fieldValues[0] == fieldValues[1]:
-                    errmsg += '不允许 我 打 我 自 己!'
-                if errmsg == "":
-                    break
-                fieldValues = gui.multenterbox(
-                    errmsg, title, fieldNames, fieldValues)
-            account[0] = fieldValues[0]
-            target[0] = fieldValues[1]
-            regInfo = [fieldValues[0], 'register']
+            regInfo = [account[0], 'register']
             datastr = json.dumps(regInfo)
             tcpCliSock.send(datastr.encode('utf-8'))
             data = tcpCliSock.recv(BUFSIZE)

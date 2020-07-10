@@ -17,7 +17,7 @@ import json
 
 HOST = '62.234.107.120'
 # HOST = 'localhost'
-PORT = 8029
+PORT = 8026
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
@@ -43,7 +43,7 @@ def connect():
                 for i in range(len(fieldNames)):
                     option = fieldNames[i].strip()
                     if fieldValues[i].strip() == "" and option[0] == "*":
-                        errmsg += ("[%s]为必填项   " % fieldNames[i])
+                        errmsg += ("[%s]为必填项! " % fieldNames[i])
                 if errmsg == "":
                     break
                 fieldValues = gui.multenterbox(errmsg, title, fieldNames, fieldValues)
@@ -65,7 +65,7 @@ def connect():
         print('error')
         sys.exit(0)
 
-tcpCliSock.settimeout(0.05)
+tcpCliSock.settimeout(0.1)
 connect()
 print(account)
 print(target)

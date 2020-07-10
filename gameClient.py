@@ -143,7 +143,7 @@ def on_mouse_down(pos):  # 造兵方式
     if clicktime == 0:
         clicktime = time()
     elif clicktime != 0 and time() - clicktime < 0.3:
-        print("You Click Too Quickly")
+        print("点的太快了!")
         return
     else:
         clicktime = time()
@@ -182,12 +182,6 @@ def on_mouse_down(pos):  # 造兵方式
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
-
-
-def waiting():
-    while flag[0] <= 0:
-        sleep(0.05)
-
 
 def update():
     # 初始化回合
