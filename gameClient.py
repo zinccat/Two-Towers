@@ -76,7 +76,7 @@ def draw():
             if w.wType == 1:
                 screen.blit('turret', (road[r][w.pos][w.wGrid]))
             elif w.wType == 2:
-                screen.blit('knight'+(10 * w.wLife//, (road[r][w.pos][w.wGrid]))
+                screen.blit('knight'+((10 * w.wLife)//KnightLife), (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
             if w.wType != 0:
                 screen.blit(warrior_image[w.wType], (road[r][w.pos][w.wGrid]))
