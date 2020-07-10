@@ -224,7 +224,7 @@ def update():
     # 更新画面
     draw()
     if result > 0:
-        for i in range(10):
+        for i in range(5):
             # 多发几次同步指令确保对方正确显示游戏结果
             sendOp(target[0], '', 0)
             sleep(0.2)
