@@ -324,6 +324,9 @@ class Game:
                     if w.wType == 1:
                         print('己方防御塔被攻陷!')
                         self.life[i + 1] = 0
+                        for ww in self.w1[i]:
+                            if ww.wType == 0: #找到主塔
+                                ww.wAttack -= BaseAttack / AttackReduction
                     self.w1[i].remove(w)
 
         for i in range(3):
@@ -332,7 +335,12 @@ class Game:
                     if w.wType == 1:
                         print('敌方防御塔被攻陷!')
                         self.life[i + 5] = 0
-                        self.timeCount += 60 * Reward  # 奖励
+                        self.timeCount += 60 * TurretReward  # 奖励
+                        for ww in self.w2[i]:
+                            if ww.wType == 0:  # 找到主塔
+                                ww.wAttack -= BaseAttack / AttackReduction
+                    else:
+                        self.timeCount += 60 * WarriorReward  # 奖励
                     self.w2[i].remove(w)
 
     # 武士移动函数
