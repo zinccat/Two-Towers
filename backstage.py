@@ -409,6 +409,7 @@ class Action:
                     if w.wType == 1:
                         print('敌方防御塔被攻陷!')
                         self.life[i + 5] = 0
+                        self.timeCount += 120 # 奖励
                     self.w2[i].remove(w)
 
     # 士兵移动函数
