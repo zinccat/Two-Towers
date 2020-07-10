@@ -48,6 +48,9 @@ class Base(Warrior):
             self.aCD -= 1
         if attacked:
             self.aCD = BaseaCD
+            
+    def Get_InitLife():
+        return BaseLife
 
 
 # type 1
@@ -79,6 +82,9 @@ class Turret(Warrior):
             self.aCD -= 1
         if attacked:
             self.aCD = TurretaCD
+        
+    def Get_InitLife():
+        return TurretLife
 
 # type 2
 
@@ -107,6 +113,9 @@ class Knight(Warrior):
             self.aCD -= 1
         if attacked:
             self.aCD = KnightaCD
+            
+    def Get_InitLife():
+        return KnightLife
 
 
 # type 3
@@ -136,3 +145,6 @@ class Archer(Warrior):
             self.aCD -= 1
         if attacked:
             self.aCD = ArcheraCD
+            
+    def Get_InitLife():
+        return ArcherLife
