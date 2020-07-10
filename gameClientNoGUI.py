@@ -10,7 +10,6 @@ from backstageNoGUI import flag, game, sendOp, waiting, ide, clicktime, tcpCliSo
 from Roadpos_set import road
 import threading
 from time import sleep, time
-import sys
 screen: Screen  # 类型标注
 
 # 血量图标对象
@@ -141,6 +140,7 @@ def draw():
     screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
 
 
+
 def on_mouse_down(pos):  # 造兵方式
     global clicktime
     if clicktime == 0:
@@ -186,7 +186,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-def update(dt):
+def update():
     # 初始化回合
     game.update()
     # 同步
@@ -243,6 +243,20 @@ def startGame():
     sendOp(target[0], '', 0)
     threading.Thread(target=waiting()).start()
     print('游戏开始了!')
+    # 放音乐
+    for i in range(10):
+        music.play_once('bgm_1')
+
+        music.set_volume(0.3)
+
+        music.queue('东方_1')
+
+        music.set_volume(0.3)
+
+        music.queue('东方_2')
+
+        music.set_volume(0.3)
+
     # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())
     g.start()
