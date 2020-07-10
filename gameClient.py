@@ -43,14 +43,6 @@ archer_mid = Actor('弓箭手', (166 + 960, 510))
 warrior_down = Actor('小兵', (70 + 960, 635))
 archer_down = Actor('弓箭手', (166 + 960, 635))
 
-
-# 创建小兵图片对象
-
-Knight_image = Actor('小兵色块')
-Archer_image = Actor('弓箭手色块')
-worrior_image = [0, '防御塔色块', '小兵色块', '弓箭手色块']
-
-
 def draw():
     screen.clear()
     screen.fill("white")
@@ -81,11 +73,13 @@ def draw():
 
     for r in range(3):
         for w in game.w1[r]:
-            if w.wType != 0:
-                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
+            if w.wType == 1:
+                screen.blit('turret', (road[r][w.pos][w.wGrid]))
+            elif w.wType == 2:
+                screen.blit('knight'+(10 * w.wLife//, (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
             if w.wType != 0:
-                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
+                screen.blit(warrior_image[w.wType], (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
         if j > 3:
@@ -246,8 +240,8 @@ def startGame():
     print('游戏开始了!')
     # 放音乐
     for i in range(10):
-        #music.play_once('bgm_1')
-        #music.set_volume(0.3)
+        music.play_once('bgm_1')
+        music.set_volume(0.3)
         music.play_once('东方_1')
         music.set_volume(0.3)
         music.queue('东方_2')
