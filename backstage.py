@@ -223,7 +223,7 @@ class Game:
                 self.timeCount += AccSpeed1
             else:
                 self.timeCount += AccSpeed2
-            if self.timeCount >= 60:
+            if self.timeCount >= 50:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0
         else:
