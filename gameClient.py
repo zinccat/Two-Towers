@@ -1,5 +1,5 @@
 import pgzrun
-# import easygui as gui
+import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
@@ -7,6 +7,7 @@ from pgzero.screen import Screen
 from backstage import *
 from Roadpos_set import *
 import threading
+import sys
 from time import sleep, time
 screen: Screen  # 类型标注
 
@@ -183,7 +184,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-def update():
+def update(dt):
     # 初始化回合
     game.update()
     # 同步

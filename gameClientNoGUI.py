@@ -8,6 +8,7 @@ from backstageNoGUI import *
 from Roadpos_set import *
 import threading
 from time import sleep, time
+import sys
 screen: Screen  # 类型标注
 
 # 血量图标对象
@@ -183,7 +184,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-def update():
+def update(dt):
     # 初始化回合
     game.update()
     # 同步
