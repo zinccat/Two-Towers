@@ -1,5 +1,5 @@
 import pgzrun
-import easygui as gui
+# import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
@@ -7,7 +7,6 @@ from pgzero.screen import Screen
 from backstage import *
 from Roadpos_set import *
 import threading
-import sys
 from time import sleep, time
 screen: Screen  # 类型标注
 
@@ -184,7 +183,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-def update(dt):
+def update():
     # 初始化回合
     game.update()
     # 同步
@@ -246,6 +245,20 @@ def startGame():
     sendOp(target[0], '', 0)
     threading.Thread(target=waiting()).start()
     print('游戏开始了!')
+    # 放音乐
+    for i in range(10):
+        music.play_once('bgm_1')
+
+        music.set_volume(0.3)
+
+        music.queue('东方_1')
+
+        music.set_volume(0.3)
+
+        music.queue('东方_2')
+
+        music.set_volume(0.3)
+
     # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())
     g.start()
