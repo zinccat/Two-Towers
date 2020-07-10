@@ -188,7 +188,6 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-
 def update(dt):
     # 初始化回合
     game.update()
@@ -254,15 +253,10 @@ def startGame():
     # 放音乐
     for i in range(10):
         music.play_once('bgm_1')
-
         music.set_volume(0.3)
-
         music.queue('东方_1')
-
         music.set_volume(0.3)
-
         music.queue('东方_2')
-
         music.set_volume(0.3)
 
     # 同时开启游戏和接受命令的线程

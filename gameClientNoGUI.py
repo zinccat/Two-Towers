@@ -60,7 +60,7 @@ def draw():
     money_2.draw()
 
     for i in range(game.money):
-        money_1.topleft = 978+20*i, 103
+        money_1.topleft = 978 + 20 * i, 103
         money_1.draw()
 
     screen.draw.text("Money:%d/10" % game.money, (1000, 82), color='black')
@@ -94,8 +94,8 @@ def draw():
             dfx = 0
             dfy = 0
 
-        life_frame.topleft = 25+dfx, 440+j*70+dfy
-        life_icon.topleft = 24+dfx, 421+j*70+dfy
+        life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
+        life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
         if j % 4 == 0:
 
@@ -139,6 +139,7 @@ def draw():
     screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
     screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
 
+# 鼠标点击特定位置时执行对应指令
 
 
 def on_mouse_down(pos):  # 造兵方式
@@ -146,7 +147,7 @@ def on_mouse_down(pos):  # 造兵方式
     if clicktime == 0:
         clicktime = time()
     elif clicktime != 0 and time() - clicktime < 0.3:
-        print("点的太快了!")
+        print("点的太快了!")  # 限制点击频率避免同步异常
         return
     else:
         clicktime = time()
@@ -186,7 +187,7 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
-def update():
+def update(dt):
     # 初始化回合
     game.update()
     # 同步
@@ -246,19 +247,14 @@ def startGame():
     # 放音乐
     for i in range(10):
         music.play_once('bgm_1')
-
         music.set_volume(0.3)
-
         music.queue('东方_1')
-
         music.set_volume(0.3)
-
         music.queue('东方_2')
-
         music.set_volume(0.3)
 
     # 同时开启游戏和接受命令的线程
-    g = threading.Thread(target=pgzrun.go())
+    g = threading.Thread(target=pgzrun.go())  # 游戏线程
     g.start()
     getCmd.join()
     g.join()
