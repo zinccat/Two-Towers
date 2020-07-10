@@ -33,15 +33,11 @@ class Base(Warrior):
         super().__init__(0, wteam, wgrid, wpos)
 
         self.wAttack = BaseAttack
-
+        self.wDefence = BaseDefence
         self.wLife = BaseLife
-
         self.wRange = BaseRange
-
         self.mCD = BasemCD
-
         self.aCD = BaseaCD
-
         self.pos = wpos
 
     def updatemCD(self, moved):
@@ -67,17 +63,12 @@ class Turret(Warrior):
     def __init__(self, wteam, wgrid=2, wpos=TurretPos):
 
         super().__init__(1, wteam, wgrid, wpos)
-
         self.wAttack = TurretAttack
-
+        self.wDefence = TurretDefence
         self.wLife = TurretLife
-
         self.wRange = TurretRange
-
         self.mCD = TurretmCD
-
         self.aCD = TurretaCD
-
         self.pos = wpos
 
     def updatemCD(self, moved):
@@ -100,17 +91,12 @@ class Turret(Warrior):
 class Knight(Warrior):
 
     def __init__(self, wteam, wgrid, wpos=0):
-
         super().__init__(2, wteam, wgrid, wpos)
-
         self.wAttack = KnightAttack
-
+        self.wDefence = KnightDefence
         self.wLife = KnightLife
-
         self.wRange = KnightRange
-
         self.mCD = KnightmCD
-
         self.aCD = KnightaCD
 
     def updatemCD(self, moved):
@@ -134,17 +120,12 @@ class Knight(Warrior):
 class Archer(Warrior):
 
     def __init__(self, wteam, wgrid, wpos=0):
-
         super().__init__(3, wteam, wgrid, wpos)
-
         self.wAttack = ArcherAttack
-
+        self.wDefence = ArcherDefence
         self.wLife = ArcherLife
-
         self.wRange = ArcherRange
-
         self.mCD = ArchermCD
-
         self.aCD = ArcheraCD
 
     def updatemCD(self, moved):

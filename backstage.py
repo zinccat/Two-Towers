@@ -119,7 +119,8 @@ class Battle:
             # 只有在对方没死的时候才会攻击并更新aCD
             self.WarriorAttack.attacked = True
             self.WarriorAttack.updateaCD(1)
-            self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
+            self.WarriorDefence.wLife -= max(
+                1, self.WarriorAttack.wAttack - self.WarriorDefence.wDefence)
 
 
 class Game:
@@ -325,7 +326,7 @@ class Game:
                         print('己方防御塔被攻陷!')
                         self.life[i + 1] = 0
                         for ww in self.w1[i]:
-                            if ww.wType == 0: #找到主塔
+                            if ww.wType == 0:  # 找到主塔
                                 ww.wAttack -= BaseAttack / AttackReduction
                     self.w1[i].remove(w)
 

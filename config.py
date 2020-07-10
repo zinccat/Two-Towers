@@ -29,7 +29,8 @@ AttackReduction = 4
 #下面为各种游戏角色的参数, 以后调参都在这里进行
 
 # 主塔 0
-BaseAttack = 10
+BaseAttack = 20
+BaseDefence = 6
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
@@ -38,7 +39,8 @@ BasePos = 0
 TrueBaseLife = 500
 
 # 防御塔 1
-TurretAttack = 8
+TurretAttack = 12
+TurretDefence = 8
 TurretLife = 100
 TurretRange = 10
 TurretmCD = 0
@@ -46,14 +48,16 @@ TurretaCD = 30
 TurretPos = 10
 
 # 骑士 2
-KnightAttack = 8
-KnightLife = 80
+KnightAttack = 12
+KnightDefence = 6
+KnightLife = 50
 KnightRange = 1
 KnightmCD = 40
 KnightaCD = 50
 
 # 弓箭手 3
-ArcherAttack = 5
+ArcherAttack = 10
+ArcherDefence = 4
 ArcherLife = 30
 ArcherRange = 8
 ArchermCD = 30
