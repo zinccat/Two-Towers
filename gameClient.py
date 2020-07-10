@@ -2,7 +2,7 @@
 # 这是有GUI欢迎界面的游戏客户端, 需预先安装easygui
 
 import pgzrun
-# import easygui as gui
+import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
