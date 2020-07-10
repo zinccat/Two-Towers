@@ -246,9 +246,9 @@ def startGame():
     print('游戏开始了!')
     # 放音乐
     for i in range(10):
-        music.play_once('bgm_1')
-        music.set_volume(0.3)
-        music.queue('东方_1')
+        #music.play_once('bgm_1')
+        #music.set_volume(0.3)
+        music.play_once('东方_1')
         music.set_volume(0.3)
         music.queue('东方_2')
         music.set_volume(0.3)
