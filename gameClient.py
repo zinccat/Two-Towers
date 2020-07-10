@@ -223,12 +223,6 @@ def update(dt):
             msg += '你赢了!\n'
         elif result == 2:
             msg += '你挂了!\n'
-        '''
-        if gui.ccbox(m +"还玩🐴?", choices=("再来一局", "不玩了")):
-            startGame()
-        else:
-            sys.exit(0)
-        '''
         tcpCliSock.close()
         title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
         sys.exit(0)

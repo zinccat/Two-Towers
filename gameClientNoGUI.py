@@ -239,7 +239,7 @@ def startGame():
     game = Game()
     game.reset()
     # 打开通信接口
-    getCmd = game.getCmd(game)
+    getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
     sendOp(target[0], '', 0)
     threading.Thread(target=waiting()).start()
