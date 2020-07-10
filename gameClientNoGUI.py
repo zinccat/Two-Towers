@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+# 这是没有GUI欢迎界面的游戏客户端, 不需安装easygui即可运行
+
 import pgzrun
-# import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
-from backstageNoGUI import *
-from Roadpos_set import *
+from backstageNoGUI import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command
+from Roadpos_set import road
 import threading
 from time import sleep, time
 import sys

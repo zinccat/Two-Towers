@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-
-# Warrior类的内容写在这里
-
+# 在这里定义的是游戏中角色的基本单位---Warrior的类
 
 from config import *
-
 
 # 父类型
 

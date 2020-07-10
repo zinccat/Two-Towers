@@ -1,11 +1,14 @@
+# -*- coding: utf-8 -*-
+# 这是有GUI欢迎界面的游戏客户端, 需预先安装easygui
+
 import pgzrun
 import easygui as gui
 import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
-from backstage import *
-from Roadpos_set import *
+from backstage import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
+from Roadpos_set import road
 import threading
 import sys
 from time import sleep, time
@@ -59,7 +62,7 @@ def draw():
     money_2.draw()
 
     for i in range(game.money):
-        money_1.topleft = 978+20*i, 103
+        money_1.topleft = 978 + 20 * i, 103
         money_1.draw()
 
     screen.draw.text("Money:%d/10" % game.money, (1000, 82), color='black')
@@ -93,8 +96,8 @@ def draw():
             dfx = 0
             dfy = 0
 
-        life_frame.topleft = 25+dfx, 440+j*70+dfy
-        life_icon.topleft = 24+dfx, 421+j*70+dfy
+        life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
+        life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
         if j % 4 == 0:
 
@@ -138,13 +141,15 @@ def draw():
     screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
     screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
 
+# 鼠标点击特定位置时执行对应指令
+
 
 def on_mouse_down(pos):  # 造兵方式
     global clicktime
     if clicktime == 0:
         clicktime = time()
     elif clicktime != 0 and time() - clicktime < 0.3:
-        print("点的太快了!")
+        print("点的太快了!")  # 限制点击频率避免同步异常
         return
     else:
         clicktime = time()
@@ -183,6 +188,7 @@ def on_mouse_down(pos):  # 造兵方式
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
+
 
 def update(dt):
     # 初始化回合
@@ -241,15 +247,16 @@ def startGame():
     game = Game()
     game.reset()
     # 打开通信接口
-    getCmd = game.getCmd(game)
+    getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
     sendOp(target[0], '', 0)
-    threading.Thread(target=waiting()).start()
+    threading.Thread(target=waiting()).start()  # 单开线程用于同步, 等待对手上线
     print('游戏开始了!')
     # 同时开启游戏和接受命令的线程
-    g = threading.Thread(target=pgzrun.go())
+    g = threading.Thread(target=pgzrun.go())  # 游戏线程
     g.start()
     getCmd.join()
     g.join()
+
 
 startGame()

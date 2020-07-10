@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# 这是有GUI欢迎界面的游戏后端, 需安装easygui
+
 from config import *
 from warrior import *
 from socket import *
@@ -24,14 +27,19 @@ target = [None]
 game = None
 clicktime = 0
 ide = []
+syncTimeCount = [0]
 
-# 无比简单的等待函数
+# 无比简单的等待函数 (用于同步)
 
 
 def waiting():
     while flag[0] <= 0:
-        sleep(0.05)
-
+        sleep(0.1)
+        if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 15:
+            title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
+                               title='游戏结束啦', ok_button="再见")
+            sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
+            sys.exit(0)
 
 # 连接到服务器并注册
 
@@ -68,7 +76,7 @@ def connect():
             data = tcpCliSock.recv(BUFSIZE)
             data = data.decode('utf-8')
             if data == '0':
-                print('等待对手上线...')
+                print('等待对手上线中...')
                 break
             else:
                 print('失败, 请再试一次')
@@ -80,12 +88,14 @@ def connect():
 
 
 def sendOp(target, op, mode):
-    if mode == 1:  # 指令
+    if mode == 0:  # 同步
+        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
+    elif mode == 1:  # 指令
         #turnID, CmdType, CmdStr, optype
         dataObj = {'froms': account[0], 'to': target,
                    'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
-    elif mode == 0:  # 同步
-        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
+    elif mode == -1:  # 友善(划掉)的提醒对面他挂了
+        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-2'}
     datastr = json.dumps(dataObj)
     try:
         tcpCliSock.send(datastr.encode('utf-8'))
@@ -182,6 +192,25 @@ class Game:
             self.w1[i].clear()
             self.w2[i].clear()
         self.__init__()
+    
+    # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
+    def upgrade(self, num):
+        # 发送指令部分在gameclient里面写
+        if num == 0:
+            for i in range(3):
+                for w in w1[i]:
+                    if w.wType == 0:
+                        w.wAttack *= UpgradeRate
+                        w.wDefence *= UpgradeRate
+                        break
+        else:
+            for w in w1[num - 1]:
+                if w.wType == 1:
+                    w.wAttack *= UpgradeRate
+                    w.wDefence *= UpgradeRate
+                    break
+            else:
+                print('防御塔已损毁, 升级失败!')
 
     # 回合初状态刷新
     def update(self):
@@ -224,11 +253,16 @@ class Game:
             while True:
                 try:
                     data = tcpCliSock.recv(BUFSIZE).decode('utf-8')
-                    if data == '-1':
-                        print('can not connect to target!')
-                        break
-                    elif data == '0':  # 同步指令
+                    if data == '0':  # 同步指令
                         flag[0] = 20  # 每20回合同步一次, 看起来不用线程锁也行
+                    elif data == '-1':
+                        title = gui.msgbox(
+                            msg='网络罢工啦', title='游戏结束啦', ok_button="再见")
+                        sys.exit(0)
+                    elif data == '-2':
+                        title = gui.msgbox(
+                            msg='你掉线太久, 被自动判负!', title='游戏结束啦', ok_button="再见")
+                        sys.exit(0)
                     else:
                         dataObj = json.loads(data)
                         print('{} ->{} : {} {} {}'.format(
