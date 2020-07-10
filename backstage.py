@@ -192,7 +192,7 @@ class Game:
             self.w1[i].clear()
             self.w2[i].clear()
         self.__init__()
-    
+
     # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
     def upgrade(self, num):
         # 发送指令部分在gameclient里面写
@@ -217,7 +217,12 @@ class Game:
         self.turnID += 1
         # 金钱刷新
         if self.money < 10:
-            self.timeCount += 1
+            if self.turnID < AccTurn1:
+                self.timeCount += 1
+            elif self.turnID < AccTurn2 and self.turnID >= AccTurn1:
+                self.timeCount += AccSpeed1
+            else:
+                self.timeCount += AccSpeed2
             if self.timeCount >= 60:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0

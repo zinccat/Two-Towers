@@ -29,6 +29,12 @@ AttackReduction = 4
 # 塔升级参数
 UpgradeRate = 1.2
 
+# 造钱速度加成 在特定回合造钱速度*特定倍数
+AccTurn1 = 7500
+AccTurn2 = 14000
+AccSpeed1 = 1.5
+AccSpeed2 = 2
+
 #下面为各种游戏角色的参数, 以后调参都在这里进行
 
 # 主塔 0

@@ -205,7 +205,12 @@ class Game:
         self.turnID += 1
         # 金钱刷新
         if self.money < 10:
-            self.timeCount += 1
+            if self.turnID < AccTurn1:
+                self.timeCount += 1
+            elif self.turnID < AccTurn2 and self.turnID >= AccTurn1:
+                self.timeCount += AccSpeed1
+            else:
+                self.timeCount += AccSpeed2
             if self.timeCount >= 60:
                 self.MoneyAccumulate(1)
                 self.timeCount = 0
