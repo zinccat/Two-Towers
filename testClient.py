@@ -242,6 +242,7 @@ def update():
         title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
         sys.exit(0)
 
+
 def startGame():
     # 开始游戏的流程仍需处理
     connect()  # 连接到服务器

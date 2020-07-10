@@ -5,16 +5,12 @@ import time
 import subprocess
 
 
-
 connLst = []
 tick = dict()
 
 # 代号 地址和端口 连接对象
 
 # optype = {'ag':'group adding','cp':'chat with individual','cg':'chat with group'}
-
-
-
 
 
 class Connector(object):  # 存放连接
@@ -26,9 +22,6 @@ class Connector(object):  # 存放连接
         self.addrPort = addrPort
 
         self.conObj = conObj
-
-
-
 
 
 class MyServer(socketserver.BaseRequestHandler):
@@ -61,7 +54,8 @@ class MyServer(socketserver.BaseRequestHandler):
             if type(dataobj) == list and not userIn:
                 account = dataobj[0]
                 try:
-                    conObj = Connector(account, self.client_address, self.request)
+                    conObj = Connector(
+                        account, self.client_address, self.request)
                     if len(connLst) > 15:
                         #列表出现冗余, 移除多余的账户
                         cnt = 0
@@ -72,10 +66,10 @@ class MyServer(socketserver.BaseRequestHandler):
                                 break
                     connLst.append(conObj)
                     print('{} has connected to the system({})'.format(
-                                account, self.client_address))
+                        account, self.client_address))
                 except:
                     print('%s failed to register for exception!' %
-                                  account)
+                          account)
                     ret = '99'
             conn.sendall(ret.encode('utf-8'))
             if ret == '0':
@@ -86,10 +80,9 @@ class MyServer(socketserver.BaseRequestHandler):
             data = conn.recv(1024)
             if not data:
                 continue
-            print(data)
             dataobj = data.decode('utf-8')
             dataobj = json.loads(dataobj)
-            if dataobj['CmdType'] == '-1':  #同步指令
+            if dataobj['CmdType'] == '-1':  # 同步指令
                 if tick.get((dataobj['to'], dataobj['froms']), False) == True:
                     tick[(dataobj['to'], dataobj['froms'])] = False
                     if len(connLst) > 0:
@@ -110,6 +103,7 @@ class MyServer(socketserver.BaseRequestHandler):
             # 客户端将数据发给服务器端然后由服务器转发给目标客户端
             # print('connLst', connLst)
             elif len(connLst) > 1:
+                print(data)
                 sendok = False
                 for obj in connLst:
                     if dataobj['to'] == obj.account:

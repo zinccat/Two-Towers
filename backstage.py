@@ -26,6 +26,7 @@ game = None
 
 # 连接到服务器并注册
 
+
 def connect():
     try:
         tcpCliSock.connect(ADDR)
@@ -94,11 +95,11 @@ class Command:
 
 
 def sendOp(target, op, mode):
-    if mode == 1: #指令
+    if mode == 1:  # 指令
         #turnID, CmdType, CmdStr, optype
         dataObj = {'froms': account[0], 'to': target,
-                'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
-    elif mode == 0:  #同步
+                   'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
+    elif mode == 0:  # 同步
         dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
     datastr = json.dumps(dataObj)
     try:
@@ -280,9 +281,9 @@ class Action:
                     else:
                         dataObj = json.loads(data)
                         print('{} ->{} : {} {} {}'.format(
-                                dataObj['froms'], account[0], dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                            dataObj['froms'], account[0], dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
                         t = Command(
-                                dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
+                            dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)
                 except:
                     pass
@@ -409,7 +410,7 @@ class Action:
                     if w.wType == 1:
                         print('敌方防御塔被攻陷!')
                         self.life[i + 5] = 0
-                        self.timeCount += 120 # 奖励
+                        self.timeCount += 60 * Reward  # 奖励
                     self.w2[i].remove(w)
 
     # 士兵移动函数
@@ -445,6 +446,7 @@ class Action:
                         i.wGrid = j
                         i.updatemCD(1)
                         break
+
 
 '''
 # 命令测试
