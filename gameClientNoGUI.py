@@ -6,10 +6,12 @@ import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
-from backstageNoGUI import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command
+from backstageNoGUI import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
 from Roadpos_set import road
+from config import *
 import threading
 from time import sleep, time
+from math import ceil
 screen: Screen  # 类型标注
 
 # 血量图标对象
@@ -42,14 +44,6 @@ archer_mid = Actor('弓箭手', (166 + 960, 510))
 warrior_down = Actor('小兵', (70 + 960, 635))
 archer_down = Actor('弓箭手', (166 + 960, 635))
 
-
-# 创建小兵图片对象
-
-Knight_image = Actor('小兵色块')
-Archer_image = Actor('弓箭手色块')
-worrior_image = [0, '防御塔色块', '小兵色块', '弓箭手色块']
-
-
 def draw():
     screen.clear()
     screen.fill("white")
@@ -80,11 +74,22 @@ def draw():
 
     for r in range(3):
         for w in game.w1[r]:
-            if w.wType != 0:
-                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
+            if w.wType == 1:
+                screen.blit('turret', (road[r][w.pos][w.wGrid]))
+            elif w.wType == 2:
+                screen.blit('knight' + str(ceil(10 * w.wLife / KnightLife)), (road[r][w.pos][w.wGrid]))
+            elif w.wType == 3:
+                screen.blit('archer' + str(ceil(10 * w.wLife /
+                                                ArcherLife)), (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
-            if w.wType != 0:
-                screen.blit(worrior_image[w.wType], (road[r][w.pos][w.wGrid]))
+            if w.wType == 1:
+                screen.blit('turret', (road[r][w.pos][w.wGrid]))
+            elif w.wType == 2:
+                screen.blit('knighte' + str(ceil(10 * w.wLife /
+                                                KnightLife)), (road[r][w.pos][w.wGrid]))
+            elif w.wType == 3:
+                screen.blit('archere' + str(ceil(10 * w.wLife /
+                                                ArcherLife)), (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
         if j > 3:
