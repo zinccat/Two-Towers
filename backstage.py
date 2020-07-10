@@ -7,6 +7,7 @@ import sys
 import json
 import re
 from time import sleep, time
+import easygui as gui
 
 # 用于同步
 flag = [-1]
@@ -19,27 +20,50 @@ PORT = 8029
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
-userAccount = [None]
+account = [None]
 target = [None]
 game = None
 
 # 连接到服务器并注册
 
-
 def connect():
     try:
         tcpCliSock.connect(ADDR)
         print('Connected with server')
-        while True:
-            reg = register()
-            if reg:
+        while True:  # 注册
+            msg = "请输入双方id并点击开始游戏"
+            title = "Welcome"
+            fieldNames = ["*你是谁", "*想打谁"]
+            fieldValues = []
+            fieldValues = gui.multenterbox(msg, title, fieldNames)
+            while True:
+                if fieldValues == None:
+                    break
+                errmsg = ""
+                for i in range(len(fieldNames)):
+                    option = fieldNames[i].strip()
+                    if fieldValues[i].strip() == "" and option[0] == "*":
+                        errmsg += ("[%s]为必填项！   " % fieldNames[i])
+                if errmsg == "":
+                    break
+                fieldValues = gui.multenterbox(
+                    errmsg, title, fieldNames, fieldValues)
+            account[0] = fieldValues[0]
+            target[0] = fieldValues[1]
+            regInfo = [fieldValues[0], 'register']
+            datastr = json.dumps(regInfo)
+            tcpCliSock.send(datastr.encode('utf-8'))
+            data = tcpCliSock.recv(BUFSIZE)
+            data = data.decode('utf-8')
+            if data == '0':
+                print('等待对手上线...')
                 break
+            else:
+                print('失败, 请再试一次')
+                continue
     except:
-        print('error')
+        print('网络罢工了, 请稍后再试')
         sys.exit(0)
-    global target
-    target[0] = input('想打谁? ')
-    # 这里还需添加是否与对手连接成功
 
 
 class Command:
@@ -65,36 +89,16 @@ class Command:
 
         return self.turnID < other.turnID
 
-
-# 将本机注册到服务器
-
-
-def register():
-    account = input('Please input your account: ')
-    userAccount[0] = account
-    regInfo = [account, 'register']
-    datastr = json.dumps(regInfo)
-    tcpCliSock.send(datastr.encode('utf-8'))
-    data = tcpCliSock.recv(BUFSIZE)
-    data = data.decode('utf-8')
-    if data == '0':
-        print('Success to register!')
-        return True
-    else:
-        print('Failed for exceptions!')
-        return False
-
-
 # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
 
 
 def sendOp(target, op, mode):
     if mode == 1: #指令
         #turnID, CmdType, CmdStr, optype
-        dataObj = {'froms': userAccount[0], 'to': target,
+        dataObj = {'froms': account[0], 'to': target,
                 'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
     elif mode == 0:  #同步
-        dataObj = {'froms': userAccount[0], 'to': target, 'CmdType': '-1'}
+        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
     datastr = json.dumps(dataObj)
     try:
         tcpCliSock.send(datastr.encode('utf-8'))
@@ -275,7 +279,7 @@ class Action:
                     else:
                         dataObj = json.loads(data)
                         print('{} ->{} : {} {} {}'.format(
-                                dataObj['froms'], userAccount, dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                                dataObj['froms'], account[0], dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
                         t = Command(
                                 dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)

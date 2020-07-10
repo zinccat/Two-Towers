@@ -225,18 +225,18 @@ def update():
     draw()
     if result > 0:
         game.end(result)
-        sleep(10)
+        for i in range(10):
+            # 多发几次同步指令确保对方正确显示游戏结果
+            sendOp(target[0], '', 0)
+            sleep(0.5)
         print('游戏结束')
         sys.exit(0)
 
 def startGame():
-
     # 开始游戏的流程仍需处理
-
     connect()  # 连接到服务器
-
     # 账号/昵称
-    ide.append(str(userAccount[0]))
+    ide.append(str(account[0]))
     ide.append(str(target[0]))
     print('游戏加载中...')
 
