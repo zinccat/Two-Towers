@@ -240,13 +240,16 @@ def startGame():
     print('游戏开始了!')
     # 放音乐
     for i in range(10):
-        music.play_once('bgm_1')
+        if i == 0:
+            music.play_once('bgm_1')
+            music.set_volume(0.3)
+        music.queue('东方_2')
         music.set_volume(0.3)
         music.play_once('东方_1')
         music.set_volume(0.3)
-        music.queue('东方_2')
-        music.set_volume(0.3)
-
+        if i != 0:
+            music.queue('bgm_1')
+            music.set_volume(0.3)
     # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())  # 游戏线程
     g.start()
