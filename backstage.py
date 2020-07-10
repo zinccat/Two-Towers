@@ -445,12 +445,6 @@ class Action:
                         i.updatemCD(1)
                         break
 
-    def end(self, result):
-        if result == 1:
-            print('你赢了!')
-        elif result == 2:
-            print('你挂了!')
-
 '''
 # 命令测试
 w1 = [[], [], []]

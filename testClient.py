@@ -224,12 +224,22 @@ def update():
     # 更新画面
     draw()
     if result > 0:
-        game.end(result)
         for i in range(10):
             # 多发几次同步指令确保对方正确显示游戏结果
             sendOp(target[0], '', 0)
-            sleep(0.5)
-        print('游戏结束')
+            sleep(0.2)
+        msg = '游戏结束, '
+        if result == 1:
+            msg += '你赢了!\n'
+        elif result == 2:
+            msg += '你挂了!\n'
+        '''
+        if gui.ccbox(m +"还玩🐴?", choices=("再来一局", "不玩了")):
+            startGame()
+        else:
+            sys.exit(0)
+        '''
+        title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
         sys.exit(0)
 
 def startGame():
@@ -238,8 +248,6 @@ def startGame():
     # 账号/昵称
     ide.append(str(account[0]))
     ide.append(str(target[0]))
-    print('游戏加载中...')
-
     global game
     game = Action()
     game.reset()
