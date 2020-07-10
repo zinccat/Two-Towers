@@ -191,14 +191,16 @@ def on_mouse_down(pos):  # 造兵方式
         game.ops1.put(order_command)
         sendOp(target[0], order_command, 1)  # 发送指令给对方
 
+
 def waiting():
     while flag[0] <= 0:
         sleep(0.05)
 
+
 def update():
     # 初始化回合
     game.update()
-    #if (game.turnID % 10 == 0):
+    # if (game.turnID % 10 == 0):
     #    print(game.turnID)
     threading.Thread(target=waiting()).start()
     flag[0] -= 1
@@ -208,37 +210,24 @@ def update():
     game.ReadCmd()
     # 检查可行的战斗
     game.BattleCheck()
-
     # 完成战斗
     game.BattleRun(game.BattleList)
-
-    # 主塔死亡结算
-
-    result = game.BaseDeath()
-
-    #若一方主塔死亡, 启动游戏终结机制
-
-    if result > 0:
-        game.end(result)
-
     # 战士死亡结算
-
     game.WarriorDeath()
-
     # 战士移动
-
     for i in range(3):
-
         game.WarriorMove(game.w1[i], 1)
         game.WarriorMove(game.w2[i], 2)
-
+    # 主塔死亡结算
+    result = game.BaseDeath()
+    #若一方主塔死亡, 启动游戏终结机制
     # 更新画面
     draw()
     if result > 0:
+        game.end(result)
         sleep(10)
         print('游戏结束')
         sys.exit(0)
-
 
 def startGame():
 

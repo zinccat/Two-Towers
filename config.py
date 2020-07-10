@@ -22,7 +22,7 @@ dLen = 10
 #下面为各种游戏角色的参数, 以后调参都在这里进行
 
 # 主塔 0
-BaseAttack = 30
+BaseAttack = 10
 BaseLife = INF
 BaseRange = 10
 BasemCD = 0
@@ -31,7 +31,7 @@ BasePos = 0
 TrueBaseLife = 500
 
 # 防御塔 1
-TurretAttack = 5
+TurretAttack = 8
 TurretLife = 100
 TurretRange = 10
 TurretmCD = 0
