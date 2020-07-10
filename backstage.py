@@ -15,13 +15,15 @@ flag = [-1]
 #HOST = '65.49.209.247'
 HOST = '62.234.107.120'
 #HOST = 'localhost'
-PORT = 8028
+PORT = 8026
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
 account = [None]
 target = [None]
 game = None
+clicktime = 0
+ide = []
 
 # 连接到服务器并注册
 
@@ -120,8 +122,8 @@ class Battle:
             self.WarriorDefence.wLife -= self.WarriorAttack.wAttack
 
 
-class Action:
-    """行动系统"""
+class Game:
+    """游戏类"""
 
     # 初始化函数
     def __init__(self):
@@ -209,6 +211,7 @@ class Action:
             self.ops2 = game.ops2  # 内部类通过引用调用外部类变量
 
         def run(self):
+            tcpCliSock.settimeout(0.05)
             while True:
                 try:
                     data = tcpCliSock.recv(BUFSIZE).decode('utf-8')

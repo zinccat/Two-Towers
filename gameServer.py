@@ -74,7 +74,6 @@ class MyServer(socketserver.BaseRequestHandler):
                             if dataobj['to'] == obj.account:
                                 try:
                                     obj.conObj.sendall('0'.encode('utf-8'))
-                                    print('success')
                                     sendok = True
                                 except:
                                     pass
@@ -103,6 +102,6 @@ class MyServer(socketserver.BaseRequestHandler):
 
 
 if __name__ == '__main__':
-    server = socketserver.ThreadingTCPServer(('', 8029), MyServer)
+    server = socketserver.ThreadingTCPServer(('', 8026), MyServer)
     print('waiting for connection...')
     server.serve_forever()

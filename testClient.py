@@ -10,12 +10,7 @@ import threading
 from time import sleep, time
 screen: Screen  # 类型标注
 
-clicktime = 0
-click_count = 0
-ide = []
-
 # 血量图标对象
-
 player_icon = Actor('人图标')
 life_frame = Actor('血框')
 life_block = Actor('血块')
@@ -25,7 +20,6 @@ Base_icon = Actor('主塔图标')
 
 
 # 金钱图标对象
-
 money_0 = Actor('金钱框')
 money_0.topleft = 975, 100
 money_2 = Actor('钱币图标')
@@ -34,13 +28,11 @@ money_1 = Actor('金钱块')
 
 
 # 显示页面大小
-
 WIDTH = 1200
 HEIGHT = 700
 
 
 # 创建造兵按钮 #长宽70
-
 warrior_up = Actor('小兵', (70 + 960, 385))
 archer_up = Actor('弓箭手', (166 + 960, 385))
 warrior_mid = Actor('小兵', (70 + 960, 510))
@@ -200,8 +192,7 @@ def waiting():
 def update():
     # 初始化回合
     game.update()
-    # if (game.turnID % 10 == 0):
-    #    print(game.turnID)
+    # 同步
     threading.Thread(target=waiting()).start()
     flag[0] -= 1
     if flag[0] == 0:
@@ -212,9 +203,9 @@ def update():
     game.BattleCheck()
     # 完成战斗
     game.BattleRun(game.BattleList)
-    # 战士死亡结算
+    # 武士死亡结算
     game.WarriorDeath()
-    # 战士移动
+    # 武士移动
     for i in range(3):
         game.WarriorMove(game.w1[i], 1)
         game.WarriorMove(game.w2[i], 2)
@@ -239,8 +230,8 @@ def update():
         else:
             sys.exit(0)
         '''
-        title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
         tcpCliSock.close()
+        title = gui.msgbox(msg=msg, title='游戏结束啦', ok_button="再见")
         sys.exit(0)
 
 
@@ -251,11 +242,11 @@ def startGame():
     ide.append(str(account[0]))
     ide.append(str(target[0]))
     global game
-    game = Action()
+    # 创建新游戏并初始化
+    game = Game()
     game.reset()
+    # 打开通信接口
     getCmd = game.getCmd(game)
-    tcpCliSock.settimeout(0.05)
-    t = time()
     getCmd.start()
     sendOp(target[0], '', 0)
     threading.Thread(target=waiting()).start()
@@ -265,6 +256,5 @@ def startGame():
     g.start()
     getCmd.join()
     g.join()
-
 
 startGame()
