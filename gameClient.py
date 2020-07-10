@@ -9,8 +9,10 @@ from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
 from backstage import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
 from Roadpos_set import road
+from config import *
 import threading
 from time import sleep, time
+from math import ceil
 screen: Screen  # 类型标注
 
 # 血量图标对象
@@ -76,10 +78,19 @@ def draw():
             if w.wType == 1:
                 screen.blit('turret', (road[r][w.pos][w.wGrid]))
             elif w.wType == 2:
-                screen.blit('knight'+((10 * w.wLife)//KnightLife), (road[r][w.pos][w.wGrid]))
+                screen.blit('knight' + str(ceil(10 * w.wLife / KnightLife)), (road[r][w.pos][w.wGrid]))
+            elif w.wType == 3:
+                screen.blit('archer' + str(ceil(10 * w.wLife /
+                                                ArcherLife)), (road[r][w.pos][w.wGrid]))
         for w in game.w2[r]:
-            if w.wType != 0:
-                screen.blit(warrior_image[w.wType], (road[r][w.pos][w.wGrid]))
+            if w.wType == 1:
+                screen.blit('turret', (road[r][w.pos][w.wGrid]))
+            elif w.wType == 2:
+                screen.blit('knighte' + str(ceil(10 * w.wLife /
+                                                KnightLife)), (road[r][w.pos][w.wGrid]))
+            elif w.wType == 3:
+                screen.blit('archere' + str(ceil(10 * w.wLife /
+                                                ArcherLife)), (road[r][w.pos][w.wGrid]))
     # 血量部分
     for j in range(8):
         if j > 3:

@@ -14,7 +14,7 @@ def touming(path, btmd):
             else:
                 color = color[:-1]+(btmd,)
             img.putpixel((i, k), color)
-    img.save(path[:-4]+str(int(btmd*10/25))+'.png')
+    img.save(path[:-4]+str(int(btmd/25))+'.png')
 
 for i in range(1, 11):
-    touming('images/archerE.png', i*25)
+    touming('images/knighte.png', i*25)
