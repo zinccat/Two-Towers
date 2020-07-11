@@ -202,7 +202,7 @@ def on_mouse_down(pos):  # 造兵方式
     else:
         clicktime = time()
 
-    order_command = Command(game.turnID + 30, 0, [0])
+    order_command = Command(game.turnID + 30, -1, [0])
 
     for i in range(4):
         if i == 0:
