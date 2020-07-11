@@ -3,7 +3,6 @@
 
 import pgzrun
 import easygui as gui
-import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
