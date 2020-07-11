@@ -142,7 +142,7 @@ def draw():
         life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
         if j <= 3:
-            upgrade_button[j].topleft = 230 + dfx, 426 + j * 70 + dfy
+            upgrade_button[j].topleft = 230 + dfx, 441 + j * 70 + dfy
             upgrade_button[j].draw()
 
         if j % 4 == 0:
