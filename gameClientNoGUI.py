@@ -6,7 +6,7 @@ import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
-from backstageNoGUI import flag, game, sendOp, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
+from backstageNoGUI import flag, game, sendCmd, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
 from Roadpos_set import road
 from config import *
 import threading
