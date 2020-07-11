@@ -266,7 +266,7 @@ def update(dt):
     # 检查可行的战斗
     game.BattleCheck()
     # 完成战斗
-    game.BattleRun()
+    game.BattleRun(game.BattleList)
     # 武士死亡结算
     game.WarriorDeath()
     # 武士移动
