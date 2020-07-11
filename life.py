@@ -79,9 +79,9 @@ def draw():
                 life_block.topleft = 27+2*i+dfx, 443+70*j+dfy
             life_block.draw()
         if j%4==0:
-            screen.draw.text("Life:%d/500" % life_display[j], (43+dfx, 422+70*j+dfy))
+            screen.draw.text("Life:%d/300" % life_display[j], (43+dfx, 422+70*j+dfy))
         else:
-            screen.draw.text("Life:%d/100" % life_display[j], (43+dfx, 422+70*j+dfy))
+            screen.draw.text("Life:%d/150" % life_display[j], (43+dfx, 422+70*j+dfy))
         
 # 账号/昵称
     player_icon.topleft = 27, 380
