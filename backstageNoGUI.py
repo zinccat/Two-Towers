@@ -221,7 +221,7 @@ class Game:
                                 w.wDefence = int(UpgradeRate * w.wDefence)
                                 break
                 else:
-                    for w in self.w2[num - 1]:
+                    for w in self.w2[3 - num]:
                         if w.wType == 1:
                             w.wAttack = int(UpgradeRate * w.wAttack)
                             w.wDefence = int(UpgradeRate * w.wDefence)
@@ -293,7 +293,7 @@ class Game:
                     tempObj = Archer(1, genNum, 0)
                     self.w1[int(tempOp.CmdStr[0] - 1)].append(tempObj)
                 elif tempOp.CmdType == 0:  # 升级
-                    self.upgrade(int(tempOp.CmdStr[0]), 2)
+                    self.upgrade(int(tempOp.CmdStr[0]), 1)
             else:
                 # 时机未到
                 self.ops1.put(tempOp)
@@ -308,11 +308,13 @@ class Game:
                     tempObj = Knight(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
                     self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
-                if tempOp.CmdType == 3:  # 弓箭手
+                elif tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
                     tempObj = Archer(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
                     self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
+                elif tempOp.CmdType == 0:  # 升级
+                    self.upgrade(int(tempOp.CmdStr[0]), 2)
             else:
                 # 时机未到
                 self.ops2.put(tempOp)
