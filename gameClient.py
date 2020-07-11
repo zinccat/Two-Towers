@@ -28,7 +28,6 @@ upgradeIcon_down = Actor('upgrade')
 upgrade_button = [upgradeIcon_main, upgradeIcon_up,
                   upgradeIcon_mid, upgradeIcon_down]
 
-
 # 血量图标对象
 player_icon = Actor('人图标')
 life_frame = Actor('血框')
@@ -141,10 +140,10 @@ def draw():
             dfy = 0
 
         life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
-        life_icon.topleft = 24 + dfx, 441 + j * 70 + dfy
+        life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
         if j <= 3:
-            upgrade_button[j].topleft = 230 + dfx, 426 + j * 70 + dfy
+            upgrade_button[j].topleft = 230 + dfx, 441 + j * 70 + dfy
             upgrade_button[j].draw()
 
         if j % 4 == 0:
@@ -297,7 +296,6 @@ def update(dt):
 
 def on_music_end():
     music.play_once(random.choice(['东方_1', '东方_2']))
-
 
 def startGame():
     # 开始游戏的流程仍需处理

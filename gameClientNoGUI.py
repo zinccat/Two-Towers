@@ -310,7 +310,7 @@ def startGame():
     # 打开通信接口
     getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
-    game.sendCmd(target[0], '', 0)
+    game.sendCmd(target[0], '', 0)  # 发送同步指令表示自己已上线
     waiting()  # 等待对手上线
     print('游戏开始了!')
     # 放音乐
