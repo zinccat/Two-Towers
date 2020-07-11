@@ -25,7 +25,8 @@ upgradeIcon_mid = Actor('upgrade')
 
 upgradeIcon_down = Actor('upgrade')
 
-upgrade_button = [upgradeIcon_main, upgradeIcon_up, upgradeIcon_mid, upgradeIcon_down]
+upgrade_button = [upgradeIcon_main, upgradeIcon_up,
+                  upgradeIcon_mid, upgradeIcon_down]
 
 
 # 血量图标对象
@@ -37,16 +38,16 @@ DenfenseTower_icon = Actor('防御塔图标')
 Base_icon = Actor('主塔图标')
 
 # 云雾显示对象
-yun1=Actor('云上')
-yun1.topleft=25,0
-yun2=Actor('云上中')
-yun2.topleft=25,0
-yun3=Actor('云中')
-yun3.topleft=25,0
-yun4=Actor('云中下')
-yun4.topleft=25,0
-yun5=Actor('云下')
-yun5.topleft=25,0
+yun1 = Actor('云上')
+yun1.topleft = 250, 0
+yun2 = Actor('云上中')
+yun2.topleft = 250, 0
+yun3 = Actor('云中')
+yun3.topleft = 250, 0
+yun4 = Actor('云中下')
+yun4.topleft = 250, 0
+yun5 = Actor('云下')
+yun5.topleft = 250, 0
 
 # 金钱图标对象
 money_0 = Actor('金钱框')
@@ -68,6 +69,7 @@ warrior_mid = Actor('小兵', (70 + 960, 510))
 archer_mid = Actor('弓箭手', (166 + 960, 510))
 warrior_down = Actor('小兵', (70 + 960, 635))
 archer_down = Actor('弓箭手', (166 + 960, 635))
+
 
 def draw():
     screen.clear()
@@ -102,7 +104,8 @@ def draw():
             if w.wType == 1:
                 screen.blit('turret', (road[r][w.pos][w.wGrid]))
             elif w.wType == 2:
-                screen.blit('knight' + str(ceil(10 * w.wLife / KnightLife)), (road[r][w.pos][w.wGrid]))
+                screen.blit('knight' + str(ceil(10 * w.wLife /
+                                                KnightLife)), (road[r][w.pos][w.wGrid]))
             elif w.wType == 3:
                 screen.blit('archer' + str(ceil(10 * w.wLife /
                                                 ArcherLife)), (road[r][w.pos][w.wGrid]))
@@ -111,21 +114,21 @@ def draw():
                 screen.blit('turret', (road[r][w.pos][w.wGrid]))
             elif w.wType == 2:
                 screen.blit('knighte' + str(ceil(10 * w.wLife /
-                                                KnightLife)), (road[r][w.pos][w.wGrid]))
+                                                 KnightLife)), (road[r][w.pos][w.wGrid]))
             elif w.wType == 3:
                 screen.blit('archere' + str(ceil(10 * w.wLife /
-                                                ArcherLife)), (road[r][w.pos][w.wGrid]))
+                                                 ArcherLife)), (road[r][w.pos][w.wGrid]))
 
     #     云雾部分
-    if game.life[6]>0:
+    if game.life[6] > 0:
         yun3.draw()
-        if game.life[5]>0:
+        if game.life[5] > 0:
             yun2.draw()
-        if game.life[7]>0:
+        if game.life[7] > 0:
             yun5.draw()
-    if game.life[5]>0:
+    if game.life[5] > 0:
         yun1.draw()
-    if game.life[7]>0:
+    if game.life[7] > 0:
         yun5.draw()
 
     # 血量部分
@@ -140,16 +143,16 @@ def draw():
         life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
         life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
-        if j > 3:
-            upgrade_button[j-4].topleft = 230 + dfx, 421 + j * 70 + dfy
-            upgrade_button[j-4].draw()
+        if j <= 3:
+            upgrade_button[j].topleft = 230 + dfx, 426 + j * 70 + dfy
+            upgrade_button[j].draw()
 
         if j % 4 == 0:
 
             Base_icon.topleft = 211+dfx, 416+j*70+dfy
             Base_icon.draw()
             screen.draw.text("Base", (170+dfx, 422+70*j+dfy), color='black')
-        
+
         else:
             DenfenseTower_icon.topleft = 218+dfx, 417+j*70+dfy
             DenfenseTower_icon.draw()
@@ -183,8 +186,10 @@ def draw():
     player_icon.draw()
     player_icon.topleft = 27, 20
     player_icon.draw()
-    screen.draw.text("player: %s" % ide[0], (52, 382), color='black', fontname = 'use', fontsize = 20)
-    screen.draw.text("player: %s" % ide[1], (52, 22), color='black', fontname = 'use', fontsize = 20)
+    screen.draw.text(
+        "player: %s" % ide[0], (52, 382), color='black', fontname='use', fontsize=20)
+    screen.draw.text("player: %s" %
+                     ide[1], (52, 22), color='black', fontname='use', fontsize=20)
 
 # 鼠标点击特定位置时执行对应指令
 
@@ -199,19 +204,22 @@ def on_mouse_down(pos):  # 造兵方式
     else:
         clicktime = time()
 
-    order_command = Command(game.turnID + 30, 0, [0])
+    order_command = Command(game.turnID + 30, -1, [0])
 
     for i in range(4):
         if i == 0:
             if upgrade_button[i].collidepoint(pos) and game.money >= 10:
-                game.upgrade(i)
                 game.money -= 10
-        
+                order_command.CmdType = 0
+                order_command.turnID -= 10  # 相比造兵, 升级指令执行得快一些
+                order_command.CmdStr = [0]
         else:
             if upgrade_button[i].collidepoint(pos) and game.money >= 5:
-                game.upgrade(i)
-                game.money -= 10
-    
+                game.money -= 5
+                order_command.CmdType = 0
+                order_command.turnID -= 10
+                order_command.CmdStr = [i]
+
     if warrior_up.collidepoint(pos) and game.money >= 2:
         game.money -= 2
         order_command.CmdType = 2
@@ -242,9 +250,10 @@ def on_mouse_down(pos):  # 造兵方式
         order_command.CmdType = 3
         order_command.CmdStr = [3]
 
-    if order_command.CmdType > 0:
+    if order_command.CmdType >= 0:
         game.ops1.put(order_command)
         game.sendCmd(target[0], order_command, 1)  # 发送指令给对方
+
 
 def update(dt):
     # 初始化回合
@@ -286,6 +295,9 @@ def update(dt):
         sys.exit(0)
 
 
+def on_music_end():
+    music.play_once(random.choice(['东方_1', '东方_2']))
+
 def startGame():
     # 开始游戏的流程仍需处理
     connect()  # 连接到服务器
@@ -300,24 +312,16 @@ def startGame():
     getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
     game.sendCmd(target[0], '', 0)
-    waiting() # 等待对手上线
+    waiting()  # 等待对手上线
     print('游戏开始了!')
     # 放音乐
-    for i in range(10):
-        if i == 0:
-            music.play_once('bgm_1')
-            music.set_volume(0.3)
-        music.queue('东方_2')
-        music.set_volume(0.3)
-        music.queue('东方_1')
-        music.set_volume(0.3)
-        if i != 0:
-            music.queue('bgm_1')
-            music.set_volume(0.3)
+    music.set_volume(0.3)
+    music.play_once('bgm_1')
     # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())  # 游戏线程
     g.start()
     getCmd.join()
     g.join()
+
 
 startGame()

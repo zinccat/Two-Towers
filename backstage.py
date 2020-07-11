@@ -205,24 +205,39 @@ class Game:
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
 
- # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
-    def upgrade(self, num):
+    # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
+    def upgrade(self, num, team):
         # 发送指令部分在gameclient里面写
-        if num == 0:
-            for i in range(3):
-                for w in self.w1[i]:
-                    if w.wType == 0:
+        if team == 1:
+            if num == 0:
+                for i in range(3):
+                    for w in self.w1[i]:
+                        if w.wType == 0:
+                            w.wAttack = int(UpgradeRate * w.wAttack)
+                            w.wDefence = int(UpgradeRate * w.wDefence)
+                            break
+            else:
+                for w in self.w1[num - 1]:
+                    if w.wType == 1:
                         w.wAttack = int(UpgradeRate * w.wAttack)
                         w.wDefence = int(UpgradeRate * w.wDefence)
                         break
-        else:
-            for w in self.w1[num - 1]:
-                if w.wType == 1:
-                    w.wAttack = int(UpgradeRate * w.wAttack)
-                    w.wDefence = int(UpgradeRate * w.wDefence)
-                    break
+                    else:
+                        print('防御塔已损毁, 升级失败!')
+        elif team == 2:
+            if num == 0:
+                for i in range(3):
+                    for w in self.w2[i]:
+                        if w.wType == 0:
+                            w.wAttack = int(UpgradeRate * w.wAttack)
+                            w.wDefence = int(UpgradeRate * w.wDefence)
+                            break
             else:
-                print('防御塔已损毁, 升级失败!')
+                for w in self.w2[num - 1]:
+                    if w.wType == 1:
+                        w.wAttack = int(UpgradeRate * w.wAttack)
+                        w.wDefence = int(UpgradeRate * w.wDefence)
+                        break
 
     # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
     def sendCmd(self, target, op, mode):
@@ -285,11 +300,12 @@ class Game:
                     tempObj = Knight(1, genNum, 0)
                     self.w1[int(tempOp.CmdStr[0]-1)].append(tempObj)
 
-                if tempOp.CmdType == 3:  # 弓箭手
+                elif tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
                     tempObj = Archer(1, genNum, 0)
-                    self.w1[int(tempOp.CmdStr[0]-1)].append(tempObj)
-
+                    self.w1[int(tempOp.CmdStr[0] - 1)].append(tempObj)
+                elif tempOp.CmdType == 0:  # 升级
+                    self.upgrade(int(tempOp.CmdStr[0]), 2)
             else:
                 # 时机未到
                 self.ops1.put(tempOp)
