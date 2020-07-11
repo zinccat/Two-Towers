@@ -335,10 +335,10 @@ class Game:
                             self.BattleList.append(Battle(Warrior2, Warrior1))
 
     # 战斗进行函数
-    def BattleRun(self, BattleList):
-        for b in BattleList:
+    def BattleRun(self):
+        for b in self.BattleList:
             b.BattleGo()
-        BattleList.clear()
+        self.BattleList.clear()
 
     # 主塔阵亡函数
     def BaseDeath(self):
