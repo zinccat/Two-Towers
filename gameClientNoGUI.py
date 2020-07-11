@@ -168,17 +168,17 @@ def draw():
         life_icon.draw()
         for i in range(game.life[j]):
             if j % 4 == 0:
-                life_block.topleft = 27+2*i//5+dfx, 443+70*j+dfy
+                life_block.topleft = 27+2*i//3+dfx, 443+70*j+dfy
             else:
-                life_block.topleft = 27+2*i+dfx, 443+70*j+dfy
+                life_block.topleft = 27+4*i//3+dfx, 443+70*j+dfy
             life_block.draw()
         if j % 4 == 0:
             screen.draw.text(
-                "Life:%d/500" % game.life[j], (43+dfx, 422+70*j+dfy), color='black')
+                "Life:%d/300" % game.life[j], (43+dfx, 422+70*j+dfy), color='black')
 
         else:
             screen.draw.text(
-                "Life:%d/100" % game.life[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
+                "Life:%d/150" % game.life[j], (43 + dfx, 422 + 70 * j + dfy), color='black')
 
     player_icon.topleft = 27, 380
     player_icon.draw()
