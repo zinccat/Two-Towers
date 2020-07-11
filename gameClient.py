@@ -3,6 +3,7 @@
 
 import pgzrun
 import easygui as gui
+import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
@@ -15,6 +16,18 @@ from math import ceil
 import sys
 screen: Screen  # 类型标注
 
+# 升级按钮图标对象
+upgradeIcon_main = Actor('upgrade')
+
+upgradeIcon_up = Actor('upgrade')
+
+upgradeIcon_mid = Actor('upgrade')
+
+upgradeIcon_down = Actor('upgrade')
+
+upgrade_button = [upgradeIcon_main, upgradeIcon_up, upgradeIcon_mid, upgradeIcon_down]
+
+
 # 血量图标对象
 player_icon = Actor('人图标')
 life_frame = Actor('血框')
@@ -23,6 +36,17 @@ life_icon = Actor('生命值图标')
 DenfenseTower_icon = Actor('防御塔图标')
 Base_icon = Actor('主塔图标')
 
+# 云雾显示对象
+yun1=Actor('云上')
+yun1.topleft=25,0
+yun2=Actor('云上中')
+yun2.topleft=25,0
+yun3=Actor('云中')
+yun3.topleft=25,0
+yun4=Actor('云中下')
+yun4.topleft=25,0
+yun5=Actor('云下')
+yun5.topleft=25,0
 
 # 金钱图标对象
 money_0 = Actor('金钱框')
@@ -91,6 +115,19 @@ def draw():
             elif w.wType == 3:
                 screen.blit('archere' + str(ceil(10 * w.wLife /
                                                 ArcherLife)), (road[r][w.pos][w.wGrid]))
+
+    #     云雾部分
+    if game.life[6]>0:
+        yun3.draw()
+        if game.life[5]>0:
+            yun2.draw()
+        if game.life[7]>0:
+            yun5.draw()
+    if game.life[5]>0:
+        yun1.draw()
+    if game.life[7]>0:
+        yun5.draw()
+
     # 血量部分
     for j in range(8):
         if j > 3:
@@ -103,12 +140,16 @@ def draw():
         life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
         life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
 
+        if j > 3:
+            upgrade_button[j-4].topleft = 230 + dfx, 421 + j * 70 + dfy
+            upgrade_button[j-4].draw()
+
         if j % 4 == 0:
 
             Base_icon.topleft = 211+dfx, 416+j*70+dfy
             Base_icon.draw()
             screen.draw.text("Base", (170+dfx, 422+70*j+dfy), color='black')
-
+        
         else:
             DenfenseTower_icon.topleft = 218+dfx, 417+j*70+dfy
             DenfenseTower_icon.draw()
@@ -142,8 +183,8 @@ def draw():
     player_icon.draw()
     player_icon.topleft = 27, 20
     player_icon.draw()
-    screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
-    screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
+    screen.draw.text("player: %s" % ide[0], (52, 382), color='black', fontname = 'use', fontsize = 20)
+    screen.draw.text("player: %s" % ide[1], (52, 22), color='black', fontname = 'use', fontsize = 20)
 
 # 鼠标点击特定位置时执行对应指令
 
@@ -159,6 +200,18 @@ def on_mouse_down(pos):  # 造兵方式
         clicktime = time()
 
     order_command = Command(game.turnID + 30, 0, [0])
+
+    for i in range(4):
+        if i == 0:
+            if upgrade_button[i].collidepoint(pos) and game.money >= 10:
+                game.upgrade(i)
+                game.money -= 10
+        
+        else:
+            if upgrade_button[i].collidepoint(pos) and game.money >= 5:
+                game.upgrade(i)
+                game.money -= 10
+    
     if warrior_up.collidepoint(pos) and game.money >= 2:
         game.money -= 2
         order_command.CmdType = 2
