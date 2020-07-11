@@ -27,7 +27,7 @@ WarriorReward = 0.5  # 击杀士兵
 AttackReduction = 4
 
 # 塔升级参数
-UpgradeRate = 1.2
+UpgradeRate = 1.1
 
 # 造钱速度加成 在特定回合造钱速度*特定倍数
 AccTurn1 = 7500
@@ -45,29 +45,29 @@ BaseRange = 10
 BasemCD = 0
 BaseaCD = 40
 BasePos = 0
-TrueBaseLife = 500
+TrueBaseLife = 300
 
 # 防御塔 1
-TurretAttack = 12
-TurretDefence = 8
-TurretLife = 100
+TurretAttack = 30
+TurretDefence = 10
+TurretLife = 150
 TurretRange = 10
 TurretmCD = 0
-TurretaCD = 30
-TurretPos = 10
+TurretaCD = 25
+TurretPos = 15
 
 # 骑士 2
-KnightAttack = 12
-KnightDefence = 6
-KnightLife = 50
+KnightAttack = 20
+KnightDefence = 15
+KnightLife = 75
 KnightRange = 1
 KnightmCD = 40
 KnightaCD = 50
 
 # 弓箭手 3
-ArcherAttack = 10
-ArcherDefence = 4
-ArcherLife = 30
+ArcherAttack = 15
+ArcherDefence = 10
+ArcherLife = 45
 ArcherRange = 8
-ArchermCD = 30
-ArcheraCD = 30
+ArchermCD = 25
+ArcheraCD = 20
