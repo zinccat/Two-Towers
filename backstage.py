@@ -38,7 +38,7 @@ def waiting():
         if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 10:
             title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
                                title='游戏结束啦', ok_button="再见")
-            sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
+            game.sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
             sys.exit(0)
 
 # 连接到服务器并注册
@@ -156,10 +156,6 @@ class Game:
                 self.w2[i].append(Base(2, 0, aLen))
                 self.w2[i].append(Turret(2, 2, aLen - dLen))
 
-    # 打钱!
-    def MoneyAccumulate(self, x):
-        self.money += x
-
     # 重置函数, 开启新一局游戏时调用
     def reset(self):
         self.turnID = 0
@@ -175,25 +171,6 @@ class Game:
             self.w2[i].clear()
         self.__init__()
 
-    # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
-    def upgrade(self, num):
-        # 发送指令部分在gameclient里面写
-        if num == 0:
-            for i in range(3):
-                for w in w1[i]:
-                    if w.wType == 0:
-                        w.wAttack *= UpgradeRate
-                        w.wDefence *= UpgradeRate
-                        break
-        else:
-            for w in w1[num - 1]:
-                if w.wType == 1:
-                    w.wAttack *= UpgradeRate
-                    w.wDefence *= UpgradeRate
-                    break
-            else:
-                print('防御塔已损毁, 升级失败!')
-
     # 回合初状态刷新
     def update(self):
         self.turnID += 1
@@ -206,7 +183,7 @@ class Game:
             else:
                 self.timeCount += AccSpeed2
             if self.timeCount >= 50:
-                self.MoneyAccumulate(1)
+                self.money += 1
                 self.timeCount = 0
         else:
             self.timeCount = 0
@@ -227,6 +204,25 @@ class Game:
                 w.couldMove = True
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
+    
+    # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
+    def upgrade(self, num):
+        # 发送指令部分在gameclient里面写
+        if num == 0:
+            for i in range(3):
+                for w in w1[i]:
+                    if w.wType == 0:
+                        w.wAttack *= UpgradeRate
+                        w.wDefence *= UpgradeRate
+                        break
+        else:
+            for w in w1[num - 1]:
+                if w.wType == 1:
+                    w.wAttack *= UpgradeRate
+                    w.wDefence *= UpgradeRate
+                    break
+            else:
+                print('防御塔已损毁, 升级失败!')
 
     # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
     def sendCmd(self, target, op, mode):
