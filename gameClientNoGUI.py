@@ -2,10 +2,11 @@
 # 这是没有GUI欢迎界面的游戏客户端, 不需安装easygui即可运行
 
 import pgzrun
+import random
 from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.screen import Screen
-from backstageNoGUI import flag, game, sendCmd, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
+from backstageNoGUI import flag, game, waiting, ide, clicktime, tcpCliSock, account, target, connect, Game, Command, syncTimeCount
 from Roadpos_set import road
 from config import *
 import threading
@@ -13,6 +14,17 @@ from time import sleep, time
 from math import ceil
 import sys
 screen: Screen  # 类型标注
+
+# 升级按钮图标对象
+upgradeIcon_main = Actor('upgrade')
+
+upgradeIcon_up = Actor('upgrade')
+
+upgradeIcon_mid = Actor('upgrade')
+
+upgradeIcon_down = Actor('upgrade')
+
+upgrade_button = [upgradeIcon_main, upgradeIcon_up, upgradeIcon_mid, upgradeIcon_down]
 
 # 血量图标对象
 player_icon = Actor('人图标')
@@ -22,6 +34,17 @@ life_icon = Actor('生命值图标')
 DenfenseTower_icon = Actor('防御塔图标')
 Base_icon = Actor('主塔图标')
 
+# 云雾显示对象
+yun1=Actor('云上')
+yun1.topleft=250,0
+yun2=Actor('云上中')
+yun2.topleft=250,0
+yun3=Actor('云中')
+yun3.topleft=250,0
+yun4=Actor('云中下')
+yun4.topleft=250,0
+yun5=Actor('云下')
+yun5.topleft=250,0
 
 # 金钱图标对象
 money_0 = Actor('金钱框')
@@ -90,6 +113,19 @@ def draw():
             elif w.wType == 3:
                 screen.blit('archere' + str(ceil(10 * w.wLife /
                                                 ArcherLife)), (road[r][w.pos][w.wGrid]))
+    
+    #     云雾部分
+    if game.life[6]>0:
+        yun3.draw()
+        if game.life[5]>0:
+            yun2.draw()
+        if game.life[7]>0:
+            yun5.draw()
+    if game.life[5]>0:
+        yun1.draw()
+    if game.life[7]>0:
+        yun5.draw()
+
     # 血量部分
     for j in range(8):
         if j > 3:
@@ -101,6 +137,10 @@ def draw():
 
         life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
         life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
+
+        if j <= 3:
+            upgrade_button[j].topleft = 230 + dfx, 426 + j * 70 + dfy
+            upgrade_button[j].draw()
 
         if j % 4 == 0:
 
@@ -141,8 +181,8 @@ def draw():
     player_icon.draw()
     player_icon.topleft = 27, 20
     player_icon.draw()
-    screen.draw.text("player: %s" % ide[0], (52, 382), color='black')
-    screen.draw.text("player: %s" % ide[1], (52, 22), color='black')
+    screen.draw.text("player: %s" % ide[0], (52, 382), color='black', fontname = 'use', fontsize = 20)
+    screen.draw.text("player: %s" % ide[1], (52, 22), color='black', fontname = 'use', fontsize = 20)
 
 # 鼠标点击特定位置时执行对应指令
 
@@ -158,6 +198,18 @@ def on_mouse_down(pos):  # 造兵方式
         clicktime = time()
 
     order_command = Command(game.turnID + 30, 0, [0])
+
+    for i in range(4):
+        if i == 0:
+            if upgrade_button[i].collidepoint(pos) and game.money >= 10:
+                game.upgrade(i)
+                game.money -= 10
+        
+        else:
+            if upgrade_button[i].collidepoint(pos) and game.money >= 5:
+                game.upgrade(i)
+                game.money -= 5
+
     if warrior_up.collidepoint(pos) and game.money >= 2:
         game.money -= 2
         order_command.CmdType = 2
@@ -232,6 +284,8 @@ def update(dt):
         print('再见!')
         sys.exit(0)
 
+def on_music_end():
+        music.play_once(random.choice(['东方_1','东方_2']))
 
 def startGame():
     # 开始游戏的流程仍需处理
@@ -250,17 +304,8 @@ def startGame():
     waiting() # 等待对手上线
     print('游戏开始了!')
     # 放音乐
-    for i in range(10):
-        if i == 0:
-            music.play_once('bgm_1')
-            music.set_volume(0.3)
-        music.queue('东方_2')
-        music.set_volume(0.3)
-        music.queue('东方_1')
-        music.set_volume(0.3)
-        if i != 0:
-            music.queue('bgm_1')
-            music.set_volume(0.3)
+    music.set_volume(0.3)
+    music.play_once('bgm_1')
     # 同时开启游戏和接受命令的线程
     g = threading.Thread(target=pgzrun.go())  # 游戏线程
     g.start()

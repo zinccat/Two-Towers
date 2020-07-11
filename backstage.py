@@ -38,7 +38,7 @@ def waiting():
         if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 10:
             title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
                                title='游戏结束啦', ok_button="再见")
-            game.sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
+            game.sendCmd(target[0], '', -1)  # 如果对面上线就告诉他他挂了
             sys.exit(0)
 
 # 连接到服务器并注册
@@ -204,22 +204,22 @@ class Game:
                 w.couldMove = True
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
-    
-    # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
+
+ # 升级主塔或防御塔 num=0代表升级主塔, n=1-3对应上中下三路防御塔
     def upgrade(self, num):
         # 发送指令部分在gameclient里面写
         if num == 0:
             for i in range(3):
-                for w in w1[i]:
+                for w in self.w1[i]:
                     if w.wType == 0:
-                        w.wAttack *= UpgradeRate
-                        w.wDefence *= UpgradeRate
+                        w.wAttack = int(UpgradeRate * w.wAttack)
+                        w.wDefence = int(UpgradeRate * w.wDefence)
                         break
         else:
-            for w in w1[num - 1]:
+            for w in self.w1[num - 1]:
                 if w.wType == 1:
-                    w.wAttack *= UpgradeRate
-                    w.wDefence *= UpgradeRate
+                    w.wAttack = int(UpgradeRate * w.wAttack)
+                    w.wDefence = int(UpgradeRate * w.wDefence)
                     break
             else:
                 print('防御塔已损毁, 升级失败!')
