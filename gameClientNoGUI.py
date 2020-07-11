@@ -202,7 +202,7 @@ def on_mouse_down(pos):  # 造兵方式
     else:
         clicktime = time()
 
-    order_command = Command(game.turnID + 30, 0, [0])
+    order_command = Command(game.turnID + 30, -1, [0])
 
     for i in range(4):
         if i == 0:
@@ -266,7 +266,7 @@ def update(dt):
     # 检查可行的战斗
     game.BattleCheck()
     # 完成战斗
-    game.BattleRun()
+    game.BattleRun(game.BattleList)
     # 武士死亡结算
     game.WarriorDeath()
     # 武士移动
