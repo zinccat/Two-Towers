@@ -314,7 +314,7 @@ class Game:
                 self.ops2.put(tempOp)
                 break
 
-    # 士兵对战判断函数
+    # 武士对战判断函数
     def BattleCheck(self):
         for i in range(3):
             for Warrior1 in self.w1[i]:
