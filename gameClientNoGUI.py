@@ -196,7 +196,7 @@ def update(dt):
     # 初始化回合
     game.update()
     # 同步
-    threading.Thread(target=waiting()).start()
+    waiting()
     flag[0] -= 1
     if flag[0] == 0:
         game.sendCmd(target[0], '', 0)
@@ -247,7 +247,7 @@ def startGame():
     getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
     game.sendCmd(target[0], '', 0)
-    threading.Thread(target=waiting()).start()  # 单开线程用于同步, 等待对手上线
+    waiting() # 等待对手上线
     print('游戏开始了!')
     # 放音乐
     for i in range(10):
