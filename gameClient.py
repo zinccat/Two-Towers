@@ -141,7 +141,7 @@ def draw():
             dfy = 0
 
         life_frame.topleft = 25 + dfx, 440 + j * 70 + dfy
-        life_icon.topleft = 24 + dfx, 421 + j * 70 + dfy
+        life_icon.topleft = 24 + dfx, 441 + j * 70 + dfy
 
         if j <= 3:
             upgrade_button[j].topleft = 230 + dfx, 426 + j * 70 + dfy
@@ -268,7 +268,7 @@ def update(dt):
     # 检查可行的战斗
     game.BattleCheck()
     # 完成战斗
-    game.BattleRun()
+    game.BattleRun(game.BattleList)
     # 武士死亡结算
     game.WarriorDeath()
     # 武士移动
