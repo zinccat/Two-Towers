@@ -36,7 +36,7 @@ def waiting():
         sleep(0.05)
         if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 10:
             print('对方把网线拔掉了, 你赢了!')
-            game.sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
+            game.sendCmd(target[0], '', -1)  # 如果对面上线就告诉他他挂了
             sleep(3)
             sys.exit(0)
 
@@ -198,16 +198,18 @@ class Game:
         # 发送指令部分在gameclient里面写
         if num == 0:
             for i in range(3):
-                for w in w1[i]:
+                for w in self.w1[i]:
                     if w.wType == 0:
-                        w.wAttack *= UpgradeRate
-                        w.wDefence *= UpgradeRate
+                        w.wAttack = int(UpgradeRate * w.wAttack)
+                        w.wDefence = int(UpgradeRate * w.wDefence)
+                        print('base success')
                         break
         else:
-            for w in w1[num - 1]:
+            for w in self.w1[num - 1]:
                 if w.wType == 1:
-                    w.wAttack *= UpgradeRate
-                    w.wDefence *= UpgradeRate
+                    w.wAttack = int(UpgradeRate * w.wAttack)
+                    w.wDefence = int(UpgradeRate * w.wDefence)
+                    print('turret success')
                     break
             else:
                 print('防御塔已损毁, 升级失败!')
