@@ -374,6 +374,8 @@ class Game:
         if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
+        if game.turnID >= 30000 and sumAttack1 != sumAttack2 :
+            return 1 if sumAttack2 > sumAttack1 else 2
         return 0  # 战斗尚未结束
 
     # 武士死亡结算
