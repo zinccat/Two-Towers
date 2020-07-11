@@ -298,6 +298,7 @@ def update(dt):
 def on_music_end():
     music.play_once(random.choice(['东方_1', '东方_2']))
 
+
 def startGame():
     # 开始游戏的流程仍需处理
     connect()  # 连接到服务器
@@ -311,7 +312,7 @@ def startGame():
     # 打开通信接口
     getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
-    game.sendCmd(target[0], '', 0)
+    game.sendCmd(target[0], '', 0)  # 发送同步指令表示自己已上线
     waiting()  # 等待对手上线
     print('游戏开始了!')
     # 放音乐

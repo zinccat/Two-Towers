@@ -5,7 +5,7 @@ import socketserver
 import json
 import subprocess
 
-
+HOST = 8026  # 开放的端口
 connLst = []
 tick = dict()  # 用于维护时间刻的同步
 
@@ -23,7 +23,7 @@ class Connector(object):
 
 class MyServer(socketserver.BaseRequestHandler):
     def handle(self):
-        print("got connection from", self.client_address)
+        print("收到连接", self.client_address)
         userIn = False
         global connLst
         while not userIn:
@@ -49,14 +49,14 @@ class MyServer(socketserver.BaseRequestHandler):
                             if cnt > 5:
                                 break
                     connLst.append(conObj)
-                    print('{} has connected to the system({})'.format(
+                    print('{}已成功注册!({})'.format(
                         account, self.client_address))
                 except:
-                    print('%s failed to register for exception!' %
+                    print('%s 注册失败!' %
                           account)
                     ret = '99'
             conn.sendall(ret.encode('utf-8'))
-            if ret == '0': # 注册成功
+            if ret == '0':  # 注册成功
                 break
         global tick
         while True:
@@ -82,12 +82,11 @@ class MyServer(socketserver.BaseRequestHandler):
                 else:
                     # 仅收到一个本地端的运行结束信号, 设置flag后继续等待
                     tick[(dataobj['froms'], dataobj['to'])] = True
-            elif dataobj['CmdType'] == '-2':  #告诉对方他因为超时挂了
-                 for obj in connLst:
+            elif dataobj['CmdType'] == '-2':  # 告诉对方他因为超时挂了
+                for obj in connLst:
                     if dataobj['to'] == obj.account:
                         try:
                             obj.conObj.sendall('-2')
-                            print(11111)
                         except:
                             pass
             # 客户端将指令发给服务器端然后由服务器转发给目标客户端
@@ -104,6 +103,6 @@ class MyServer(socketserver.BaseRequestHandler):
 
 
 if __name__ == '__main__':
-    server = socketserver.ThreadingTCPServer(('', 8026), MyServer)
-    print('waiting for connection...')
+    server = socketserver.ThreadingTCPServer(('', HOST), MyServer)
+    print('等待连接中')
     server.serve_forever()
