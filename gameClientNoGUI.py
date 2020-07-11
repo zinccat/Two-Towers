@@ -12,6 +12,7 @@ from config import *
 import threading
 from time import sleep, time
 from math import ceil
+import sys
 screen: Screen  # 类型标注
 
 # 血量图标对象
@@ -190,7 +191,7 @@ def on_mouse_down(pos):  # 造兵方式
 
     if order_command.CmdType > 0:
         game.ops1.put(order_command)
-        sendOp(target[0], order_command, 1)  # 发送指令给对方
+        game.sendCmd(target[0], order_command, 1)  # 发送指令给对方
 
 def update(dt):
     # 初始化回合
@@ -199,7 +200,7 @@ def update(dt):
     threading.Thread(target=waiting()).start()
     flag[0] -= 1
     if flag[0] == 0:
-        sendOp(target[0], '', 0)
+        game.sendCmd(target[0], '', 0)
     # 读取命令
     game.ReadCmd()
     # 检查可行的战斗
@@ -220,7 +221,7 @@ def update(dt):
     if result > 0:
         for i in range(5):
             # 多发几次同步指令确保对方正确显示游戏结果
-            sendOp(target[0], '', 0)
+            game.sendCmd(target[0], '', 0)
             sleep(0.2)
         msg = '游戏结束, '
         if result == 1:
@@ -246,8 +247,8 @@ def startGame():
     # 打开通信接口
     getCmd = game.getCmd(game)  # 命令接收线程
     getCmd.start()
-    sendOp(target[0], '', 0)
-    threading.Thread(target=waiting()).start()
+    game.sendCmd(target[0], '', 0)
+    threading.Thread(target=waiting()).start()  # 单开线程用于同步, 等待对手上线
     print('游戏开始了!')
     # 放音乐
     for i in range(10):

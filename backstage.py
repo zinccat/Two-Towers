@@ -35,7 +35,7 @@ syncTimeCount = [0]
 def waiting():
     while flag[0] <= 0:
         sleep(0.05)
-        if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 15:
+        if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 10:
             title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
                                title='游戏结束啦', ok_button="再见")
             sendOp(target[0], '', -1)  # 如果对面上线就告诉他他挂了
@@ -83,24 +83,6 @@ def connect():
                 continue
     except:
         sys.exit(0)
-
-# 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
-
-
-def sendOp(target, op, mode):
-    if mode == 0:  # 同步
-        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
-    elif mode == 1:  # 指令
-        #turnID, CmdType, CmdStr, optype
-        dataObj = {'froms': account[0], 'to': target,
-                   'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
-    elif mode == -1:  # 友善(划掉)的提醒对面他挂了
-        dataObj = {'froms': account[0], 'to': target, 'CmdType': '-2'}
-    datastr = json.dumps(dataObj)
-    try:
-        tcpCliSock.send(datastr.encode('utf-8'))
-    except:
-        print('网络罢工了!')
 
 
 class Command:
@@ -245,6 +227,22 @@ class Game:
                 w.couldMove = True
                 if w.wType == 1:  # Turret
                     self.life[i + 5] = w.wLife
+
+    # 这是一个发送指令的接口, 可以直接调用以向对手的命令队列发送指令
+    def sendCmd(self, target, op, mode):
+        if mode == 0:  # 同步
+            dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
+        elif mode == 1:  # 指令
+            #turnID, CmdType, CmdStr, optype
+            dataObj = {'froms': account[0], 'to': target,
+                       'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
+        elif mode == -1:  # 友善(划掉)的提醒对面他挂了
+            dataObj = {'froms': account[0], 'to': target, 'CmdType': '-2'}
+        datastr = json.dumps(dataObj)
+        try:
+            tcpCliSock.send(datastr.encode('utf-8'))
+        except:
+            print('网络罢工了!')
 
     # 收取命令
     class getCmd(threading.Thread):
