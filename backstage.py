@@ -38,6 +38,7 @@ def waiting():
         if syncTimeCount[0] != 0 and time() - syncTimeCount[0] > 10:
             title = gui.msgbox(msg='对方把网线拔掉了, 你赢了!',
                                title='游戏结束啦', ok_button="再见")
+            print('对方把网线拔掉了, 你赢了!')
             game.sendCmd(target[0], '', -1)  # 如果对面上线就告诉他他挂了
             sys.exit(0)
 
@@ -246,7 +247,7 @@ class Game:
         if mode == 0:  # 同步
             dataObj = {'froms': account[0], 'to': target, 'CmdType': '-1'}
         elif mode == 1:  # 指令
-            #turnID, CmdType, CmdStr, optype
+            # turnID, CmdType, CmdStr, optype
             dataObj = {'froms': account[0], 'to': target,
                        'turnID': op.turnID, 'CmdType': op.CmdType, 'CmdStr': op.CmdStr}
         elif mode == -1:  # 友善(划掉)的提醒对面他挂了
@@ -281,9 +282,9 @@ class Game:
                         sys.exit(0)
                     else:
                         dataObj = json.loads(data)
-                        print('{} ->{} : {} {} {}'.format(
-                            dataObj['froms'], account[0], dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
-                        t = Command(
+                        # 输出收到的指令便于调试
+                        # print('{} ->{} : {} {} {}'.format(dataObj['froms'], account[0], dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr']))
+                        t=Command(
                             dataObj['turnID'], dataObj['CmdType'], dataObj['CmdStr'])
                         self.ops2.put(t)  # 收到的指令放进指令堆
                 except:
@@ -293,18 +294,18 @@ class Game:
     # SideWarriorList为某一方的总list
     # team为1 友方, 2 敌方
     def ReadCmd(self):
-        genNum = 0  # 本回合生成了几个warrior?
+        genNum=0  # 本回合生成了几个warrior?
         while(not self.ops1.empty()):
-            tempOp = self.ops1.get()  # ops为命令队列
+            tempOp=self.ops1.get()  # ops为命令队列
             if self.turnID == tempOp.turnID:
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
-                    tempObj = Knight(1, genNum, 0)
+                    tempObj=Knight(1, genNum, 0)
                     self.w1[int(tempOp.CmdStr[0]-1)].append(tempObj)
 
                 elif tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
-                    tempObj = Archer(1, genNum, 0)
+                    tempObj=Archer(1, genNum, 0)
                     self.w1[int(tempOp.CmdStr[0] - 1)].append(tempObj)
                 elif tempOp.CmdType == 0:  # 升级
                     self.upgrade(int(tempOp.CmdStr[0]), 1)
@@ -313,18 +314,18 @@ class Game:
                 self.ops1.put(tempOp)
                 break
 
-        genNum = 0  # 本回合生成了几个warrior?
+        genNum=0  # 本回合生成了几个warrior?
         while(not self.ops2.empty()):
-            tempOp = self.ops2.get()  # ops为命令队列
+            tempOp=self.ops2.get()  # ops为命令队列
             if self.turnID >= tempOp.turnID:  # 尽量让等号成立, 否则游戏不对称
                 if tempOp.CmdType == 2:  # 骑士
                     genNum += 1
-                    tempObj = Knight(
+                    tempObj=Knight(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
                     self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
                 elif tempOp.CmdType == 3:  # 弓箭手
                     genNum += 1
-                    tempObj = Archer(
+                    tempObj=Archer(
                         2, genNum, mLen if tempOp.CmdStr[0] == 2 else aLen)
                     self.w2[3 - int(tempOp.CmdStr[0])].append(tempObj)
                 elif tempOp.CmdType == 0:  # 升级
@@ -340,11 +341,11 @@ class Game:
             for Warrior1 in self.w1[i]:
                 for Warrior2 in self.w2[i]:
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior1.wRange:
-                        Warrior1.couldMove = False
+                        Warrior1.couldMove=False
                         if Warrior1.aCD == 0:
                             self.BattleList.append(Battle(Warrior1, Warrior2))
                     if abs(Warrior1.pos - Warrior2.pos) <= Warrior2.wRange:
-                        Warrior2.couldMove = False
+                        Warrior2.couldMove=False
                         if Warrior2.aCD == 0:
                             self.BattleList.append(Battle(Warrior2, Warrior1))
 
@@ -356,23 +357,23 @@ class Game:
 
     # 主塔阵亡函数
     def BaseDeath(self):
-        sumAttack2 = 0
+        sumAttack2=0
         for i in range(3):
             for w in self.w2[i]:
                 if w.wType == 0:
                     sumAttack2 += INF - w.wLife
                     break
-        self.life[4] = max(0, TrueBaseLife - sumAttack2)
+        self.life[4]=max(0, TrueBaseLife - sumAttack2)
         if sumAttack2 >= TrueBaseLife:
             # 向玩家1显示ta胜利
             # 士兵阵亡函数
             return 1
-        sumAttack1 = 0
+        sumAttack1=0
         for i in range(3):
             for w in self.w1[i]:
                 if w.wType == 0:
                     sumAttack1 += INF - w.wLife
-        self.life[0] = max(0, TrueBaseLife - sumAttack1)
+        self.life[0]=max(0, TrueBaseLife - sumAttack1)
         if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
@@ -387,7 +388,7 @@ class Game:
                 if w.wLife <= 0:
                     if w.wType == 1:
                         print('己方防御塔被攻陷!')
-                        self.life[i + 1] = 0
+                        self.life[i + 1]=0
                         for ww in self.w1[i]:
                             if ww.wType == 0:  # 找到主塔
                                 ww.wAttack -= BaseAttack / AttackReduction
@@ -398,7 +399,7 @@ class Game:
                 if w.wLife <= 0:
                     if w.wType == 1:
                         print('敌方防御塔被攻陷!')
-                        self.life[i + 5] = 0
+                        self.life[i + 5]=0
                         self.timeCount += 60 * TurretReward  # 奖励
                         for ww in self.w2[i]:
                             if ww.wType == 0:  # 找到主塔
@@ -409,19 +410,19 @@ class Game:
 
     # 武士移动函数
     def WarriorMove(self, WarriorList, team):
-        posDict = dict()
+        posDict=dict()
         # 第一轮扫描完成各位置上对象的计数
         for i in WarriorList:
-            posDict[(i.pos, i.wGrid)] = team
+            posDict[(i.pos, i.wGrid)]=team
 
         # 若前方有足够位置就前进, 先排序避免堵车
         WarriorList.sort(key=lambda Warrior: Warrior.pos,
-                         reverse=(WarriorList[0].wTeam == 1))
+                         reverse = (WarriorList[0].wTeam == 1))
         # 友方移动量为1
-        mov = 1
+        mov=1
         # 敌方移动量为-1
         if WarriorList[0].wTeam == 2:
-            mov = -1
+            mov=-1
         for i in WarriorList:
             if i.mCD == 0 and i.couldMove and i.wType > 1:  # 塔不能跑!
                 for j in range(1, 4):
@@ -429,9 +430,9 @@ class Game:
                     if posDict.get((i.pos + mov, 0), 0) == 3 - team:
                         break
                     if posDict.get((i.pos + mov, j), 0) == False:
-                        posDict[(i.pos, i.wGrid)] = False
+                        posDict[(i.pos, i.wGrid)]=False
                         i.pos += mov
-                        posDict[(i.pos, j)] = True
-                        i.wGrid = j
+                        posDict[(i.pos, j)]=True
+                        i.wGrid=j
                         i.updatemCD(1)
                         break
