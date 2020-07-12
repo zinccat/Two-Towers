@@ -15,10 +15,11 @@ import queue
 flag = [-1]
 
 # 此处定义了游戏所用到的全局变量
-#HOST = '65.49.209.247'
-HOST = '62.234.107.120'
-#HOST = 'localhost'
-PORT = 8026
+# 服务器地址
+# HOST = '65.49.209.247' #备用
+HOST = '62.234.107.120'  # 临时
+# HOST = 'localhost' #本地运行
+PORT = 8026  # 服务器端口
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
@@ -82,6 +83,8 @@ def connect():
                 print('失败, 请再试一次')
                 continue
     except:
+        title = gui.msgbox(msg='无法连接到游戏服务器! 请确认服务器地址是否正确',
+                           title='太不幸了', ok_button="再见")
         sys.exit(0)
 
 
@@ -222,8 +225,8 @@ class Game:
                         w.wAttack = int(UpgradeRate * w.wAttack)
                         w.wDefence = int(UpgradeRate * w.wDefence)
                         break
-                    else:
-                        print('防御塔已损毁, 升级失败!')
+                else:
+                    print('防御塔已损毁, 升级失败!')
         elif team == 2:
             if num == 0:
                 for i in range(3):
@@ -374,7 +377,7 @@ class Game:
         if sumAttack1 >= TrueBaseLife:
             # 向玩家2显示ta胜利
             return 2
-        if self.turnID >= 30000 and sumAttack1 != sumAttack2 :
+        if self.turnID >= 30000 and sumAttack1 != sumAttack2:
             return 1 if sumAttack2 > sumAttack1 else 2
         return 0  # 战斗尚未结束
 
