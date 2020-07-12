@@ -15,10 +15,9 @@ flag = [-1]
 
 # 此处定义了游戏所用到的全局变量
 # 服务器地址
-# HOST = '65.49.209.247' #备用
 HOST = '62.234.107.120'  # 临时
 # HOST = 'localhost' #本地运行
-PORT = 8026  # 服务器端口
+PORT = 8025  # 服务器端口
 BUFSIZE = 1024  # 缓冲区大小  1K
 ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
