@@ -1,6 +1,6 @@
 # ~~Involution~~ Two Towers
 
-![](https://github.com/zinccat/Involution/raw/master/images/Poster.png)
+![](images/Poster.png)
 
 欢迎来到Two Towers项目的官方主页, 该项目由[@Chen-Yue-Zhao](https://github.com/Chen-Yue-Zhao), [@libinghui0000](https://github.com/libinghui0000), [@dongruihan](https://github.com/dongruihan), [@zinccat](https://github.com/zinccat)共同维护
 
