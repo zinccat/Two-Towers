@@ -9,7 +9,7 @@ game.ops2.put(c2)
 print(game.ops2.get().turnID)
 print(2==[2][0])
 '''
-
+'''
 import easygui as gui
 from socket import *
 import sys
@@ -69,3 +69,6 @@ tcpCliSock.settimeout(0.1)
 connect()
 print(account)
 print(target)
+'''
+import sys
+print(sys.path)
