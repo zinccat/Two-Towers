@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 这是有GUI欢迎界面的游戏后端, 需安装easygui
+# 这是有GUI欢迎界面的游戏后端, 需安装EasyGui
 
 from config import *
 from warrior import *

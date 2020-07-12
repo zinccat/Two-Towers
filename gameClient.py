@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 这是有GUI欢迎界面的游戏客户端, 需预先安装easygui
+# 这是有GUI欢迎界面的游戏客户端, 需预先安装EasyGui
 
 import pgzrun
 import easygui as gui
